@@ -24,10 +24,10 @@ function Signin() {
 
   return (
     <>
-      <div className='flex justify-center items-center'>
-        <div className='grid grid-cols-2 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-8 rounded-md py-5 mx-auto bg-white'>
+      <div className='flex justify-center items-center h-full'>
+        <div className='grid grid-cols-2 gap-16 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-8 rounded-md py-5 mx-auto bg-white'>
           <div>
-            <div className='relative bg-red-200 w-full mx-auto h-[280px] -mt-12  rounded-md'>
+            <div className='relative w-full mx-auto h-[280px]  rounded-sm'>
               <Image
                 alt=''
                 priority
@@ -42,23 +42,36 @@ function Signin() {
           </div>
 
           <div className=''>
+            <div className='relative w-full mx-auto h-[240px]  rounded-sm'>
+              <Image
+                alt=''
+                priority
+                src={"/assets/images/logo.svg"}
+                className='rounded-md'
+                fill
+                sizes="(min-width: 60em) 24vw,
+                            (min-width: 28em) 45vw,
+                            100vw"
+              />
+            </div>
+
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-4 '>
               {/* Email */}
-              <div className='bg-white px-4 space-x-1 py-[2pxa] rounded-full flex justify-center items-center '>
+              <div className='bg-background px-4 space-x-1 py-[2pxa] rounded-2xl flex justify-center items-center '>
 
-                <FiMail className='h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
+                <FiMail className='h-6 w-6 text-gray-800 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
                 <input
                   placeholder='Email'
                   value={values.email}
                   onChange={handleChange}
-                  className='rounded-3xl text-gray-700 h-14 focus:ring-white border-white w-full focus:border-white'
+                  className='rounded-3xl text-gray-700 h-14 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8]'
                   type="email"
                   name="email" />
               </div>
               {/* password */}
-              <div className='relative bg-white space-x-1 px-4 py-[2px] rounded-full flex justify-center items-center '>
+              <div className='relative bg-background space-x-1 px-4 py-[2px] rounded-2xl flex justify-center items-center '>
 
-                <MdVpnKey className='h-6 w-6 text-gray-500 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
+                <MdVpnKey className='h-6 w-6 text-gray-800 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
 
                 <div
                   onClick={() => setshowpass(!showpass)}
@@ -74,7 +87,7 @@ function Signin() {
                 <input
                   placeholder='Password'
                   value={values.password}
-                  onChange={handleChange} className='rounded-3xl focus:ring-white border-white text-gray-700  w-full h-14 focus:border-white'
+                  onChange={handleChange} className='rounded-3xl text-gray-700 h-14 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8]'
                   type={showpass ? 'text' : 'password'}
                   name="password" />
               </div>
