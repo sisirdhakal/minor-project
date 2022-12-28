@@ -31,6 +31,19 @@
   --fixed-width: 620px;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #CAF0F8;
+  /* color: var(--clr-grey-1); */
+  /* line-height: 1.5;
+  font-size: 0.875rem; */
+}
+
 input:checked~.dot {
   transform: translateX(100%);
 
