@@ -22,13 +22,27 @@ function Signin() {
 
   }
 
+  // const [password, setPassword] = useState('');
+  // const [email, setemail] = useState('');
+
+  // const passwordBlur = (e) => {
+  //   if (!e.target.value) {
+  //     setPassword('');
+  //   }
+  // };
+  // const emailBlur = (e) => {
+  //   if (!e.target.value) {
+  //     setemail('');
+  //   }
+  // };
+
   return (
     <>
       <div className='flex justify-center items-center h-full'>
-        <div className='grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
-          <div className=' gap-1 px-2 py-10'>
-            
-            <div className='relative w-[240px] mx-auto h-[120px]  rounded-sm'>
+        <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
+          <div className=' gap-1 px-2 py-12 hidden lg:block items-center '>
+
+            <div className='relative w-[280px] mx-auto h-[128px]  rounded-sm'>
               <Image
                 alt=''
                 priority
@@ -40,7 +54,7 @@ function Signin() {
                             100vw"
               />
             </div>
-            <div className='relative w-full mx-auto h-[240px]  rounded-sm'>
+            <div className='relative w-full mx-auto h-[248px]  rounded-sm'>
               <Image
                 alt=''
                 priority
@@ -55,7 +69,7 @@ function Signin() {
           </div>
 
           <div className=''>
-            <div className='relative w-full mx-auto h-[220px]  rounded-sm'>
+            <div className='relative lg:w-full mx-auto h-[220px]  rounded-sm'>
               <Image
                 alt=''
                 priority
@@ -70,25 +84,35 @@ function Signin() {
 
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>
               {/* Email */}
-              <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center '>
+              <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
+                <div className='relative flex justify-center items-center'>
 
-                <FiMail className='h-6 w-6 text-gray-800 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
+                  <FiMail className='h-6 w-6 text-gray-900 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
+                  {/* <p
+                    className={`text-gray-600 absolute font-medium pointer-events-none font-sans ${values.email !== ''
+                      ? ' bg-white ml-16 text-sm -translate-y-6'
+                      : ' -mt-4 ml-24 translate-y-2'
+                      } transition-all ease-in-out duration-300`}
+                  >
+                    Email
+                  </p> */}
+                </div>
                 <input
                   placeholder='Email'
                   value={values.email}
                   onChange={handleChange}
-                  className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8]'
+                  className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type="email"
                   name="email" />
               </div>
               {/* password */}
               <div className='relative bg-background space-x-1 px-4 py-[2px] rounded-2xl flex justify-center items-center '>
 
-                <MdVpnKey className='h-6 w-6 text-gray-800 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
+                <MdVpnKey className='h-6 w-6 text-gray-900 cursor-pointer hover:text-gray-400 transition-all ease-in-out duration-300' />
 
                 <div
                   onClick={() => setshowpass(!showpass)}
-                  className=" flex absolute right-2 inset-y-0 items-center cursor-pointer pr-3 text-gray-600 transition-all duration-200 "
+                  className=" flex absolute right-2 inset-y-0 items-center cursor-pointer pr-3 text-gray-700 transition-all duration-200 "
                 >
                   {showpass ? (
                     <BiShow className="w-6 h-6 antialiased" />
@@ -100,7 +124,7 @@ function Signin() {
                 <input
                   placeholder='Password'
                   value={values.password}
-                  onChange={handleChange} className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8]'
+                  onChange={handleChange} className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type={showpass ? 'text' : 'password'}
                   name="password" />
               </div>
@@ -122,9 +146,15 @@ function Signin() {
                 <button className=' text-secondary-text/60 font-medium'  > Forget Password ?</button>
               </div>
 
-              <button className='w-full p-1 h-11 mt-4 rounded-3xl  transition-all duration-500 ease-in-out text-xl font-light ' onClick={loginUser} >Login</button>
+              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' onClick={loginUser} >Login</button>
 
             </form>
+            <div className='flex justify-center items-center'>
+
+              <p className=' my-2 text-secondary-text text-center font-semibold'>Don't have an account ?
+              </p>
+              <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { console.log("register") }}  > SignUp</button>
+            </div>
           </div>
         </div>
       </div>
