@@ -4,12 +4,24 @@ import { BiShow, BiHide } from 'react-icons/bi';
 import { FiMail } from 'react-icons/fi'
 import { MdVpnKey } from 'react-icons/md'
 
+/**
+ * for importing the actioncreators
+ */
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../redux';
+import { useDispatch } from 'react-redux';
+
+
 function Signin() {
+
+  const dispatch = useDispatch()
+  const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
     email: "",
     password: ""
   }
+
 
   const [values, setvalues] = useState(initialValue)
   const [showpass, setshowpass] = useState(false);
@@ -153,7 +165,7 @@ function Signin() {
 
               <p className=' my-2 text-secondary-text text-center font-semibold'>Don't have an account ?
               </p>
-              <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { console.log("register") }}  > SignUp</button>
+              <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { setSignUpToggle(true) }}  > SignUp</button>
             </div>
           </div>
         </div>

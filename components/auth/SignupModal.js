@@ -1,21 +1,32 @@
 import { Dialog, Transition } from '@headlessui/react'
 import Image from 'next/image'
 import { Fragment, useState } from 'react'
+/**
+ * for importing the actioncreators
+*/
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../redux';
+import { useSelector, useDispatch } from 'react-redux'
 
 export default function SignupModal() {
-    let [isOpen, setIsOpen] = useState(true)
+
+    const { signUpToggle } = useSelector(state => state.auth)
+
+    const dispatch = useDispatch()
+    const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+
 
     function closeModal() {
-        setIsOpen(false)
+        setSignUpToggle(false)
     }
 
     function openModal() {
-        setIsOpen(true)
+
     }
 
     return (
         <>
-            <Transition appear show={isOpen} as={Fragment}>
+            <Transition appear show={signUpToggle} as={Fragment}>
                 <Dialog as="div" className="relative z-10" onClose={closeModal}>
                     <Transition.Child
                         as={Fragment}
