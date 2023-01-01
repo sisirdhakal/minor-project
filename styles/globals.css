@@ -70,6 +70,12 @@ input:checked~.block {
   border-top: 20px solid transparent;
   border-left: 32px solid #FBFBFB;
   border-bottom: 20px solid transparent;
+  transition: all 500ms ease-in-out;
+}
+
+.test {
+  background-color: #4FCCF5;
+  transition: all 500ms ease-in-out;
 }
 
 .test::after {
@@ -82,7 +88,14 @@ input:checked~.block {
   border-top: 20px solid transparent;
   border-left: 32px solid #4FCCF5;
   border-bottom: 20px solid transparent;
+  transition: all 500ms ease-in-out;
 }
+
+.active {
+  background-color: #0284af;
+  transition: all 500ms ease-in-out;
+}
+
 .active::before {
   content: "";
   position: absolute;
@@ -92,6 +105,7 @@ input:checked~.block {
   border-top: 20px solid transparent;
   border-left: 32px solid #FBFBFB;
   border-bottom: 20px solid transparent;
+  transition: all 500ms ease-in-out;
 }
 
 .active::after {
@@ -104,25 +118,5 @@ input:checked~.block {
   border-top: 20px solid transparent;
   border-left: 32px solid #0284af;
   border-bottom: 20px solid transparent;
+  transition: all 500ms ease-in-out;
 }
-/* .proceed::before {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  left: 0;
-  border-top: 20px solid transparent;
-  border-left: 32px solid #FBFBFB;
-  border-bottom: 20px solid transparent;
-}
-
-.proceed::after {
-  content: "";
-  position: absolute;
-  width: 0;
-  height: 0;
-  right: -32px;
-  border-top: 20px solid transparent;
-  border-left: 32px solid #4FCCF5;
-  border-bottom: 20px solid transparent;
-} */
