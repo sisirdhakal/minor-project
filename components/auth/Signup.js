@@ -64,9 +64,17 @@ function Signup() {
             </div>
           </div>
 
-          <div className=''>
-            <div className='relative lg:w-full mx-auto h-[220px]  rounded-sm'>
+          <div className='py-6'>
+            <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
+              <div className='active relative bg-[#0284af] h-10 w-full'>
 
+              </div>
+              <div className='test relative bg-[#4FCCF5] h-10 w-full'>
+
+              </div>
+              <div className='test relative bg-[#4FCCF5] h-10 w-full'>
+
+              </div>
             </div>
 
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>

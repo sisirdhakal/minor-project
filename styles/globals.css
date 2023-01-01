@@ -48,7 +48,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #CAF0F8 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #CAF0F8 inset !important;
 
 }
 
@@ -60,3 +60,69 @@ input:checked~.dot {
 input:checked~.block {
   background-color: var(--clr-grey-3);
 }
+
+.test::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #FBFBFB;
+  border-bottom: 20px solid transparent;
+}
+
+.test::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  z-index: 10;
+  right: -32px;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #4FCCF5;
+  border-bottom: 20px solid transparent;
+}
+.active::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #FBFBFB;
+  border-bottom: 20px solid transparent;
+}
+
+.active::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -32px;
+  z-index: 10;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #0284af;
+  border-bottom: 20px solid transparent;
+}
+/* .proceed::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 0;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #FBFBFB;
+  border-bottom: 20px solid transparent;
+}
+
+.proceed::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  right: -32px;
+  border-top: 20px solid transparent;
+  border-left: 32px solid #4FCCF5;
+  border-bottom: 20px solid transparent;
+} */
