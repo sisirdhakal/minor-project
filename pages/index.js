@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Signin from '../components/auth/Signin'
+import Signup from '../components/auth/Signup'
 import SignupModal from '../components/auth/SignupModal'
 import styles from '../styles/Home.module.css'
 
@@ -14,7 +15,8 @@ export default function Home() {
       </Head>
 
       <SignupModal />
-      <Signin />
+      {/* <Signin /> */}
+      <Signup />
     </div>
   )
 }
