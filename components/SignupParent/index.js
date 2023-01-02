@@ -10,15 +10,19 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
  */
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Step1 from './Step1';
+import Step2 from './Step2';
+import Step3 from './Step3';
 
 function SignupParent() {
 
     const [active, setactive] = useState("step1")
 
     const dispatch = useDispatch()
-    const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+    const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
+
+    const { step } = useSelector(state => state.auth)
 
     return (
         <>
@@ -69,17 +73,17 @@ function SignupParent() {
 
                     <div className='py-6'>
                         <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
-                            <button className={`${active === "step1" ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setactive("step1") }}>
+                            <button className={`${step === 1 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(1) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
                                     Step-1
                                 </p>
                             </button>
-                            <button className={`${active === "step2" ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setactive("step2") }}>
+                            <button className={`${step === 2 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(2) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
                                     Step-2
                                 </p>
                             </button>
-                            <button className={`${active === "step3" ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setactive("step3") }}>
+                            <button className={`${step === 3 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(3) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
                                     Step-3
                                 </p>
@@ -94,12 +98,23 @@ function SignupParent() {
                                 Verify student's details
                             </p>
                         </div>
+                        <div className='h-[200px] items-center'>
+
+                            {
+
+                                step === 1 ?
+                                    (<Step1 />) : step === 2 ? (<Step2 />) : (<Step3 />)
+                            }
+                        </div>
 
                         {
-                            <Step1 />
+                            step === 3 ?
+                                (<button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>) : (
+                                    <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={() => { setSignUpSteps(step + 1) }} >Proceed</button>
+                                )
                         }
 
-                        <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Proceed</button>
+
                         <div className='flex justify-center items-center'>
 
                             <p className=' my-2 text-secondary-text text-center font-semibold'>Already have an account ?
