@@ -1,5 +1,13 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# django
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
+
 # dependencies
 /node_modules
 /.pnp
