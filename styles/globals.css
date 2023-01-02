@@ -106,7 +106,6 @@ input:checked~.block {
   border-left: 32px solid #FBFBFB;
   border-bottom: 20px solid transparent;
   transition: all 500ms ease-in-out;
-  
 }
 
 .active::after {
