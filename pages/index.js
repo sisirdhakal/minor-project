@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Signin from '../components/auth/Signin'
 import Signup from '../components/auth/Signup'
 import SignupModal from '../components/auth/SignupModal'
+import SignupParent from '../components/SignupParent'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -16,7 +17,8 @@ export default function Home() {
 
       <SignupModal />
       {/* <Signin /> */}
-      <Signup />
+      {/* <Signup /> */}
+      <SignupParent />
     </div>
   )
 }

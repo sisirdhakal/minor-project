@@ -62,7 +62,6 @@ function Signup() {
                     <FaQuoteRight className='text-[14px] text-black font-medium ml-2' />
                   </span>
                 </p>
-
               </div>
             </div>
           </div>
