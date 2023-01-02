@@ -1,0 +1,2 @@
+export const SIGNUPTOGGLE = 'SIGNUPTOGGLE'
+export const SIGNUPSTEPS = 'SIGNUPSTEPS'
