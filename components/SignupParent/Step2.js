@@ -7,7 +7,7 @@ function Step2() {
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
-                        placeholder={`Parent's Name`}
+                        placeholder={`Your First Name`}
                         // value={values.email}
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
@@ -16,7 +16,7 @@ function Step2() {
                 </div>
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
-                        placeholder={`ID Type`}
+                        placeholder={`Your Middle Name`}
                         // value={values.email}
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
@@ -25,22 +25,22 @@ function Step2() {
                 </div>
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
-                        placeholder={`ID Number`}
+                        placeholder={`Your Last Name`}
                         // value={values.email}
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="text"
                         name="text" />
                 </div>
-                {/* <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
+                <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
-                        placeholder={`Date of Birth`}
+                        placeholder={`Address`}
                         // value={values.email}
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="text"
                         name="text" />
-                </div> */}
+                </div>
             </form>
         </>
     )

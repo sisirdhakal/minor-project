@@ -75,17 +75,17 @@ function SignupParent() {
                         <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
                             <button className={`${step === 1 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(1) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Step-1
+                                    Verify
                                 </p>
                             </button>
                             <button className={`${step === 2 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(2) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Step-2
+                                    Add
                                 </p>
                             </button>
                             <button className={`${step === 3 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(3) }}>
                                 <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Step-3
+                                    Signup
                                 </p>
                             </button>
                         </div>
