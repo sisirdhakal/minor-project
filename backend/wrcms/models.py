@@ -16,9 +16,9 @@ class UserProfile(models.Model):
     contact = models.CharField(max_length=255, null=True, blank=True)
     fathersName = models.CharField(max_length=255, null=True, blank=True)
     mothersName = models.CharField(max_length=255, null=True, blank=True)
-    role = models.ForeignKey(UserRole, on_delete=models.SET_NULL)
+    role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True, blank=True)
     secondaryEmail = models.EmailField(null=True, blank=True)
-    secondaryContact = models.CharField(null=True, blank=True)
+    secondaryContact = models.CharField(max_length=255, null=True, blank=True)
 
 class Faculty(models.Model):
     name = models.CharField(max_length=255)
