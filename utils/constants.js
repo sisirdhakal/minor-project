@@ -1,3 +1,8 @@
+import { AiFillHome } from 'react-icons/ai'
+import { GiStabbedNote } from 'react-icons/gi'
+import { FaCalendarAlt } from 'react-icons/fa'
+import { BsFillPersonCheckFill } from 'react-icons/bs'
+
 export const signupOptions = [
     {
         id: 1,
@@ -52,72 +57,86 @@ export const typeTwoButton = [
 
 export const dashboardStudent = [
     {
-        id:1,
-        url:"/dashboard",
+        id: 1,
+        icon: "/assets/images/home.svg",
+        url: "/dashboard",
         name: "dashboard",
-        
+
     },
     {
-        id:2,
-        url:"/exams",
+        id: 2,
+        icon: "/assets/images/exam.svg",
+        url: "/exams",
         name: "exams",
-        
+
     },
     {
-        id:3,
-        url:"/results",
+        id: 3,
+        icon: "/assets/images/results.svg",
+        url: "/results",
         name: "results",
-        
+
     },
     {
-        id:4,
-        url:"/attendance",
+        id: 4,
+        icon: "/assets/images/attendance.svg",
+        icon: <BsFillPersonCheckFill />,
+        url: "/attendance",
         name: "attendance",
-        
+
     },
     {
-        id:5,
-        url:"/Credits",
+        id: 5,
+        icon: "/assets/images/credits.svg",
+        url: "/Credits",
         name: "Credits/Payments",
-        
+
     },
     {
-        id:6,
-        url:"/notices",
+        id: 6,
+        icon: "/assets/images/notice.svg",
+        icon: <GiStabbedNote />,
+        url: "/notices",
         name: "notices",
-        
+
     },
     {
-        id:7,
-        url:"/complaints",
+        id: 7,
+        icon: "/assets/images/complaints.svg",
+        url: "/complaints",
         name: "complaints",
-        
+
     },
     {
-        id:8,
-        url:"/teacherfeedback",
+        id: 8,
+        icon: "/assets/images/feedback.svg",
+        url: "/teacherfeedback",
         name: "teacher feedback",
-        
+
     },
     {
-        id:9,
-        url:"/routine",
+        id: 9,
+        icon: "/assets/images/routine.svg",
+        url: "/routine",
         name: "routine",
-        
+
     },
     {
-        id:10,
-        url:"/syllabus",
+        id: 10,
+        icon: "/assets/images/syllabus.svg",
+        url: "/syllabus",
         name: "syllabus",
-        
+
     },
     {
-        id:11,
-        url:"/calendar",
+        id: 11,
+        icon: "/assets/images/calendar.svg",
+        icon: <FaCalendarAlt />,
+        url: "/calendar",
         name: "calendar",
-        
+
     },
-   
+
 ]
 
 export const userType = [

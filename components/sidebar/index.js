@@ -1,5 +1,7 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
+import { dashboardStudent } from '../../utils/constants'
 
 function Sidebar() {
     return (
@@ -17,8 +19,17 @@ function Sidebar() {
                             100vw"
                     />
                 </div>
-                <div>
-                        
+                <div className=''>
+                    {
+                        dashboardStudent.map(item => {
+                            const { id, name, url } = item
+                            return <Link key={id} href={url} >
+                                <div className='mb-2'>
+                                    <p className='font-semibold capitalize'>{name}</p>
+                                </div>
+                            </Link>
+                        })
+                    }
                 </div>
             </div>
         </>
