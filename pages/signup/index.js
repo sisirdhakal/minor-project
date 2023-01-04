@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { BiShow, BiHide } from 'react-icons/bi';
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
-
 
 /**
  * for importing the actioncreators
@@ -11,18 +8,22 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
+import Link from 'next/link';
+import TypeOne from '../../components/Steps/TypeOne';
+import TypeTwo from '../../components/Steps/TypeTwo';
+import Button1 from '../../components/buttons/Button1';
+import Button2 from '../../components/buttons/Button2';
 
-function SignupParent() {
+function Signup() {
 
     const [active, setactive] = useState("step1")
 
     const dispatch = useDispatch()
     const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
-    const { step } = useSelector(state => state.auth)
+    const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
+
+    console.log(user)
 
     return (
         <>
@@ -47,7 +48,7 @@ function SignupParent() {
                                 <Image
                                     alt=''
                                     priority
-                                    src={"/assets/images/parent.svg"}
+                                    src={`/assets/images/${type.toLowerCase()}.svg`}
                                     className='rounded-md'
                                     fill
                                     sizes="(min-width: 60em) 24vw,
@@ -56,13 +57,13 @@ function SignupParent() {
                                 />
                             </div>
                             <p className='text-5xl pl-2 my-2  font-semibold'>Sign Up as</p>
-                            <h1 className='uppercase text-7xl text-primary-text font-semibold pl-2 my-2'>parent</h1>
+                            <h1 className='uppercase text-7xl text-primary-text font-bold pl-2 my-2'>{type}</h1>
                             <div className='flex pl-3 my-2 '>
                                 <span>
                                     <FaQuoteLeft className='text-[14px] font-medium mr-2' />
                                 </span>
                                 <p className='text-[#888888] w-64 font-sans font-medium'>
-                                    Behind every child who believes himself is a parent who believed first.
+                                    {quote}
                                     <span className='inline-block'>
                                         <FaQuoteRight className='text-[14px] text-black font-medium ml-2' />
                                     </span>
@@ -73,34 +74,21 @@ function SignupParent() {
 
                     <div className='py-6'>
                         <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
-                            <button className={`${step === 1 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(1) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Verify
-                                </p>
-                            </button>
-                            <button className={`${step === 2 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(2) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Add
-                                </p>
-                            </button>
-                            <button className={`${step === 3 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(3) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Signup
-                                </p>
-                            </button>
+                            {
+                                user === "one" ? (<Button1 />) : (<Button2 />)
+                            }
                         </div>
 
                         <div className='h-[240px] items-center'>
 
                             {
+                                user === "one" ? (<TypeOne />) : (<TypeTwo />)
 
-                                step === 1 ?
-                                    (<Step1 />) : step === 2 ? (<Step2 />) : (<Step3 />)
                             }
                         </div>
 
                         {
-                            step === 3 ?
+                            step === steps ?
                                 (<button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>) : (
                                     <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={() => { setSignUpSteps(step + 1) }} >Proceed</button>
                                 )
@@ -111,7 +99,9 @@ function SignupParent() {
 
                             <p className=' my-2 text-secondary-text text-center font-semibold'>Already have an account ?
                             </p>
-                            <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { setSignUpToggle(true) }}  > Signin</button>
+                            <Link href={"/signin"}>
+                                <button className=' text-[#023E8A] ml-2 font-semibold'  > Signin</button>
+                            </Link>
                         </div>
                     </div>
                 </div>
@@ -120,4 +110,4 @@ function SignupParent() {
     )
 }
 
-export default SignupParent
+export default Signup

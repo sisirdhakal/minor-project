@@ -7,21 +7,23 @@ import { Fragment, useState } from 'react'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useSelector, useDispatch } from 'react-redux'
+import Link from 'next/link';
+import { signupOptions } from "../../utils/constants"
 
 export default function SignupModal() {
 
     const { signUpToggle } = useSelector(state => state.auth)
-
     const dispatch = useDispatch()
-    const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+    const { setSignUpToggle, setSignupType } = bindActionCreators(actionCreators, dispatch)
 
 
     function closeModal() {
         setSignUpToggle(false)
     }
 
-    function openModal() {
-
+    function handleClick(value) {
+        setSignupType(value)
+        closeModal()
     }
 
     return (
@@ -51,58 +53,38 @@ export default function SignupModal() {
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="bg-white align-middle transition-all self-center transform relative py-4 shadow-xl rounded-2xl w-[800px] h-[200px]">
-                                    <p className='text-3xl my-4 text-[#03045E] font-medium'>
-                                        Signup As
-                                    </p>
-                                    <div className='py-2 grid grid-cols-3'>
-                                        <div className='flex justify-center items-center'>
-                                            <button className='space-x-4 flex justify-center items-center mx-auto'>
-                                                <div className='relative w-[40px] h-[40px] rounded-sm'>
-                                                    <Image
-                                                        alt=''
-                                                        priority
-                                                        src={"/assets/images/student.svg"}
-                                                        className='rounded-md'
-                                                        fill
-                                                        sizes="(min-width: 6em) 24vw,
-                                                           (min-width: 2em) 45vw, 100vw"
-                                                    />
-                                                </div>
-                                                <p className='text-2xl font-semibold text-secondary-text'>Student</p>
-                                            </button>
-                                        </div>
-                                        <div className='flex justify-center items-center'>
-                                            <button className='flex justify-center space-x-4 items-center mx-auto'>
-                                                <div className='relative w-[60px] h-[56px] rounded-sm'>
-                                                    <Image
-                                                        alt=''
-                                                        priority
-                                                        src={"/assets/images/teacher.svg"}
-                                                        className='rounded-md'
-                                                        fill
-                                                        sizes="(min-width: 6em) 24vw,
-                                                           (min-width: 2em) 45vw, 100vw"
-                                                    />
-                                                </div>
-                                                <p className='text-2xl font-semibold text-secondary-text'>Teacher</p>
-                                            </button>
-                                        </div>
-                                        <div className='flex justify-center items-center'>
-                                            <button className='flex justify-center space-x-4 items-center mx-auto'>
-                                                <div className='relative w-[44px] h-[44px] rounded-sm'>
-                                                    <Image
-                                                        alt=''
-                                                        priority
-                                                        src={"/assets/images/parent.svg"}
-                                                        className='rounded-md'
-                                                        fill
-                                                        sizes="(min-width: 6em) 24vw,
-                                                           (min-width: 2em) 45vw, 100vw"
-                                                    />
-                                                </div>
-                                                <p className='text-2xl font-semibold text-secondary-text'>Parent</p>
-                                            </button>
+                                <Dialog.Panel className="bg-white relative flex justify-center items-center shadow-xl rounded-2xl w-[800px] h-[220px]">
+                                    <div className=' w-full'>
+                                        <p className='text-3xl my-4 text-[#03045E] font-medium'>
+                                            Signup As
+                                        </p>
+                                        <div className='py-2 h-20 grid grid-cols-3'>
+                                            {
+
+                                                signupOptions.map((options) => {
+                                                    const { id, name, image, width, height } = options
+                                                  
+
+                                                    return <div key={id} className='flex justify-center items-center'>
+                                                        <Link href={"/signup"}>
+                                                            <button className='space-x-4 flex justify-center items-center mx-auto' onClick={() => { handleClick(name) }}>
+                                                                <div style={{ width: width, height: height }} className={`relative rounded-sm'`}>
+                                                                    <Image
+                                                                        alt=''
+                                                                        priority
+                                                                        src={image}
+                                                                        className='rounded-md'
+                                                                        fill
+                                                                        sizes="(min-width: 6em) 24vw,
+                                                               (min-width: 2em) 45vw, 100vw"
+                                                                    />
+                                                                </div>
+                                                                <p className='text-2xl font-semibold text-secondary-text'>{name}</p>
+                                                            </button>
+                                                        </Link>
+                                                    </div>
+                                                })
+                                            }
                                         </div>
                                     </div>
                                 </Dialog.Panel>

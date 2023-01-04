@@ -1,7 +1,9 @@
 
 import {
+    CLEARSIGNUP,
     SIGNUPSTEPS,
-    SIGNUPTOGGLE
+    SIGNUPTOGGLE,
+    SIGNUPTYPE
 } from '../constant'
 
 /**
@@ -14,4 +16,15 @@ export const setSignUpToggle = (value) => dispatch => {
 export const setSignUpSteps = (value) => dispatch => {
     dispatch({ type: SIGNUPSTEPS, payload: value })
 }
+
+export const setSignupType = (value) => dispatch => {
+    dispatch({ type: SIGNUPTYPE, payload: value })
+}
+
+export const clearSignup = () => dispatch => {
+
+    dispatch({ type: CLEARSIGNUP })
+
+}
+
 

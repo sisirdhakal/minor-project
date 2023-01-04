@@ -12,10 +12,10 @@ import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 
 
-function Signin() {
+function SigninComp() {
 
   const dispatch = useDispatch()
-  const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+  const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
     email: "",
@@ -33,6 +33,10 @@ function Signin() {
   const loginUser = async () => {
 
   }
+
+  useEffect(() => {
+    clearSignup()
+  }, [])
 
   // const [password, setPassword] = useState('');
   // const [email, setemail] = useState('');
@@ -155,7 +159,7 @@ function Signin() {
                     </div>
                   </label>
                 </div>
-                <button className=' text-secondary-text/60 font-medium'  > Forget Password ?</button>
+                <button className=' text-secondary-text/80 font-semibold'  > Forget Password ?</button>
               </div>
 
               <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' onClick={loginUser} >Login</button>
@@ -165,7 +169,7 @@ function Signin() {
 
               <p className=' my-2 text-secondary-text text-center font-semibold'>Don't have an account ?
               </p>
-              <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { setSignUpToggle(true) }}  > SignUp</button>
+              <button className=' text-[#023E8A] ml-2 font-bold' onClick={() => { setSignUpToggle(true) }}  > SignUp</button>
             </div>
           </div>
         </div>
@@ -174,4 +178,4 @@ function Signin() {
   )
 }
 
-export default Signin
+export default SigninComp
