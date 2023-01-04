@@ -1,7 +1,3 @@
-import { AiFillHome } from 'react-icons/ai'
-import { GiStabbedNote } from 'react-icons/gi'
-import { FaCalendarAlt } from 'react-icons/fa'
-import { BsFillPersonCheckFill } from 'react-icons/bs'
 
 export const signupOptions = [
     {
@@ -59,7 +55,7 @@ export const dashboardStudent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/dashboard",
+        url: "/",
         name: "dashboard",
 
     },
@@ -80,7 +76,6 @@ export const dashboardStudent = [
     {
         id: 4,
         icon: "/assets/images/attendance.svg",
-        icon: <BsFillPersonCheckFill />,
         url: "/attendance",
         name: "attendance",
 
@@ -95,7 +90,6 @@ export const dashboardStudent = [
     {
         id: 6,
         icon: "/assets/images/notice.svg",
-        icon: <GiStabbedNote />,
         url: "/notices",
         name: "notices",
 
@@ -131,7 +125,6 @@ export const dashboardStudent = [
     {
         id: 11,
         icon: "/assets/images/calendar.svg",
-        icon: <FaCalendarAlt />,
         url: "/calendar",
         name: "calendar",
 
