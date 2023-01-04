@@ -62,12 +62,13 @@ export default function SignupModal() {
                                             {
 
                                                 signupOptions.map((options) => {
-                                                    const { id, name, image, boundary } = options
+                                                    const { id, name, image, width, height } = options
+                                                    console.log(image)
 
                                                     return <div key={id} className='flex justify-center items-center'>
                                                         <Link href={"/signup"}>
                                                             <button className='space-x-4 flex justify-center items-center mx-auto' onClick={() => { handleClick(name) }}>
-                                                                <div className={`relative ${boundary} rounded-sm'`}>
+                                                                <div style={{ width: width, height: height }} className={`relative rounded-sm'`}>
                                                                     <Image
                                                                         alt=''
                                                                         priority

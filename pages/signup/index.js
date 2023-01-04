@@ -13,6 +13,10 @@ import Step2 from '../../components/SignupParent/Step2';
 import Step3 from '../../components/SignupParent/Step3';
 import Link from 'next/link';
 import { buttons } from '../../utils/constants';
+import TypeOne from '../../components/Steps/TypeOne';
+import TypeTwo from '../../components/Steps/TypeTwo';
+import Button1 from '../../components/buttons/Button1';
+import Button2 from '../../components/buttons/Button2';
 
 function Signup() {
 
@@ -21,7 +25,9 @@ function Signup() {
     const dispatch = useDispatch()
     const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
-    const { step, signUpDetails: { type, quote, steps } } = useSelector(state => state.auth)
+    const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
+
+    console.log(user)
 
     return (
         <>
@@ -73,23 +79,15 @@ function Signup() {
                     <div className='py-6'>
                         <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
                             {
-                                buttons.map(button => {
-                                    const { id, name } = button
-                                    return <button key={id} className={`${step === id ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(id) }}>
-                                        <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                            {name}
-                                        </p>
-                                    </button>
-                                })
+                                user === "one" ? (<Button1 />) : (<Button2 />)
                             }
                         </div>
 
                         <div className='h-[240px] items-center'>
 
                             {
+                                user === "one" ? (<TypeOne />) : (<TypeTwo />)
 
-                                step === 1 ?
-                                    (<Step1 />) : step === 2 ? (<Step2 />) : (<Step3 />)
                             }
                         </div>
 

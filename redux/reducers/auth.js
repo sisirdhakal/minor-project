@@ -13,7 +13,8 @@ const initialState = {
         steps: 0,
         step1: "",
         placeholder1: ""
-    }
+    },
+    user: ""
 
 }
 
@@ -41,12 +42,14 @@ const auth_reducer = (state = initialState, action) => {
                     placeholder1: "Portal ID"
 
                 },
+                user: "one"
             }
         }
         if (action.payload.toLowerCase() === "teacher") {
 
             return {
                 ...state,
+
                 signUpDetails: {
                     ...state.signUpDetails,
                     type: action.payload,
@@ -56,6 +59,8 @@ const auth_reducer = (state = initialState, action) => {
                     placeholder1: "Portal ID"
 
                 },
+                user: "one"
+
             }
         }
         if (action.payload.toLowerCase() === "parent") {
@@ -71,6 +76,7 @@ const auth_reducer = (state = initialState, action) => {
                     placeholder1: "Student's Name"
 
                 },
+                user: "two"
             }
         }
         else return { ...state }
