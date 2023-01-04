@@ -50,6 +50,76 @@ export const typeTwoButton = [
     }
 ]
 
+export const dashboardStudent = [
+    {
+        id:1,
+        url:"/dashboard",
+        name: "dashboard",
+        
+    },
+    {
+        id:2,
+        url:"/exams",
+        name: "exams",
+        
+    },
+    {
+        id:3,
+        url:"/results",
+        name: "results",
+        
+    },
+    {
+        id:4,
+        url:"/attendance",
+        name: "attendance",
+        
+    },
+    {
+        id:5,
+        url:"/Credits",
+        name: "Credits/Payments",
+        
+    },
+    {
+        id:6,
+        url:"/notices",
+        name: "notices",
+        
+    },
+    {
+        id:7,
+        url:"/complaints",
+        name: "complaints",
+        
+    },
+    {
+        id:8,
+        url:"/teacherfeedback",
+        name: "teacher feedback",
+        
+    },
+    {
+        id:9,
+        url:"/routine",
+        name: "routine",
+        
+    },
+    {
+        id:10,
+        url:"/syllabus",
+        name: "syllabus",
+        
+    },
+    {
+        id:11,
+        url:"/calendar",
+        name: "calendar",
+        
+    },
+   
+]
+
 export const userType = [
     {
         type: "teacher",
