@@ -11,6 +11,8 @@ const initialState = {
         type: "",
         quote: "",
         steps: 0,
+        step1: "",
+        placeholder1: ""
     }
 
 }
@@ -34,7 +36,9 @@ const auth_reducer = (state = initialState, action) => {
                     ...state.signUpDetails,
                     type: action.payload,
                     steps: 2,
-                    quote: "The real teacher is the student’s curiosity."
+                    quote: "The real teacher is the student’s curiosity.",
+                    step1: "Verify student's details",
+                    placeholder1: "Portal ID"
 
                 },
             }
@@ -47,7 +51,9 @@ const auth_reducer = (state = initialState, action) => {
                     ...state.signUpDetails,
                     type: action.payload,
                     steps: 2,
-                    quote: "Teachers who love teaching, teach students to love learning."
+                    quote: "Teachers who love teaching, teach students to love learning.",
+                    step1: "Verify teacher's details",
+                    placeholder1: "Portal ID"
 
                 },
             }
@@ -60,7 +66,9 @@ const auth_reducer = (state = initialState, action) => {
                     ...state.signUpDetails,
                     type: action.payload,
                     steps: 3,
-                    quote: "Behind every child who believes himself is a parent who believed first."
+                    quote: "Behind every child who believes himself is a parent who believed first.",
+                    step1: "Verify student's details",
+                    placeholder1: "Student's Name"
 
                 },
             }

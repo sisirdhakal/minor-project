@@ -1,9 +1,6 @@
 import Image from 'next/image';
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { BiShow, BiHide } from 'react-icons/bi';
 import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
-import { BsFillCheckCircleFill } from 'react-icons/bs'
-
 
 /**
  * for importing the actioncreators
@@ -15,6 +12,7 @@ import Step1 from '../../components/SignupParent/Step1';
 import Step2 from '../../components/SignupParent/Step2';
 import Step3 from '../../components/SignupParent/Step3';
 import Link from 'next/link';
+import { buttons } from '../../utils/constants';
 
 function Signup() {
 
@@ -57,7 +55,7 @@ function Signup() {
                                 />
                             </div>
                             <p className='text-5xl pl-2 my-2  font-semibold'>Sign Up as</p>
-                            <h1 className='uppercase text-7xl text-primary-text font-semibold pl-2 my-2'>{type}</h1>
+                            <h1 className='uppercase text-7xl text-primary-text font-bold pl-2 my-2'>{type}</h1>
                             <div className='flex pl-3 my-2 '>
                                 <span>
                                     <FaQuoteLeft className='text-[14px] font-medium mr-2' />
@@ -74,21 +72,16 @@ function Signup() {
 
                     <div className='py-6'>
                         <div className='grid grid-cols-3 pr-10 gap-x-1 items-center h-16 rounded-sm'>
-                            <button className={`${step === 1 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(1) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Verify
-                                </p>
-                            </button>
-                            <button className={`${step === 2 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(2) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Add
-                                </p>
-                            </button>
-                            <button className={`${step === 3 ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(3) }}>
-                                <p className='absolute ml-8 text-white font-medium tracking-wide'>
-                                    Signup
-                                </p>
-                            </button>
+                            {
+                                buttons.map(button => {
+                                    const { id, name } = button
+                                    return <button key={id} className={`${step === id ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(id) }}>
+                                        <p className='absolute ml-8 text-white font-medium tracking-wide'>
+                                            {name}
+                                        </p>
+                                    </button>
+                                })
+                            }
                         </div>
 
                         <div className='h-[240px] items-center'>
