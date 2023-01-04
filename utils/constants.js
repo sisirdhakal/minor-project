@@ -132,6 +132,21 @@ export const dashboardStudent = [
 
 ]
 
+export const statsOptions = [
+    {
+        title: 'Attendance',
+        icon: "",
+    },
+    {
+        title: 'Due',
+        icon: "",
+    },
+    {
+        title: 'Feedback',
+        icon: "",
+    },
+]
+
 export const userType = [
     {
         type: "teacher",

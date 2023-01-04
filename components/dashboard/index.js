@@ -1,10 +1,14 @@
 import React from 'react'
+import MainBody from '../mainbody'
 import Sidebar from '../sidebar'
 
 function Dashboard() {
   return (
     <>
-      <Sidebar />
+      <div className='flex h-screen'>
+        <Sidebar />
+        <MainBody />
+      </div>
     </>
   )
 }
