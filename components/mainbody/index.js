@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { BsPersonCircle, BsPersonFill, BsFillPersonFill, BsPerson } from 'react-icons/bs'
 import { AiFillCaretDown } from 'react-icons/ai'
+import { statsOptions } from '../../utils/constants'
+import Image from 'next/image'
+// import PieChart from './PieChart'
 
 
 function MainBody() {
@@ -10,7 +13,7 @@ function MainBody() {
     return (
         <>
             <div className='w-full flex-1 py-5 px-12'>
-                <div className='bg-white h-10 flex justify-between rounded-full py-1 px-8'>
+                <div className='bg-white h-10 flex justify-between rounded-full py-1 px-8 mb-5'>
                     <p className='text-primary-text text-[16px] font-bold mt-[2px]'>PASCHIMANCHAL Campus, Pokhara</p>
                     {/* <div className='w-48 relative  transition-all duration-500 ease-in-out p-3 h-8 items-center flex justify-center rounded-xl cursor-pointer' > */}
 
@@ -28,8 +31,50 @@ function MainBody() {
 
                     {/* </div> */}
                 </div>
-                <div>
+                <div className='grid grid-cols-3 gap-6'>
 
+                    <div className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
+                        <div className='relative w-[100px]  h-[140px] flex justify-center items-center rounded-sm'>
+                            <div className='border-[12px] rounded-full w-[100px] h-[100px] border-t-blue-400 border-green-400 bg-red-400 flex justify-center items-center'>
+                                <p className='text-xl font-bold text-white'>72/80</p>
+                            </div>
+                        </div>
+                        <div >
+                                    <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
+                                    <p className='text-secondary-text font-medium mb-3 h-12'>body</p>
+                                    <button className='bg-blue-400 rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                        View Details
+                                    </button>
+                                </div>
+                    </div>
+
+                    {
+                        statsOptions.map(item => {
+                            const { id, title, icon, body } = item
+
+                            return <div key={id} className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
+                                <div className='relative w-[100px] h-[140px]  rounded-sm'>
+                                    <Image
+                                        alt=''
+                                        priority
+                                        src={icon}
+                                        className='rounded-md'
+                                        fill
+                                        sizes="(min-width: 60em) 24vw,
+                            (min-width: 28em) 45vw,
+                            100vw"
+                                    />
+                                </div>
+                                <div >
+                                    <h1 className='text-primary-text mb-3 font-bold text-lg'>{title}</h1>
+                                    <p className='text-secondary-text font-medium mb-3 h-12'>{body}</p>
+                                    <button className='bg-blue-400 rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                        View Details
+                                    </button>
+                                </div>
+                            </div>
+                        })
+                    }
                 </div>
             </div>
         </>

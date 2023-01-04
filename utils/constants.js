@@ -134,16 +134,16 @@ export const dashboardStudent = [
 
 export const statsOptions = [
     {
-        title: 'Attendance',
-        icon: "",
-    },
-    {
         title: 'Due',
-        icon: "",
+        icon: "/assets/images/payment.svg",
+        id: 2,
+        body:"No Due!"
     },
     {
         title: 'Feedback',
-        icon: "",
+        icon: "/assets/images/feedbackimage.svg",
+        id: 3,
+        body:"See feedback from your teachers."
     },
 ]
 
