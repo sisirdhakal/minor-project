@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 function TypeOne() {
 
     const { step } = useSelector(state => state.auth)
-
     return (
         <>
             {

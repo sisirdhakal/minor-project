@@ -63,7 +63,7 @@ export default function SignupModal() {
 
                                                 signupOptions.map((options) => {
                                                     const { id, name, image, width, height } = options
-                                                    console.log(image)
+                                                  
 
                                                     return <div key={id} className='flex justify-center items-center'>
                                                         <Link href={"/signup"}>

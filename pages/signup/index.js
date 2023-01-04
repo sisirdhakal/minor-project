@@ -8,11 +8,7 @@ import { FaQuoteLeft, FaQuoteRight } from 'react-icons/fa'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
-import Step1 from '../../components/SignupParent/Step1';
-import Step2 from '../../components/SignupParent/Step2';
-import Step3 from '../../components/SignupParent/Step3';
 import Link from 'next/link';
-import { buttons } from '../../utils/constants';
 import TypeOne from '../../components/Steps/TypeOne';
 import TypeTwo from '../../components/Steps/TypeTwo';
 import Button1 from '../../components/buttons/Button1';
@@ -92,7 +88,7 @@ function Signup() {
                         </div>
 
                         {
-                            step === 3 ?
+                            step === steps ?
                                 (<button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>) : (
                                     <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={() => { setSignUpSteps(step + 1) }} >Proceed</button>
                                 )

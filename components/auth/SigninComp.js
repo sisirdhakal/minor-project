@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux';
 function SigninComp() {
 
   const dispatch = useDispatch()
-  const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+  const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
     email: "",
@@ -33,6 +33,10 @@ function SigninComp() {
   const loginUser = async () => {
 
   }
+
+  useEffect(() => {
+    clearSignup()
+  }, [])
 
   // const [password, setPassword] = useState('');
   // const [email, setemail] = useState('');

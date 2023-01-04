@@ -1,4 +1,5 @@
 import {
+    CLEARSIGNUP,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE
@@ -81,6 +82,22 @@ const auth_reducer = (state = initialState, action) => {
         }
         else return { ...state }
 
+    }
+    if (action.type === CLEARSIGNUP) {
+        return {
+            ...state,
+            user: "",
+            step: 1,
+            signUpDetails: {
+                ...state.signUpDetails,
+                type: "",
+                steps: 0,
+                quote: "",
+                step1: "",
+                placeholder1: ""
+
+            }
+        }
     }
     else {
         return state;

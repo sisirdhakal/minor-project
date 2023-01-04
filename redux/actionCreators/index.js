@@ -1,5 +1,6 @@
 
 import {
+    CLEARSIGNUP,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE
@@ -18,6 +19,12 @@ export const setSignUpSteps = (value) => dispatch => {
 
 export const setSignupType = (value) => dispatch => {
     dispatch({ type: SIGNUPTYPE, payload: value })
+}
+
+export const clearSignup = () => dispatch => {
+
+    dispatch({ type: CLEARSIGNUP })
+
 }
 
 
