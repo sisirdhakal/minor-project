@@ -90,15 +90,7 @@ function SignupParent() {
                             </button>
                         </div>
 
-                        <div className='items-center flex mt-2 mb-4'>
-                            <BsFillCheckCircleFill className='text-[#0096C7]' />
-                            <p className='items-center text-[#0096C7] mx-1 font-semibold'>
-                                {/* <span className='inline-block '> */}
-                                {/* </span> */}
-                                Verify student's details
-                            </p>
-                        </div>
-                        <div className='h-[200px] items-center'>
+                        <div className='h-[240px] items-center'>
 
                             {
 

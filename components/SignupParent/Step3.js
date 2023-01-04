@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { MdVpnKey } from 'react-icons/md'
 import { BiShow, BiHide } from 'react-icons/bi';
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 function Step3() {
 
@@ -9,6 +10,14 @@ function Step3() {
 
     return (
         <>
+         <div className='items-center flex mt-2 mb-4'>
+                            <BsFillCheckCircleFill className='text-[#0096C7]' />
+                            <p className='items-center text-[#0096C7] mx-1 font-semibold'>
+                                {/* <span className='inline-block '> */}
+                                {/* </span> */}
+                                Final Confirmation
+                            </p>
+                        </div>
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>

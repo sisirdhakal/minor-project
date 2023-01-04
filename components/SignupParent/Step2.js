@@ -1,8 +1,17 @@
 import React from 'react'
+import { BsFillCheckCircleFill } from 'react-icons/bs'
 
 function Step2() {
     return (
         <>
+         <div className='items-center flex mt-2 mb-4'>
+                            <BsFillCheckCircleFill className='text-[#0096C7]' />
+                            <p className='items-center text-[#0096C7] mx-1 font-semibold'>
+                                {/* <span className='inline-block '> */}
+                                {/* </span> */}
+                                Add your details
+                            </p>
+                        </div>
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
