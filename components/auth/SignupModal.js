@@ -14,15 +14,16 @@ export default function SignupModal() {
 
     const { signUpToggle } = useSelector(state => state.auth)
     const dispatch = useDispatch()
-    const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
+    const { setSignUpToggle, setSignupType } = bindActionCreators(actionCreators, dispatch)
 
 
     function closeModal() {
         setSignUpToggle(false)
     }
 
-    function openModal() {
-
+    function handleClick(value) {
+        setSignupType(value)
+        closeModal()
     }
 
     return (
@@ -65,7 +66,7 @@ export default function SignupModal() {
 
                                                     return <div key={id} className='flex justify-center items-center'>
                                                         <Link href={"/signup"}>
-                                                            <button className='space-x-4 flex justify-center items-center mx-auto'>
+                                                            <button className='space-x-4 flex justify-center items-center mx-auto' onClick={() => { handleClick(name) }}>
                                                                 <div className={`relative ${boundary} rounded-sm'`}>
                                                                     <Image
                                                                         alt=''

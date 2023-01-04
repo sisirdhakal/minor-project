@@ -11,9 +11,10 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch, useSelector } from 'react-redux';
-import Step1 from './Step1';
-import Step2 from './Step2';
-import Step3 from './Step3';
+import Step1 from '../../components/SignupParent/Step1';
+import Step2 from '../../components/SignupParent/Step2';
+import Step3 from '../../components/SignupParent/Step3';
+import Link from 'next/link';
 
 function Signup() {
 
@@ -22,7 +23,7 @@ function Signup() {
     const dispatch = useDispatch()
     const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
-    const { step } = useSelector(state => state.auth)
+    const { step, signUpDetails: { type, quote, steps } } = useSelector(state => state.auth)
 
     return (
         <>
@@ -47,7 +48,7 @@ function Signup() {
                                 <Image
                                     alt=''
                                     priority
-                                    src={"/assets/images/parent.svg"}
+                                    src={`/assets/images/${type.toLowerCase()}.svg`}
                                     className='rounded-md'
                                     fill
                                     sizes="(min-width: 60em) 24vw,
@@ -56,13 +57,13 @@ function Signup() {
                                 />
                             </div>
                             <p className='text-5xl pl-2 my-2  font-semibold'>Sign Up as</p>
-                            <h1 className='uppercase text-7xl text-primary-text font-semibold pl-2 my-2'>parent</h1>
+                            <h1 className='uppercase text-7xl text-primary-text font-semibold pl-2 my-2'>{type}</h1>
                             <div className='flex pl-3 my-2 '>
                                 <span>
                                     <FaQuoteLeft className='text-[14px] font-medium mr-2' />
                                 </span>
                                 <p className='text-[#888888] w-64 font-sans font-medium'>
-                                    Behind every child who believes himself is a parent who believed first.
+                                    {quote}
                                     <span className='inline-block'>
                                         <FaQuoteRight className='text-[14px] text-black font-medium ml-2' />
                                     </span>
@@ -92,11 +93,11 @@ function Signup() {
 
                         <div className='h-[240px] items-center'>
 
-                            {/* {
+                            {
 
                                 step === 1 ?
                                     (<Step1 />) : step === 2 ? (<Step2 />) : (<Step3 />)
-                            } */}
+                            }
                         </div>
 
                         {
@@ -111,7 +112,9 @@ function Signup() {
 
                             <p className=' my-2 text-secondary-text text-center font-semibold'>Already have an account ?
                             </p>
-                            <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { setSignUpToggle(true) }}  > Signin</button>
+                            <Link href={"/signin"}>
+                                <button className=' text-[#023E8A] ml-2 font-semibold'  > Signin</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

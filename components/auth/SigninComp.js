@@ -12,7 +12,7 @@ import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 
 
-function Signin() {
+function SigninComp() {
 
   const dispatch = useDispatch()
   const { setSignUpToggle } = bindActionCreators(actionCreators, dispatch)
@@ -155,7 +155,7 @@ function Signin() {
                     </div>
                   </label>
                 </div>
-                <button className=' text-secondary-text/60 font-medium'  > Forget Password ?</button>
+                <button className=' text-secondary-text/80 font-semibold'  > Forget Password ?</button>
               </div>
 
               <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' onClick={loginUser} >Login</button>
@@ -174,4 +174,4 @@ function Signin() {
   )
 }
 
-export default Signin
+export default SigninComp
