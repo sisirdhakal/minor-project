@@ -165,7 +165,7 @@ function Signin() {
 
               <p className=' my-2 text-secondary-text text-center font-semibold'>Don't have an account ?
               </p>
-              <button className=' text-[#023E8A] ml-2 font-semibold' onClick={() => { setSignUpToggle(true) }}  > SignUp</button>
+              <button className=' text-[#023E8A] ml-2 font-bold' onClick={() => { setSignUpToggle(true) }}  > SignUp</button>
             </div>
           </div>
         </div>

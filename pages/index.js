@@ -16,9 +16,7 @@ export default function Home() {
       </Head>
 
       <SignupModal />
-      {/* <Signin /> */}
-      {/* <Signup /> */}
-      <SignupParent />
+      <Signin />
     </div>
   )
 }
