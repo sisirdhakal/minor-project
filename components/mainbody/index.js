@@ -16,7 +16,7 @@ function MainBody() {
 
     return (
         <>
-            <div className='w-full flex-1  px-12'>
+            <div className='w-full flex-1 pb-6 px-12'>
                 <div className='h-20 sticky top-0 z-20 bg-[#CAF0F8] items-center flex justify-center'>
 
                     <div className='bg-white w-full h-10 flex justify-between rounded-full py-1 px-8 mb-2'>
