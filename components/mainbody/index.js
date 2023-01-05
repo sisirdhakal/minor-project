@@ -3,6 +3,7 @@ import { BsPersonCircle, BsPersonFill, BsFillPersonFill, BsPerson } from 'react-
 import { AiFillCaretDown } from 'react-icons/ai'
 import { statsOptions } from '../../utils/constants'
 import Image from 'next/image'
+import { books } from '../../utils/mockdata'
 // import PieChart from './PieChart'
 
 
@@ -12,7 +13,7 @@ function MainBody() {
 
     return (
         <>
-            <div className='w-full flex-1 py-5 px-12'>
+            <div className='w-full flex-1 py-4 px-12'>
                 <div className='bg-white h-10 flex justify-between rounded-full py-1 px-8 mb-5'>
                     <p className='text-primary-text text-[16px] font-bold mt-[2px]'>PASCHIMANCHAL Campus, Pokhara</p>
                     {/* <div className='w-48 relative  transition-all duration-500 ease-in-out p-3 h-8 items-center flex justify-center rounded-xl cursor-pointer' > */}
@@ -93,8 +94,32 @@ function MainBody() {
                             </div>
                             <p className='text-primary-text font-bold mt-[2px]'>Library</p>
                         </div>
-                        <div className='h-full bg-white w-full rounded-sm'>
+                        <div className='h-[460px] px-5 bg-white w-full rounded-sm'>
+                            {
+                                books.map((book) => {
+                                    const { id, name, date } = book
+                                    return <div key={id} className=" flex py-1 items-center">
 
+                                        <div className='relative w-[56px] mr-4 h-[56px] rounded-sm'>
+                                            <Image
+                                                alt=''
+                                                priority
+                                                src={"/assets/images/book.svg"}
+                                                className='rounded-md'
+                                                fill
+                                                sizes="(min-width: 60em) 24vw,
+                            (min-width: 28em) 45vw,
+                            100vw"
+                                            />
+
+                                        </div>
+                                        <div className='flex-1'>
+                                            <p className='text-primary-text font-bold text-[16px]'>{name}</p>
+                                            <p className='font-semibold text-[#48CAE4]'>Issued Date: {date} </p>
+                                        </div>
+                                    </div>
+                                })
+                            }
                         </div>
                     </div>
                     <div>
@@ -114,8 +139,8 @@ function MainBody() {
                             <p className='text-primary-text font-bold'>Notices</p>
 
                         </div>
-                        <div className='h-full bg-white w-full rounded-sm'>
-
+                        <div className='h-[420px] bg-white w-full rounded-sm'>
+                            
                         </div>
                     </div>
                 </div>

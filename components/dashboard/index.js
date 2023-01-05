@@ -6,8 +6,13 @@ function Dashboard() {
   return (
     <>
       <div className='flex h-screen'>
-        <Sidebar />
-        <MainBody />
+        <div className='sticky bg-white top-0 h-screen'>
+          <Sidebar />
+        </div>
+        <div className='overflow-y-scroll'>
+          <MainBody />
+
+        </div>
       </div>
     </>
   )

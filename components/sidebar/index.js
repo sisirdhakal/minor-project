@@ -11,7 +11,7 @@ function Sidebar() {
 
     return (
         <>
-            <div className='w-60 bg-white h-full'>
+            <div className='w-60  sticky top-0'>
                 <div className='relative w-[180px] mx-auto h-[80px]  rounded-sm'>
                     <Image
                         alt=''
