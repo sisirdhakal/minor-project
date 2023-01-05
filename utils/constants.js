@@ -1,3 +1,4 @@
+
 export const signupOptions = [
     {
         id: 1,
@@ -48,6 +49,102 @@ export const typeTwoButton = [
         id: 3,
         name: "Signup"
     }
+]
+
+export const dashboardStudent = [
+    {
+        id: 1,
+        icon: "/assets/images/home.svg",
+        url: "/",
+        name: "dashboard",
+
+    },
+    {
+        id: 2,
+        icon: "/assets/images/exam.svg",
+        url: "/exams",
+        name: "exams",
+
+    },
+    {
+        id: 3,
+        icon: "/assets/images/results.svg",
+        url: "/results",
+        name: "results",
+
+    },
+    {
+        id: 4,
+        icon: "/assets/images/attendance.svg",
+        url: "/attendance",
+        name: "attendance",
+
+    },
+    {
+        id: 5,
+        icon: "/assets/images/credits.svg",
+        url: "/Credits",
+        name: "Credits/Payments",
+
+    },
+    {
+        id: 6,
+        icon: "/assets/images/notice.svg",
+        url: "/notices",
+        name: "notices",
+
+    },
+    {
+        id: 7,
+        icon: "/assets/images/complaints.svg",
+        url: "/complaints",
+        name: "complaints",
+
+    },
+    {
+        id: 8,
+        icon: "/assets/images/feedback.svg",
+        url: "/teacherfeedback",
+        name: "teacher feedback",
+
+    },
+    {
+        id: 9,
+        icon: "/assets/images/routine.svg",
+        url: "/routine",
+        name: "routine",
+
+    },
+    {
+        id: 10,
+        icon: "/assets/images/syllabus.svg",
+        url: "/syllabus",
+        name: "syllabus",
+
+    },
+    {
+        id: 11,
+        icon: "/assets/images/calendar.svg",
+        url: "/calendar",
+        name: "calendar",
+
+    },
+
+]
+
+export const statsOptions = [
+    {
+        title: 'Due',
+        icon: "/assets/images/payment.svg",
+        id: 2,
+        body:"No Due!"
+    },
+    {
+        title: 'Feedback',
+        icon: "/assets/images/feedbackimage.svg",
+        id: 3,
+        body:"See feedback from your teachers."
+    },
 ]
 
 export const userType = [

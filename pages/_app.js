@@ -20,9 +20,9 @@ function MyApp({ Component, pageProps }) {
         />
         <div className='grid grid-rows-auto relative'>
           <Component {...pageProps} />
-          <div className='bottom-0 absolute w-full'>
+          {/* <div className='bottom-0 absolute w-full'>
             <Footer />
-          </div>
+          </div> */}
         </div>
       </div>
     </Provider>
