@@ -31,21 +31,21 @@ function MainBody() {
 
                     {/* </div> */}
                 </div>
-                <div className='grid grid-cols-3 gap-6'>
+                <div className='grid grid-cols-3 gap-6 mb-8'>
 
                     <div className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
-                        <div className='relative w-[100px]  h-[140px] flex justify-center items-center rounded-sm'>
-                            <div className='border-[12px] rounded-full w-[100px] h-[100px] border-t-blue-400 border-green-400 bg-red-400 flex justify-center items-center'>
-                                <p className='text-xl font-bold text-white'>72/80</p>
+                        <div className='relative w-[114px]  h-[140px] flex justify-center items-center rounded-sm'>
+                            <div className='border-[12px] rounded-full w-[114px] h-[114px] border-t-[#6DC9F7] rotate-[24deg] border-blue-400 bg-red-400 flex justify-center items-center'>
+                                <p className='text-xl font-bold -rotate-[24deg] text-white'>72 / 80</p>
                             </div>
                         </div>
                         <div >
-                                    <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
-                                    <p className='text-secondary-text font-medium mb-3 h-12'>body</p>
-                                    <button className='bg-blue-400 rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                        View Details
-                                    </button>
-                                </div>
+                            <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
+                            <p className='text-secondary-text font-medium mb-3 h-12'>body</p>
+                            <button className='bg-blue-400 rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                View Details
+                            </button>
+                        </div>
                     </div>
 
                     {
@@ -75,6 +75,49 @@ function MainBody() {
                             </div>
                         })
                     }
+                </div>
+                <div className='grid grid-cols-2 gap-10'>
+                    <div>
+                        <div className='bg-white h-10 flex rounded-full px-5 items-center py-1 mb-3'>
+                            <div className='relative w-[24px] mr-2 h-[24px]  rounded-sm'>
+                                <Image
+                                    alt=''
+                                    priority
+                                    src={"/assets/images/library.svg"}
+                                    className='rounded-md'
+                                    fill
+                                    sizes="(min-width: 60em) 24vw,
+                            (min-width: 28em) 45vw,
+                            100vw"
+                                />
+                            </div>
+                            <p className='text-primary-text font-bold mt-[2px]'>Library</p>
+                        </div>
+                        <div className='h-full bg-white w-full rounded-sm'>
+
+                        </div>
+                    </div>
+                    <div>
+                        <div className='bg-white h-10 flex rounded-full items-center px-5 py-1 mb-3'>
+                            <div className='relative w-[28px] h-[36px] mr-2 rounded-sm'>
+                                <Image
+                                    alt=''
+                                    priority
+                                    src={"/assets/images/notes.svg"}
+                                    className='rounded-md'
+                                    fill
+                                    sizes="(min-width: 60em) 24vw,
+                            (min-width: 28em) 45vw,
+                            100vw"
+                                />
+                            </div>
+                            <p className='text-primary-text font-bold'>Notices</p>
+
+                        </div>
+                        <div className='h-full bg-white w-full rounded-sm'>
+
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
