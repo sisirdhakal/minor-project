@@ -29,7 +29,7 @@ function Sidebar() {
 
                         dashboardStudent.map(item => {
                             const { id, name, icon, url } = item
-                            return <Link key={id} href={url} > <div className={`mb-1 py-1 ${pathname === url ? ("bg-blue-400 text-white pl-8") : ("text-primary-text hover:pl-7 hover:bg-slate-300 pl-5")} flex items-center  justify-start  transition-all duration-300 ease-in-out `}>
+                            return <Link key={id} href={url} > <div className={`mb-1 py-1 ${pathname === url ? ("bg-[#2091F9] text-white pl-8") : ("text-primary-text hover:pl-7 hover:bg-slate-300 pl-5")} flex items-center  justify-start  transition-all duration-300 ease-in-out `}>
                                 <div className='relative mr-2 w-[20px] h-[20px]  rounded-sm'>
                                     <Image
                                         alt=''

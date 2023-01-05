@@ -37,6 +37,21 @@ export const books = [
 
 ]
 
+export const noticeOptions = [
+    {
+        id: 1,
+        name: "College"
+    },
+    {
+        id: 2,
+        name: "Department"
+    },
+    {
+        id: 3,
+        name: "Class"
+    },
+]
+
 export const collegeNotice = [
     {
         id: 1,
