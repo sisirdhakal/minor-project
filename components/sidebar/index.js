@@ -72,7 +72,7 @@ function Sidebar() {
                             100vw"
                                         />
                                         {
-                                            !sidebar && <p className='font-semibold group-hover:opacity-100 opacity-0 absolute text-secondary-text pl-10 truncate capitalize text-lg text-end'>
+                                            !sidebar && <p className={`font-semibold group-hover:opacity-100 ${pathname === url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 absolute  pl-10 truncate capitalize text-lg text-end`}>
                                                 {name}
                                             </p>
                                         }
