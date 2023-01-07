@@ -24,11 +24,10 @@ function Signup() {
 
     const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
 
-    console.log(user)
 
     return (
         <>
-            <div className='flex justify-center items-center h-full'>
+            <div className='flex justify-center items-center h-screen'>
                 <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
                     <div className=' gap-1 px-2 py-6 hidden lg:block items-center '>
 
@@ -100,7 +99,7 @@ function Signup() {
 
                             <p className=' my-2 text-secondary-text text-center font-semibold'>Already have an account ?
                             </p>
-                            <Link href={"/signin"}>
+                            <Link href={"/"}>
                                 <button className=' text-[#023E8A] ml-2 font-semibold'  > Signin</button>
                             </Link>
                         </div>
