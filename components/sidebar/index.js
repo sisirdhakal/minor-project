@@ -1,13 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import React, { useState } from 'react'
 import { dashboardStudent } from '../../utils/constants'
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa'
 
 function Sidebar() {
 
-    const { pathname } = useRouter();
+    const router = useRouter();
+    // console.log(router)
+    const pathname = usePathname();
+    // const [pathname, setpathname] = useState("/")
 
     const [sidebar, setsidebar] = useState(true)
 

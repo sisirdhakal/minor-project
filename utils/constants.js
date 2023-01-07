@@ -55,14 +55,14 @@ export const dashboardStudent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/",
+        url: "/dashboard",
         name: "dashboard",
 
     },
     {
         id: 2,
         icon: "/assets/images/exam.svg",
-        url: "/exams",
+        url: "/dashboard/exams",
         name: "exams",
 
     },
@@ -137,13 +137,13 @@ export const statsOptions = [
         title: 'Due',
         icon: "/assets/images/payment.svg",
         id: 2,
-        body:"No Due!"
+        body: "No Due!"
     },
     {
         title: 'Feedback',
         icon: "/assets/images/feedbackimage.svg",
         id: 3,
-        body:"See feedback from your teachers."
+        body: "See feedback from your teachers."
     },
 ]
 
