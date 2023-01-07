@@ -83,7 +83,7 @@ export const dashboardStudent = [
     {
         id: 5,
         icon: "/assets/images/credits.svg",
-        url: "/Credits",
+        url: "/credits",
         name: "Credits/Payments",
 
     },
