@@ -1,7 +1,8 @@
 "use client"; // this is a client component
 import Image from 'next/image'
 import Head from 'next/head'
-import Dashboard from '../components/dashboard'
+import SignupModal from '../components/auth/SignupModal';
+import SigninComp from '../components/auth/SigninComp';
 
 
 export default function Home() {
@@ -13,6 +14,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {/* <Dashboard /> */}
+      <div>
+        <SignupModal />
+        <SigninComp />
+      </div>
     </div>
   )
 }

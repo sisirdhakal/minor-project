@@ -1,3 +1,6 @@
+"use client"; // this is a client component
+import { Provider } from 'react-redux'
+import store from '../redux/store'
 import '../styles/globals.css'
 
 export default function RootLayout({ children }) {
@@ -8,7 +11,15 @@ export default function RootLayout({ children }) {
         head.jsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body className='h-screen grid grid-rows-nav'>
+
+        <Provider store={store}>
+          <div className='grid grid-rows-auto relative'>
+
+            {children}
+          </div>
+        </Provider>
+      </body>
     </html>
   )
 }
