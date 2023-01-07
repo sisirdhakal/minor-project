@@ -4,7 +4,6 @@ import Sidebar from '../../components/sidebar'
 import Topbar from '../../components/topbar';
 
 export default function Layout({ children }) {
-    console.log(children)
     return (
         <>
             <div className='flex h-screen'>
