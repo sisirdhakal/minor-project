@@ -55,77 +55,77 @@ export const dashboardStudent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/",
+        url: "/dashboard",
         name: "dashboard",
 
     },
     {
         id: 2,
         icon: "/assets/images/exam.svg",
-        url: "/exams",
+        url: "/dashboard/exams",
         name: "exams",
 
     },
     {
         id: 3,
         icon: "/assets/images/results.svg",
-        url: "/results",
+        url: "/dashboard/results",
         name: "results",
 
     },
     {
         id: 4,
         icon: "/assets/images/attendance.svg",
-        url: "/attendance",
+        url: "/dashboard/attendance",
         name: "attendance",
 
     },
     {
         id: 5,
         icon: "/assets/images/credits.svg",
-        url: "/Credits",
+        url: "/dashboard/credits",
         name: "Credits/Payments",
 
     },
     {
         id: 6,
         icon: "/assets/images/notice.svg",
-        url: "/notices",
+        url: "/dashboard/notices",
         name: "notices",
 
     },
     {
         id: 7,
         icon: "/assets/images/complaints.svg",
-        url: "/complaints",
+        url: "/dashboard/complaints",
         name: "complaints",
 
     },
     {
         id: 8,
         icon: "/assets/images/feedback.svg",
-        url: "/teacherfeedback",
+        url: "/dashboard/teacherfeedback",
         name: "teacher feedback",
 
     },
     {
         id: 9,
         icon: "/assets/images/routine.svg",
-        url: "/routine",
+        url: "/dashboard/routine",
         name: "routine",
 
     },
     {
         id: 10,
         icon: "/assets/images/syllabus.svg",
-        url: "/syllabus",
+        url: "/dashboard/syllabus",
         name: "syllabus",
 
     },
     {
         id: 11,
         icon: "/assets/images/calendar.svg",
-        url: "/calendar",
+        url: "/dashboard/calendar",
         name: "calendar",
 
     },
@@ -137,13 +137,13 @@ export const statsOptions = [
         title: 'Due',
         icon: "/assets/images/payment.svg",
         id: 2,
-        body:"No Due!"
+        body: "No Due!"
     },
     {
         title: 'Feedback',
         icon: "/assets/images/feedbackimage.svg",
         id: 3,
-        body:"See feedback from your teachers."
+        body: "See feedback from your teachers."
     },
 ]
 

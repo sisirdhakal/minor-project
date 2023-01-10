@@ -16,29 +16,9 @@ function MainBody() {
 
     return (
         <>
-            <div className='w-full flex-1  px-12'>
-                <div className='h-20 sticky top-0 z-20 bg-[#CAF0F8] items-center flex justify-center'>
+            <div className='w-full flex-1 '>
 
-                    <div className='bg-white w-full h-10 flex justify-between rounded-full py-1 px-8 mb-2'>
-                        <p className='text-primary-text text-[16px] font-bold mt-[2px]'>PASCHIMANCHAL Campus, Pokhara</p>
-                        {/* <div className='w-48 relative  transition-all duration-500 ease-in-out p-3 h-8 items-center flex justify-center rounded-xl cursor-pointer' > */}
-
-                        <span className='rounded-full relative flex items-center py-[2px] px-[3px] justify-center border-2 border-secondary-text cursor-pointer' onClick={() => {
-                            visible ? (setvisible(false)) : (setvisible(true))
-                        }}>
-                            <BsPerson className='w-6 h-6 text-secondary-text ' />
-                            {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-44 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
-                                <button className='text-white '>Logout</button>
-                            </div>}
-                        </span>
-                        {/* <p className="font-semibold text-white flex-1 text-center">name</p> */}
-                        {/* <AiFillCaretDown className='text-white' /> */}
-
-
-                        {/* </div> */}
-                    </div>
-                </div>
-                <div className='grid grid-cols-3 gap-6 mb-8'>
+                <div className='grid lg:grid-cols-3 gap-6 mb-8'>
 
                     <div className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
                         <div className='relative w-[114px]  h-[140px] flex justify-center items-center rounded-sm'>
@@ -49,7 +29,7 @@ function MainBody() {
                         <div >
                             <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
                             <p className='text-secondary-text font-medium mb-3 h-12'>body</p>
-                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-2 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
                                 View Details
                             </button>
                         </div>
@@ -83,7 +63,7 @@ function MainBody() {
                         })
                     }
                 </div>
-                <div className='grid grid-cols-2 gap-10'>
+                <div className='grid lg:grid-cols-2 gap-10'>
                     <div>
                         <div className='bg-white h-10 flex rounded-full px-5 items-center py-1 mb-3'>
                             <div className='relative w-[24px] mr-2 h-[24px]  rounded-sm'>
@@ -100,7 +80,7 @@ function MainBody() {
                             </div>
                             <p className='text-primary-text font-bold mt-[2px]'>Library</p>
                         </div>
-                        <div className='h-[460px] px-5 bg-white w-full rounded-sm'>
+                        <div className='lg:h-[460px] py-2 lg:py-0 px-5 bg-white w-full rounded-sm'>
                             {
                                 books.map((book) => {
                                     const { id, name, date } = book

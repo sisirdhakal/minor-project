@@ -54,7 +54,7 @@ function SigninComp() {
 
   return (
     <>
-      <div className='flex justify-center items-center h-full'>
+      <div className='flex justify-center items-center h-screen'>
         <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
           <div className=' gap-1 px-2 py-12 hidden lg:block items-center '>
 

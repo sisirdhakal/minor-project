@@ -1,13 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router';
+import { useRouter, usePathname } from 'next/navigation';
 import React, { useState } from 'react'
 import { dashboardStudent } from '../../utils/constants'
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa'
 
 function Sidebar() {
 
-    const { pathname } = useRouter();
+    const router = useRouter();
+    // console.log(router)
+    const pathname = usePathname();
+    // const [pathname, setpathname] = useState("/")
 
     const [sidebar, setsidebar] = useState(true)
 
@@ -72,7 +75,7 @@ function Sidebar() {
                             100vw"
                                         />
                                         {
-                                            !sidebar && <p className='font-semibold group-hover:opacity-100 opacity-0 absolute text-secondary-text pl-10 truncate capitalize text-lg text-end'>
+                                            !sidebar && <p className={`font-semibold group-hover:opacity-100 ${pathname === url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 absolute  pl-10 truncate capitalize text-lg text-end`}>
                                                 {name}
                                             </p>
                                         }
