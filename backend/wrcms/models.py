@@ -1,10 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
 
 # Create your models here.
 class UserRole(models.Model):
     type = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+
+def create_portalId():
+    not_unique = True
+    while not_unique:
+        unique_code = random.randint(100000000, 999999999)
+        if not UserProfile.objects.filter(portalId=unique_code):
+            not_unique = False
+        return unique_code
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,6 +25,7 @@ class UserProfile(models.Model):
     contact = models.CharField(max_length=255, null=True, blank=True)
     fathersName = models.CharField(max_length=255, null=True, blank=True)
     mothersName = models.CharField(max_length=255, null=True, blank=True)
+    portalId = models.PositiveIntegerField(unique=True, default=create_portalId)
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True, blank=True)
     secondaryEmail = models.EmailField(null=True, blank=True)
     secondaryContact = models.CharField(max_length=255, null=True, blank=True)
