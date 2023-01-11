@@ -1,13 +1,22 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
 
 # Create your models here.
 class UserRole(models.Model):
     type = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+def create_portalId():
+    not_unique = True
+    while not_unique:
+        unique_code = random.randint(100000000, 999999999)
+        if not UserProfile.objects.filter(portalId=unique_code):
+            not_unique = False
+        return unique_code
+
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     courtesyTitle = models.CharField(max_length=255, null=True, blank=True)
     firstName = models.CharField(max_length=255, null=True, blank=True)
     middleName = models.CharField(max_length=255, null=True, blank=True)
@@ -16,9 +25,15 @@ class UserProfile(models.Model):
     contact = models.CharField(max_length=255, null=True, blank=True)
     fathersName = models.CharField(max_length=255, null=True, blank=True)
     mothersName = models.CharField(max_length=255, null=True, blank=True)
+    portalId = models.PositiveIntegerField(unique=True, default=create_portalId)
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True, blank=True)
     secondaryEmail = models.EmailField(null=True, blank=True)
     secondaryContact = models.CharField(max_length=255, null=True, blank=True)
+    temporaryAddress = models.CharField(max_length=255, null=True, blank=True)
+    nationality = models.CharField(max_length=255, null=True, blank=True)
+    identificationDocumentType = models.CharField(max_length=255, null=True, blank=True)
+    identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
+    date_added = models.DateField(auto_now=True, blank=True, null=True)
 
 class Department(models.Model):
     name = models.CharField(max_length=255)
@@ -30,6 +45,7 @@ class Department(models.Model):
 class Batch(models.Model):
     year = models.CharField(max_length=4)
     startedFrom = models.CharField(max_length=255, null=True, blank=True)
+    date_added = models.DateField(auto_now=True, blank=True, null=True)
 
 class Class(models.Model):
     name = models.CharField(max_length=10)
@@ -45,6 +61,7 @@ class Student(models.Model):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True, blank=True)
     cLass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
+    date_added = models.DateField(auto_now=True, blank=True, null=True)
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -52,8 +69,10 @@ class Teacher(models.Model):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     academicDetails = models.TextField(null=True, blank=True)
     experiences = models.TextField(null=True, blank=True)
+    date_added = models.DateField(auto_now=True, blank=True, null=True)
 
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_instance_of_Parent')
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     parentOf = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
+    date_added = models.DateField(auto_now=True, blank=True, null=True)
