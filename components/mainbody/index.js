@@ -16,7 +16,7 @@ function MainBody() {
 
     return (
         <>
-            <div className='w-full flex-1 '>
+            <div className='w-full flex-1 pb-6'>
 
                 <div className='grid lg:grid-cols-3 gap-6 mb-8'>
 
