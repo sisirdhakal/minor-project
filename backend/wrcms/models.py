@@ -19,6 +19,10 @@ class UserProfile(models.Model):
     role = models.ForeignKey(UserRole, on_delete=models.SET_NULL, null=True, blank=True)
     secondaryEmail = models.EmailField(null=True, blank=True)
     secondaryContact = models.CharField(max_length=255, null=True, blank=True)
+    temporaryAddress = models.CharField(max_length=255, null=True, blank=True)
+    nationality = models.CharField(max_length=255, null=True, blank=True)
+    identificationDocumentType = models.CharField(max_length=255, null=True, blank=True)
+    identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
 
 class Department(models.Model):
     name = models.CharField(max_length=255)
