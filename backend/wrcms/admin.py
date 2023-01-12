@@ -15,7 +15,6 @@ class UserRoleAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    exclude = ['user', 'portalId']
     list_display = ('firstName', 'role',)
 
 @admin.register(Department)
