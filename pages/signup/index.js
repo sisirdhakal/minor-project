@@ -99,7 +99,7 @@ function Signup() {
 
                             <p className=' my-2 text-secondary-text text-center font-semibold'>Already have an account ?
                             </p>
-                            <Link href={"/signin"}>
+                            <Link href={"/"}>
                                 <button className=' text-[#023E8A] ml-2 font-semibold'  > Signin</button>
                             </Link>
                         </div>

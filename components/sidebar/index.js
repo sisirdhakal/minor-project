@@ -54,40 +54,6 @@ function Sidebar() {
                     </button>
 
                 </div>
-                {/* <div className=''>
-                    {
-
-                        dashboardStudent.map(item => {
-                            const { id, name, icon, url } = item
-                            return <Link key={id} href={url} >
-                                <div className={`mb-1 py-1 ${router.pathname === url ? ("bg-[#2091F9] text-white pl-8") : ("text-primary-text hover:pl-7 hover:bg-slate-300 pl-5")} group flex items-center  justify-start  transition-all duration-300 ease-in-out h-10 `}>
-                                
-                                    <div className={`relative  transition-all ease-in-out duration-300 mr-2 ${sidebar ? ("w-[20px] h-[20px] ") : ("w-[26px] h-[26px] ")}  rounded-sm`}>
-                                        <Image
-                                            alt=''
-                                            priority
-                                            src={icon}
-                                            className='rounded-md'
-                                            fill
-                                            sizes="(min-width: 60em) 24vw,
-                            (min-width: 28em) 45vw,
-                            100vw"
-                                        />
-                                        {
-                                            !sidebar && <p className={`font-semibold group-hover:opacity-100 ${router.pathname === url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 absolute  pl-10 truncate capitalize text-lg text-end`}>
-                                                {name}
-                                            </p>
-                                        }
-                                    </div>
-                                    {
-                                        <p className='font-semibold text-lg  capitalize'>{name}</p>
-                                    }
-
-                                </div>
-                            </Link> 
-                        })
-                    }
-                </div> */}
                 <div className=" flex flex-col">
                     {dashboardStudent.map((item) => {
                         return (

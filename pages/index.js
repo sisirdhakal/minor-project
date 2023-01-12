@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Dashboard from '../components/dashboard'
+import SigninComp from '../components/auth/SigninComp'
+import SignupModal from '../components/auth/SignupModal'
 
 export default function Home() {
   return (
@@ -10,7 +11,10 @@ export default function Home() {
         <meta name="description" content="College management system" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Dashboard />
+      <div>
+        <SignupModal />
+        <SigninComp />
+      </div>
     </div>
   )
 }
