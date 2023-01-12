@@ -1,6 +1,7 @@
 
 import {
     CLEARSIGNUP,
+    SIDEBARTOGGLE,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE
@@ -9,6 +10,9 @@ import {
 /**
  * sidebar toggle
  */
+export const sidebarToggle = (value) => dispatch => {
+    dispatch({ type: SIDEBARTOGGLE, payload: value })
+}
 
 /**
  * signup toggle

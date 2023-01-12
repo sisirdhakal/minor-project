@@ -5,12 +5,17 @@ import React, { useState } from 'react'
 import { dashboardStudent } from '../../utils/constants'
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa'
 
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../redux';
+import { useSelector, useDispatch } from 'react-redux'
+
 function Sidebar() {
 
     const router = useRouter();
-    // const [pathname, setpathname] = useState("/")
 
-    const [sidebar, setsidebar] = useState(true)
+    const { sidebarToggle: sidebar } = useSelector(state => state.dashboard)
+    const dispatch = useDispatch()
+    const { sidebarToggle: setsidebar } = bindActionCreators(actionCreators, dispatch)
 
     return (
         <>
@@ -75,7 +80,7 @@ function Sidebar() {
                             100vw"
                                             />
                                             {
-                                                !sidebar && <p className={`font-semibold group-hover:opacity-100 ${router.pathname ===item.url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 pl-8 absolute  z-50 truncate capitalize text-lg text-end`}>
+                                                !sidebar && <p className={`font-semibold group-hover:opacity-100 ${router.pathname === item.url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 pl-8 absolute  z-50 truncate capitalize text-lg text-end`}>
                                                     {item.name}
                                                 </p>
                                             }
