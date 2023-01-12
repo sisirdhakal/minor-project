@@ -108,28 +108,112 @@ export const dashboardStudent = [
         name: "teacher feedback",
 
     },
+    // {
+    //     id: 9,
+    //     icon: "/assets/images/routine.svg",
+    //     url: "/dashboard/routine",
+    //     name: "routine",
+
+    // },
+    // {
+    //     id: 10,
+    //     icon: "/assets/images/syllabus.svg",
+    //     url: "/dashboard/syllabus",
+    //     name: "syllabus",
+
+    // },
+    // {
+    //     id: 11,
+    //     icon: "/assets/images/calendar.svg",
+    //     url: "/dashboard/calendar",
+    //     name: "calendar",
+
+    // },
+
+]
+
+export const dashboardParent = [
     {
-        id: 9,
-        icon: "/assets/images/routine.svg",
-        url: "/dashboard/routine",
-        name: "routine",
+        id: 1,
+        icon: "/assets/images/home.svg",
+        url: "/dashboard",
+        name: "dashboard",
 
     },
     {
-        id: 10,
-        icon: "/assets/images/syllabus.svg",
-        url: "/dashboard/syllabus",
-        name: "syllabus",
+        id: 2,
+        icon: "/assets/images/feedback.svg",
+        url: "/dashboard/teacherfeedback",
+        name: "teacher feedback",
 
     },
     {
-        id: 11,
-        icon: "/assets/images/calendar.svg",
-        url: "/dashboard/calendar",
-        name: "calendar",
+        id: 3,
+        icon: "/assets/images/results.svg",
+        url: "/dashboard/results",
+        name: "results",
+
+    },
+    {
+        id: 4,
+        icon: "/assets/images/attendance.svg",
+        url: "/dashboard/attendance",
+        name: "attendance",
+
+    }
+]
+
+export const teacherDashboard = [
+    {
+        id: 1,
+        icon: "/assets/images/home.svg",
+        url: "/dashboard",
+        name: "dashboard",
+
+    },
+    {
+        id: 2,
+        icon: "/assets/images/exam.svg",
+        url: "/dashboard/exams",
+        name: "exams",
+
+    },
+    {
+        id: 3,
+        icon: "/assets/images/results.svg",
+        url: "/dashboard/results",
+        name: "results",
+
+    },
+    {
+        id: 4,
+        icon: "/assets/images/attendance.svg",
+        url: "/dashboard/attendance",
+        name: "attendance",
 
     },
 
+    {
+        id: 5,
+        icon: "/assets/images/notice.svg",
+        url: "/dashboard/notices",
+        name: "notices",
+
+    },
+    {
+        id: 6,
+        icon: "/assets/images/complaints.svg",
+        url: "/dashboard/complaints",
+        name: "complaints",
+
+    },
+    {
+        id: 7,
+        icon: "/assets/images/feedback.svg",
+        url: "/dashboard/givefeedback",
+        name: "give feedback",
+
+    },
 ]
 
 export const statsOptions = [
