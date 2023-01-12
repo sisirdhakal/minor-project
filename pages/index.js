@@ -5,13 +5,13 @@ import SignupModal from '../components/auth/SignupModal'
 
 export default function Home() {
   return (
-    <div>
+    <div className='h-full'>
       <Head>
         <title>WRCMS</title>
         <meta name="description" content="College management system" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>
+      <div className=''>
         <SignupModal />
         <SigninComp />
       </div>
