@@ -1,10 +1,18 @@
 
 import {
     CLEARSIGNUP,
+    SIDEBARTOGGLE,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE
 } from '../constant'
+
+/**
+ * sidebar toggle
+ */
+export const sidebarToggle = (value) => dispatch => {
+    dispatch({ type: SIDEBARTOGGLE, payload: value })
+}
 
 /**
  * signup toggle
@@ -26,5 +34,7 @@ export const clearSignup = () => dispatch => {
     dispatch({ type: CLEARSIGNUP })
 
 }
+
+
 
 

@@ -1,16 +1,15 @@
-"use client"; // this is a client component
 import React from 'react'
-import Sidebar from '../../components/sidebar'
-import Topbar from '../../components/topbar';
+import Sidebar from '../sidebar'
+import Topbar from '../topbar'
 
-export default function Layout({ children }) {
+export function DashboardLayout({ children }) {
     return (
         <>
             <div className='flex h-screen'>
                 <div className='sticky hidden lg:block bg-white top-0 h-screen'>
                     <Sidebar />
                 </div>
-                <div className='overflow-y-scroll pb-6 flex-1 px-4 lg:px-12 w-full'>
+                <div className='overflow-y-scroll w-full px-12'>
                     <Topbar />
                     <div>
                         {children}
@@ -20,8 +19,3 @@ export default function Layout({ children }) {
         </>
     )
 }
-
-
-
-
-

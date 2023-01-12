@@ -1,3 +1,7 @@
+
+export const SIDEBARTOGGLE = 'SIDEBARTOGGLE'
+
+
 export const SIGNUPTOGGLE = 'SIGNUPTOGGLE'
 export const SIGNUPSTEPS = 'SIGNUPSTEPS'
 export const SIGNUPTYPE = 'SIGNUPTYPE'

@@ -16,7 +16,7 @@ function MainBody() {
 
     return (
         <>
-            <div className='w-full flex-1 '>
+            <div className='w-full flex-1 pb-6'>
 
                 <div className='grid lg:grid-cols-3 gap-6 mb-8'>
 
@@ -86,7 +86,7 @@ function MainBody() {
                                     const { id, name, date } = book
                                     return <div key={id} className=" flex py-1 items-center">
 
-                                        <div className='relative w-[56px] mr-4 h-[56px] rounded-sm'>
+                                        <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
                                             <Image
                                                 alt=''
                                                 priority
