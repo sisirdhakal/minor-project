@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
     <Provider store={store}>
       <div key={router.pathname} className='h-screen grid grid-rows-nav'>
         <NextJSProgress
-          color="cyan"
+          color="red"
           startPosition={0.3}
           stopDelayMs={200}
           height={3}

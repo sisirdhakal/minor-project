@@ -86,7 +86,7 @@ function MainBody() {
                                     const { id, name, date } = book
                                     return <div key={id} className=" flex py-1 items-center">
 
-                                        <div className='relative w-[56px] mr-4 h-[56px] rounded-sm'>
+                                        <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
                                             <Image
                                                 alt=''
                                                 priority

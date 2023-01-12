@@ -55,7 +55,7 @@ export const dashboardStudent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/dashboard",
+        url: "/",
         name: "dashboard",
 
     },
