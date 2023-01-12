@@ -9,9 +9,9 @@ export function DashboardLayout({ children }) {
                 <div className='sticky hidden lg:block bg-white top-0 h-screen'>
                     <Sidebar />
                 </div>
-                <div className='overflow-y-scroll w-full px-12'>
+                <div className='overflow-y-scroll grid grid-rows-auto w-full px-12'>
                     <Topbar />
-                    <div>
+                    <div className=''>
                         {children}
                     </div>
                 </div>

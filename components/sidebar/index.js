@@ -17,6 +17,8 @@ function Sidebar() {
     const dispatch = useDispatch()
     const { sidebarToggle: setsidebar } = bindActionCreators(actionCreators, dispatch)
 
+    const [pathname] = useState(router.pathname.split("/[id]")[0])
+
     return (
         <>
             <div className={`${sidebar ? ("w-60") : ("w-20")}  transition-all duration-300 ease-in-out  sticky top-0`}>
@@ -65,7 +67,7 @@ function Sidebar() {
                             <Link key={item.id} href={item.url}>
                                 <div
                                     key={item.id}
-                                    className={`py-2 mb-1 transition-all ease-in-out duration-300 px-3 ${sidebar ? ("hover:pl-7 pl-5") : ("pl-6 hover:pl-8")} flex gap-4 items-center cursor-pointer   ${router.pathname === item.url ? ("bg-[#2091F9] text-white pl-7") : ("text-primary-text  hover:bg-slate-300 ")} z-40 group rounded-r-3xl `}
+                                    className={`py-2 mb-1 transition-all ease-in-out duration-300 px-3 ${sidebar ? ("hover:pl-7 pl-5") : ("pl-6 hover:pl-8")} flex gap-4 items-center cursor-pointer   ${pathname === item.url ? ("bg-[#2091F9] text-white pl-7") : ("text-primary-text  hover:bg-slate-300 ")} z-40 group rounded-r-3xl `}
                                 >
                                     <div className="">
                                         <div className={`flex-none transition-all ease-in-out duration-300 relative ${sidebar ? ("w-[22px] h-[22px] ") : ("w-[26px] h-[26px] mr-2")}`}>
