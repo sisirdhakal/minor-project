@@ -13,21 +13,28 @@ import TypeOne from '../../components/Steps/TypeOne';
 import TypeTwo from '../../components/Steps/TypeTwo';
 import Button1 from '../../components/buttons/Button1';
 import Button2 from '../../components/buttons/Button2';
+import { useRouter } from 'next/router';
 
 function Signup() {
 
     const [active, setactive] = useState("step1")
+    const router = useRouter()
 
     const dispatch = useDispatch()
     const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
     const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
 
-    console.log(user)
+    useEffect(() => {
+        if (!user) {
+            router.push("/")
+        }
+    }, [user])
+
 
     return (
         <>
-            <div className='flex justify-center h-screen items-center'>
+            {user && <div className='flex justify-center h-screen items-center'>
                 <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
                     <div className=' gap-1 px-2 py-6 hidden lg:block items-center '>
 
@@ -105,7 +112,7 @@ function Signup() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
         </>
     )
 }
