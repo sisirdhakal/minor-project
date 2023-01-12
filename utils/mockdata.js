@@ -40,15 +40,18 @@ export const books = [
 export const noticeOptions = [
     {
         id: 1,
-        name: "College"
+        name: "College",
+        textStyle: "text-start"
     },
     {
         id: 2,
-        name: "Department"
+        name: "Department",
+        textStyle: "text-center"
     },
     {
         id: 3,
-        name: "Class"
+        name: "Class",
+        textStyle: "text-end"
     },
 ]
 

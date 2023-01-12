@@ -36,6 +36,7 @@ export const typeOneButton = [
         name: "Signup"
     },
 ]
+
 export const typeTwoButton = [
     {
         id: 1,

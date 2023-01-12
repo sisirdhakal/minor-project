@@ -24,6 +24,9 @@ module.exports = {
         background: '#CAF0F8',
         button: '#2091F9',
       },
+      gridTemplateRows: {
+        "auto": "80px 1fr",
+      }
     },
   },
   plugins: [
