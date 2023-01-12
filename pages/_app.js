@@ -8,6 +8,8 @@ import NextJSProgress from 'nextjs-progressbar';
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
 
+  const getLayout = Component.getLayout || ((page) => page);
+
   return <>
     <Provider store={store}>
       <div key={router.pathname} className='h-screen grid grid-rows-nav'>
@@ -19,7 +21,7 @@ function MyApp({ Component, pageProps }) {
           showOnShallow={true}
         />
         <div className='grid grid-rows-auto relative'>
-          <Component {...pageProps} />
+          {getLayout(<Component {...pageProps} />)}
           {/* <div className='bottom-0 absolute w-full'>
             <Footer />
           </div> */}
