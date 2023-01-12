@@ -7,6 +7,10 @@ import {
 } from '../constant'
 
 /**
+ * sidebar toggle
+ */
+
+/**
  * signup toggle
  */
 export const setSignUpToggle = (value) => dispatch => {
@@ -26,5 +30,7 @@ export const clearSignup = () => dispatch => {
     dispatch({ type: CLEARSIGNUP })
 
 }
+
+
 
 
