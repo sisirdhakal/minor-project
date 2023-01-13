@@ -83,6 +83,7 @@ class Student(models.Model):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True, blank=True)
     cLass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
+    isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):

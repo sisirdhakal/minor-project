@@ -38,7 +38,10 @@ class ParentVerification(APIView):
                 )
                 if (userProfile is not None and userProfile.role==role):
                     student = Student.objects.get(userProfile=userProfile)
-                    return Response({'success': 'Student Verified', 'student': student.id})
+                    if (student.isParentRegistered == True):
+                        return Response({'success': 'Parents already registered'})
+                    else:
+                        return Response({'success': 'Student Verified', 'student': student.id})
             else:
                 userProfile = UserProfile.objects.get(
                     firstName=splitStudentName[0],
@@ -60,7 +63,7 @@ class ParentSignUp(APIView):
 
     def post(self, request, format=None):
         data = request.data
-
+        courtesyTitle = data['courtesyTitle']
         parentName = data['parentName']
         address = data['address']
         contactNumber = data['contactNumber']
@@ -70,7 +73,7 @@ class ParentSignUp(APIView):
         studentId = data['studentId']
 
         splitParentName = parentName.split(" ")
-
+        student = Student.objects.get(id=studentId)
         if password == confirmPassword:
             if User.objects.filter(username=email).exists():
                 return Response({'error': 'Email is already registered.'})
@@ -80,29 +83,39 @@ class ParentSignUp(APIView):
                 if (len(splitParentName) == 3):
                     userProfile = UserProfile.objects.create(
                         user = user,
+                        courtesyTitle = courtesyTitle,
                         firstName = splitParentName[0],
                         middleName = splitParentName[1],
                         lastName = splitParentName[2],
                         address = address,
                         contact = contactNumber,
+                        role = UserRole.objects.get(type='Parent')
                     )
                     Parent.objects.create(
                         user = user,
                         userProfile = userProfile,
-                        parentOf = Student.objects.get(id=studentId)
+                        parentOf = student
                     )
+                    student.isParentRegistered = True
+                    student.save()
+                    return Response({'error': 'Signed up successfully.'})
                 else:
                     userProfile = UserProfile.objects.create(
                         user = user,
+                        courtesyTitle = courtesyTitle,
                         firstName = splitParentName[0],
                         lastName = splitParentName[1],
                         address = address,
                         contact = contactNumber,
+                        role = UserRole.objects.get(type='Parent')
                     )
                     Parent.objects.create(
                         user = user,
                         userProfile = userProfile,
-                        parentOf = Student.objects.get(id=studentId)
+                        parentOf = student
                     )
+                    student.isParentRegistered = True
+                    student.save()
+                    return Response({'error': 'Signed up successfully.'})
         else:
             return Response({'error': 'Passwords do not match'})
