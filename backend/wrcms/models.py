@@ -36,6 +36,7 @@ class UserProfile(models.Model):
     nationality = models.CharField(max_length=255, null=True, blank=True)
     identificationDocumentType = models.CharField(max_length=255, null=True, blank=True)
     identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
+    dateOfBirth = models.CharField(max_length=10, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):

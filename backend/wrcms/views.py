@@ -23,4 +23,6 @@ class ParentVerification(APIView):
         idType = data['idType']
         idNumber = data['idNumber']
         dobStudent = data['dobStudent']
+
+        splitStudentName = studentName.split(" ")
         return Response({'success': studentName})
