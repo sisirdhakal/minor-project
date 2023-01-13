@@ -99,7 +99,7 @@ class Teacher(models.Model):
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_instance_of_Parent')
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    parentOf = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
+    parentOf = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
