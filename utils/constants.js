@@ -136,28 +136,28 @@ export const dashboardParent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/dashboard",
+        url: "/parent",
         name: "dashboard",
 
     },
     {
         id: 2,
         icon: "/assets/images/feedback.svg",
-        url: "/dashboard/teacherfeedback",
+        url: "/parent/teacherfeedback",
         name: "teacher feedback",
 
     },
     {
         id: 3,
         icon: "/assets/images/results.svg",
-        url: "/dashboard/results",
+        url: "/parent/results",
         name: "results",
 
     },
     {
         id: 4,
         icon: "/assets/images/attendance.svg",
-        url: "/dashboard/attendance",
+        url: "/parent/attendance",
         name: "attendance",
 
     }
@@ -167,28 +167,28 @@ export const dashboardTeacher = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/dashboard",
+        url: "/teacher",
         name: "dashboard",
 
     },
     {
         id: 2,
         icon: "/assets/images/exam.svg",
-        url: "/dashboard/exams",
+        url: "/teacher/exams",
         name: "exams",
 
     },
     {
         id: 3,
         icon: "/assets/images/results.svg",
-        url: "/dashboard/results",
+        url: "/teacher/results",
         name: "results",
 
     },
     {
         id: 4,
         icon: "/assets/images/attendance.svg",
-        url: "/dashboard/attendance",
+        url: "/teacher/attendance",
         name: "attendance",
 
     },
@@ -196,21 +196,21 @@ export const dashboardTeacher = [
     {
         id: 5,
         icon: "/assets/images/notice.svg",
-        url: "/dashboard/notices",
+        url: "/teacher/notices",
         name: "notices",
 
     },
     {
         id: 6,
         icon: "/assets/images/complaints.svg",
-        url: "/dashboard/complaints",
+        url: "/teacher/complaints",
         name: "complaints",
 
     },
     {
         id: 7,
         icon: "/assets/images/feedback.svg",
-        url: "/dashboard/givefeedback",
+        url: "/teacher/givefeedback",
         name: "give feedback",
 
     },

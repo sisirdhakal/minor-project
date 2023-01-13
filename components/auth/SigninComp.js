@@ -33,7 +33,7 @@ function SigninComp() {
     setvalues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const [user, setuser] = useState("student")
+  const [user, setuser] = useState("parent")
 
   const router = useRouter()
 
