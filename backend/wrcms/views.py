@@ -1,7 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from .models import UserProfile, Student, UserRole
+from django.contrib.auth.models import User
+from .models import UserProfile, Student, UserRole, Parent
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 
@@ -60,10 +61,48 @@ class ParentSignUp(APIView):
     def post(self, request, format=None):
         data = request.data
 
-        parentsName = data['parentsName']
+        parentName = data['parentName']
         address = data['address']
         contactNumber = data['contactNumber']
         email = data['email']
         password = data['password']
         confirmPassword = data['confirmPassword']
-        return Response({'success': 'Signed up successfully',})
+        studentId = data['studentId']
+
+        splitParentName = parentName.split(" ")
+
+        if password == confirmPassword:
+            if User.objects.filter(username=email).exists():
+                return Response({'error': 'Email is already registered.'})
+            else:
+                user = User.objects.create_user(username=email, email=email, password=password)
+                user.save()
+                if (len(splitParentName) == 3):
+                    userProfile = UserProfile.objects.create(
+                        user = user,
+                        firstName = splitParentName[0],
+                        middleName = splitParentName[1],
+                        lastName = splitParentName[2],
+                        address = address,
+                        contact = contactNumber,
+                    )
+                    Parent.objects.create(
+                        user = user,
+                        userProfile = userProfile,
+                        parentOf = Student.objects.get(id=studentId)
+                    )
+                else:
+                    userProfile = UserProfile.objects.create(
+                        user = user,
+                        firstName = splitParentName[0],
+                        lastName = splitParentName[1],
+                        address = address,
+                        contact = contactNumber,
+                    )
+                    Parent.objects.create(
+                        user = user,
+                        userProfile = userProfile,
+                        parentOf = Student.objects.get(id=studentId)
+                    )
+        else:
+            return Response({'error': 'Passwords do not match'})

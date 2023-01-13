@@ -19,8 +19,13 @@ def create_portalId():
         return unique_code
 
 class UserProfile(models.Model):
+    COURTESY_TITLE_CHOICES = (
+        ("Mr.", "Mr."),
+        ("Ms.", "Ms."),
+        ("Mrs.", "Mrs."),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    courtesyTitle = models.CharField(max_length=255, null=True, blank=True)
+    courtesyTitle = models.CharField(max_length=255, choices=COURTESY_TITLE_CHOICES, null=True, blank=True)
     firstName = models.CharField(max_length=255, null=True, blank=True)
     middleName = models.CharField(max_length=255, null=True, blank=True)
     lastName = models.CharField(max_length=255, null=True, blank=True)
@@ -73,7 +78,7 @@ class Class(models.Model):
         return self.name
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True, blank=True)
@@ -85,7 +90,7 @@ class Student(models.Model):
         return studentsName
 
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     academicDetails = models.TextField(null=True, blank=True)
