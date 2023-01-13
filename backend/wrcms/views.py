@@ -12,3 +12,15 @@ class GetCSRFToken(APIView):
 
     def get(self, request, format=None):
         return Response({ 'success': 'CSRF Cookie set'})
+
+@method_decorator(csrf_protect, name='dispatch')
+class ParentVerification(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        data = request.data
+        studentName = data['studentName']
+        idType = data['idType']
+        idNumber = data['idNumber']
+        dobStudent = data['dobStudent']
+        return Response({'success': studentName})
