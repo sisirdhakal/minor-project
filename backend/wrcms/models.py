@@ -7,6 +7,9 @@ class UserRole(models.Model):
     type = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
+    def __str__(self):
+        return self.type
+
 def create_portalId():
     not_unique = True
     while not_unique:
@@ -35,6 +38,10 @@ class UserProfile(models.Model):
     identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
+    def __str__(self):
+        fullName = self.firstName+' '+self.middleName+' '+self.lastName
+        return fullName
+
 class Department(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
@@ -42,10 +49,16 @@ class Department(models.Model):
     deputyHeadOfDepartment = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Deputy_Head_of_Department')
     contact = models.CharField(max_length=255, null=True, blank=True)
 
+    def __str__(self):
+        return self.name
+
 class Batch(models.Model):
     year = models.CharField(max_length=4)
     startedFrom = models.CharField(max_length=255, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        return self.year
 
 class Class(models.Model):
     name = models.CharField(max_length=10)
@@ -55,6 +68,9 @@ class Class(models.Model):
     classRepresentative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="Class_Representative")
     viceClassRepresentative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Vice_Class_Representative')
 
+    def __str__(self):
+        return self.name
+
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
@@ -62,6 +78,10 @@ class Student(models.Model):
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True, blank=True)
     cLass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        studentsName = self.userProfile.firstName+' '+self.userProfile.lastName+'-'+self.cLass.name
+        return studentsName
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -71,8 +91,16 @@ class Teacher(models.Model):
     experiences = models.TextField(null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
+    def __str__(self):
+        teachersName = self.userProfile.firstName+' '+self.userProfile.lastName+'-'+self.department.name
+        return teachersName
+
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_instance_of_Parent')
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     parentOf = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+
+    def __str__(self):
+        parentsName = self.userProfile.firstName+' '+self.userProfile.middleName+' '+self.userProfile.lastName
+        return parentsName
