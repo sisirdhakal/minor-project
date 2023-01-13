@@ -14,6 +14,19 @@ function Step2() {
             </div>
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
 
+                <div className=''>
+                    <select
+                        className='bg-background px-7 space-x-1 py-[0px] rounded-2xl flex justify-center items-center h-[42px] border-0 w-full cursor-pointer text-[#676B6B] font-medium focus:ring-0' placeholder='Courtesy Title' name='sort'
+                    // value={sort}
+                    // onChange={updateSort}
+                    >
+                        <option value="" disabled selected hidden>Courtesy Title</option>
+                        <option value='price-lowest' className='cursor-pointer capitalize'>Citizenship</option>
+                        <option value='price-highest' className='cursor-pointer'>Passport</option>
+
+                    </select>
+                </div>
+
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
                         placeholder={`Your Name`}
