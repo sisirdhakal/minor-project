@@ -1,6 +1,6 @@
 import React from 'react'
-import Step1 from '../SignupParent/Step1'
-import Step4 from '../SignupParent/Step4'
+import Step1 from '../SignupSteps/Step1'
+import Step4 from '../SignupSteps/Step4'
 import { useSelector } from 'react-redux';
 
 function TypeOne() {

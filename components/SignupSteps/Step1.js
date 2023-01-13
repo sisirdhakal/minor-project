@@ -33,10 +33,11 @@ function Step1() {
 
                 <div className=''>
                     <select
-                        className='bg-background px-7 space-x-1 py-[0px] rounded-2xl flex justify-center items-center h-[42px] border-0 w-full cursor-pointer text-[#676B6B] font-medium focus:ring-0' name='sort'
+                        className='bg-background px-7 space-x-1 py-[0px] rounded-2xl flex justify-center items-center h-[42px] border-0 w-full cursor-pointer text-[#676B6B] font-medium focus:ring-0' placeholder='ID Type' name='sort'
                     // value={sort}
                     // onChange={updateSort}
                     >
+                        <option value="" disabled selected hidden>ID Type</option>
                         <option value='price-lowest' className='cursor-pointer capitalize'>Citizenship</option>
                         <option value='price-highest' className='cursor-pointer'>Passport</option>
 
@@ -57,7 +58,9 @@ function Step1() {
                         // value={values.email}
                         // onChange={handleChange}
                         className='rounded-3xl h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
-                        type={"date"}
+                        type={"text"}
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
                         name="text" />
                 </div>
             </form>

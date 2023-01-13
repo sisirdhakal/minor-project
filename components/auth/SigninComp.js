@@ -13,6 +13,7 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 
 
 function SigninComp() {
@@ -50,6 +51,25 @@ function SigninComp() {
   useEffect(() => {
     clearSignup()
   }, [])
+
+  useEffect(() => {
+    const user = async () => {
+      try {
+
+        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/")
+
+        if (data) {
+          console.log(data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    user()
+
+    // eslint-disable-next-line
+  }, [])
+
 
   // const [password, setPassword] = useState('');
   // const [email, setemail] = useState('');
