@@ -2,9 +2,11 @@
 import {
     CLEARSIGNUP,
     SIDEBARTOGGLE,
+    SIGNUPDATA,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
-    SIGNUPTYPE
+    SIGNUPTYPE,
+    VERIFYDATA
 } from '../constant'
 
 /**
@@ -33,6 +35,31 @@ export const clearSignup = () => dispatch => {
 
     dispatch({ type: CLEARSIGNUP })
 
+}
+
+/**
+ * Signup steps data verification
+ */
+
+export const signupData = (e) => async dispatch => {
+    try {
+        let name = e.target.name
+        let value = e.target.value
+
+        dispatch({ type: SIGNUPDATA, payload: { name, value } })
+    } catch (error) {
+
+    }
+}
+export const verifyData = (e) => async dispatch => {
+    try {
+        let name = e.target.name
+        let value = e.target.value
+
+        dispatch({ type: VERIFYDATA, payload: { name, value } })
+    } catch (error) {
+
+    }
 }
 
 

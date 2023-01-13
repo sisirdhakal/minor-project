@@ -56,7 +56,9 @@ function SigninComp() {
     const user = async () => {
       try {
 
-        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/")
+        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/", {
+          withCredentials: true
+        })
 
         if (data) {
           console.log(data)

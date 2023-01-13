@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,23 +6,20 @@ import { actionCreators } from '../../redux';
 
 function Step1() {
 
-    const initialValue = {
-        text: "",
-        idType: "",
-        idNumber: "",
-        dateOfBirth: ""
-    }
+    const dispatch = useDispatch()
+    const { verifyData } = bindActionCreators(actionCreators, dispatch)
 
-    const [values, setvalues] = useState(initialValue)
+    const { signUpDetails: { step1, placeholder1 } } = useSelector(state => state.auth)
+    const { verifyDetails } = useSelector(state => state.signup)
 
     const handleChange = (e) => {
-        setvalues({ ...values, [e.target.name]: e.target.value })
+        verifyData(e)
     }
 
-    const dispatch = useDispatch()
-    const { } = bindActionCreators(actionCreators, dispatch)
+    useEffect(() => {
+        console.log(verifyDetails)
+    }, [verifyDetails])
 
-    const { step, signUpDetails: { type, quote, steps, step1, placeholder1 } } = useSelector(state => state.auth)
 
     return (
         <>
@@ -37,7 +34,7 @@ function Step1() {
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
                         placeholder={`${placeholder1}`}
-                        value={values.text}
+                        value={verifyDetails.text}
                         onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="text"
@@ -47,7 +44,7 @@ function Step1() {
                 <div className=''>
                     <select
                         className='bg-background px-7 space-x-1 py-[0px] rounded-2xl flex justify-center items-center h-[42px] border-0 w-full cursor-pointer text-[#676B6B] font-medium focus:ring-0' placeholder='ID Type' name='idType'
-                        value={values.idType}
+                        value={verifyDetails.idType}
                         onChange={handleChange}
                     >
                         <option value="" disabled selected hidden>ID Type</option>
@@ -59,7 +56,7 @@ function Step1() {
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
                         placeholder={`ID Number`}
-                        value={values.idNumber}
+                        value={verifyDetails.idNumber}
                         onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="text"
@@ -68,7 +65,7 @@ function Step1() {
                 <div className='bg-background pl-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center font-medium'>
                     <input
                         placeholder={`Date of Birth`}
-                        value={values.dateOfBirth}
+                        value={verifyDetails.dateOfBirth}
                         onChange={handleChange}
                         className='rounded-3xl h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={"text"}
