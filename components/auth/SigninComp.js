@@ -12,6 +12,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 
 
 function SigninComp() {
@@ -32,9 +33,17 @@ function SigninComp() {
     setvalues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const loginUser = async () => {
+  const [user, setuser] = useState("student")
+
+  const router = useRouter()
+
+  const loginUser = async (e) => {
+
+    e.preventDefault()
 
     toast.success('Logged in Successfull!')
+    router.push(`/${user}`)
+
 
   }
 
@@ -128,7 +137,7 @@ function SigninComp() {
               />
             </div>
 
-            <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>
+            <form onSubmit={loginUser} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>
               {/* Email */}
               <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                 <div className='relative flex justify-center items-center'>
@@ -149,7 +158,9 @@ function SigninComp() {
                   onChange={handleChange}
                   className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type="email"
-                  name="email" />
+                  name="email"
+                  required
+                />
               </div>
               {/* password */}
               <div className='relative bg-background space-x-1 px-4 py-[2px] rounded-2xl flex justify-center items-center '>

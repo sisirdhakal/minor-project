@@ -22,6 +22,7 @@
     "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
+    "swr": "^2.0.0",
     "tailwind-scrollbar": "^2.1.0",
     "tailwind-scrollbar-hide": "^1.1.7"
   },

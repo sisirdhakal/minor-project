@@ -36,7 +36,6 @@ export const typeOneButton = [
         name: "Signup"
     },
 ]
-
 export const typeTwoButton = [
     {
         id: 1,
@@ -56,56 +55,56 @@ export const dashboardStudent = [
     {
         id: 1,
         icon: "/assets/images/home.svg",
-        url: "/dashboard",
+        url: "/student",
         name: "dashboard",
 
     },
     {
         id: 2,
         icon: "/assets/images/exam.svg",
-        url: "/dashboard/exams",
+        url: "/student/exams",
         name: "exams",
 
     },
     {
         id: 3,
         icon: "/assets/images/results.svg",
-        url: "/dashboard/results",
+        url: "/student/results",
         name: "results",
 
     },
     {
         id: 4,
         icon: "/assets/images/attendance.svg",
-        url: "/dashboard/attendance",
+        url: "/student/attendance",
         name: "attendance",
 
     },
     {
         id: 5,
         icon: "/assets/images/credits.svg",
-        url: "/dashboard/credits",
+        url: "/student/credits",
         name: "Credits/Payments",
 
     },
     {
         id: 6,
         icon: "/assets/images/notice.svg",
-        url: "/dashboard/notices",
+        url: "/student/notices",
         name: "notices",
 
     },
     {
         id: 7,
         icon: "/assets/images/complaints.svg",
-        url: "/dashboard/complaints",
+        url: "/student/complaints",
         name: "complaints",
 
     },
     {
         id: 8,
         icon: "/assets/images/feedback.svg",
-        url: "/dashboard/teacherfeedback",
+        url: "/student/teacherfeedback",
         name: "teacher feedback",
 
     },
