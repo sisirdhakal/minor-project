@@ -32,7 +32,7 @@ class ParentVerification(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        studentName = data['studentName']
+        studentName = data['text']
         idType = data['idType']
         idNumber = data['idNumber']
         dobStudent = data['dobStudent']
@@ -82,7 +82,7 @@ class ParentSignUp(APIView):
         email = data['email']
         password = data['password']
         confirmPassword = data['confirmPassword']
-        studentId = data['studentId']
+        studentId = data['id']
 
         splitParentName = parentName.split(" ")
         student = Student.objects.get(id=studentId)

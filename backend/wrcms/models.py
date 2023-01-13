@@ -45,7 +45,7 @@ class UserProfile(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        fullName = self.firstName+' '+self.middleName+' '+self.lastName
+        fullName = str(self.firstName)+' '+str(self.middleName)+' '+str(self.lastName)
         return fullName
 
 class Department(models.Model):
@@ -56,7 +56,7 @@ class Department(models.Model):
     contact = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Batch(models.Model):
     year = models.CharField(max_length=4)
@@ -64,7 +64,7 @@ class Batch(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        return self.year
+        return str(self.year)
 
 class Class(models.Model):
     name = models.CharField(max_length=10)
@@ -75,7 +75,7 @@ class Class(models.Model):
     viceClassRepresentative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Vice_Class_Representative')
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -87,7 +87,7 @@ class Student(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        studentsName = self.userProfile.firstName+' '+self.userProfile.lastName+'-'+self.cLass.name
+        studentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.lastName)+'-'+str(self.cLass.name)
         return studentsName
 
 class Teacher(models.Model):
@@ -99,7 +99,7 @@ class Teacher(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        teachersName = self.userProfile.firstName+' '+self.userProfile.lastName+'-'+self.department.name
+        teachersName = str(self.userProfile.firstName)+' '+str(self.userProfile.lastName)+'-'+str(self.department.name)
         return teachersName
 
 class Parent(models.Model):
@@ -109,5 +109,5 @@ class Parent(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        parentsName = self.userProfile.firstName+' '+self.userProfile.middleName+' '+self.userProfile.lastName
+        parentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.middleName)+' '+str(self.userProfile.lastName)
         return parentsName
