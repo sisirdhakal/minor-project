@@ -4,12 +4,16 @@ import { BiShow, BiHide } from 'react-icons/bi';
 import { FiMail } from 'react-icons/fi'
 import { MdVpnKey } from 'react-icons/md'
 
+import toast, { Toaster } from 'react-hot-toast';
+
 /**
  * for importing the actioncreators
  */
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 
 function SigninComp() {
@@ -30,13 +34,43 @@ function SigninComp() {
     setvalues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const loginUser = async () => {
+  const [user, setuser] = useState("parent")
+
+  const router = useRouter()
+
+  const loginUser = async (e) => {
+
+    e.preventDefault()
+
+    toast.success('Logged in Successfull!')
+    // router.push(`/${user}`)
 
   }
 
   useEffect(() => {
     clearSignup()
   }, [])
+
+  useEffect(() => {
+    const user = async () => {
+      try {
+
+        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/", {
+          withCredentials: true
+        })
+
+        if (data) {
+          console.log(data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    user()
+
+    // eslint-disable-next-line
+  }, [])
+
 
   // const [password, setPassword] = useState('');
   // const [email, setemail] = useState('');
@@ -52,9 +86,35 @@ function SigninComp() {
   //   }
   // };
 
+
+
   return (
     <>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={6}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: '',
+          duration: 1000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+
+          success: {
+            duration: 3000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
       <div className='flex justify-center items-center h-screen'>
+
         <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>
           <div className=' gap-1 px-2 py-12 hidden lg:block items-center '>
 
@@ -98,7 +158,7 @@ function SigninComp() {
               />
             </div>
 
-            <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>
+            <form onSubmit={loginUser} action="" className='grid grid-cols-1 gap-y-4 -mt-5'>
               {/* Email */}
               <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                 <div className='relative flex justify-center items-center'>
@@ -119,7 +179,9 @@ function SigninComp() {
                   onChange={handleChange}
                   className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type="email"
-                  name="email" />
+                  name="email"
+                  required
+                />
               </div>
               {/* password */}
               <div className='relative bg-background space-x-1 px-4 py-[2px] rounded-2xl flex justify-center items-center '>

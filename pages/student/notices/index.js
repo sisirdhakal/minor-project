@@ -31,7 +31,7 @@ function Notices() {
                             {
                                 collegeNotice.map(item => {
                                     const { id, notice } = item
-                                    return <Link key={id} href={`/dashboard/notices/${id}`} >
+                                    return <Link key={id} href={`/student/notices/${id}`} >
                                         <button className=" px-5 py-3 ">
                                             <div className='flex items-center'>
                                                 <MdMessage className='text-secondary-text mr-2 w-[40px] h-[40px]' />
