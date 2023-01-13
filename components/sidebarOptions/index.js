@@ -5,12 +5,12 @@ import { dashboardStudent } from '../../utils/constants';
 
 export default function SidebarOptions(props) {
 
-    const { sidebar, pathname } = props
+    const { sidebar, pathname, user } = props
 
     return (
         <>
 
-            {dashboardStudent.map((item) => {
+            {user?.map((item) => {
                 return (
                     <Link key={item.id} href={item.url}>
                         <div

@@ -163,7 +163,7 @@ export const dashboardParent = [
     }
 ]
 
-export const teacherDashboard = [
+export const dashboardTeacher = [
     {
         id: 1,
         icon: "/assets/images/home.svg",

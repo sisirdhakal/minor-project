@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router';
 import React, { useState } from 'react'
-import { dashboardStudent } from '../../utils/constants'
+import { dashboardParent, dashboardStudent, dashboardTeacher } from '../../utils/constants'
 import { FaArrowCircleRight, FaArrowCircleLeft } from 'react-icons/fa'
 
 import { bindActionCreators } from 'redux';
@@ -14,11 +14,17 @@ function Sidebar() {
 
     const router = useRouter();
 
+    const [student] = useState(dashboardStudent)
+    const [teacher] = useState(dashboardTeacher)
+    const [parent] = useState(dashboardParent)
+
     const { sidebarToggle: sidebar } = useSelector(state => state.dashboard)
     const dispatch = useDispatch()
     const { sidebarToggle: setsidebar } = bindActionCreators(actionCreators, dispatch)
 
     const [pathname] = useState(router.pathname.split("/[id]")[0])
+
+    const [user, setuser] = useState(parent)
 
     return (
         <>
@@ -63,7 +69,7 @@ function Sidebar() {
 
                 </div>
                 <div className=" flex flex-col">
-                    <SidebarOptions sidebar={sidebar} pathname={pathname} />
+                    <SidebarOptions sidebar={sidebar} user={user} pathname={pathname} />
                 </div>
             </div>
         </>
