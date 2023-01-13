@@ -8,9 +8,9 @@ const initialState = {
         text: "",
         idType: "",
         idNumber: "",
-        dateOfBirth: ""
+        dobStudent: ""
     },
-    number: 0,
+    id: 0,
     verifiedStatus: false
 
 }

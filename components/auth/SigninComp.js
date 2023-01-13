@@ -43,8 +43,7 @@ function SigninComp() {
     e.preventDefault()
 
     toast.success('Logged in Successfull!')
-    router.push(`/${user}`)
-
+    // router.push(`/${user}`)
 
   }
 
