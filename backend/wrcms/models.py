@@ -19,8 +19,13 @@ def create_portalId():
         return unique_code
 
 class UserProfile(models.Model):
+    COURTESY_TITLE_CHOICES = (
+        ("Mr.", "Mr."),
+        ("Ms.", "Ms."),
+        ("Mrs.", "Mrs."),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    courtesyTitle = models.CharField(max_length=255, null=True, blank=True)
+    courtesyTitle = models.CharField(max_length=255, choices=COURTESY_TITLE_CHOICES, null=True, blank=True)
     firstName = models.CharField(max_length=255, null=True, blank=True)
     middleName = models.CharField(max_length=255, null=True, blank=True)
     lastName = models.CharField(max_length=255, null=True, blank=True)
@@ -36,6 +41,7 @@ class UserProfile(models.Model):
     nationality = models.CharField(max_length=255, null=True, blank=True)
     identificationDocumentType = models.CharField(max_length=255, null=True, blank=True)
     identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
+    dateOfBirth = models.CharField(max_length=10, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
@@ -72,11 +78,12 @@ class Class(models.Model):
         return self.name
 
 class Student(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True, blank=True)
     cLass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
+    isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
@@ -84,7 +91,7 @@ class Student(models.Model):
         return studentsName
 
 class Teacher(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
     academicDetails = models.TextField(null=True, blank=True)
@@ -98,7 +105,7 @@ class Teacher(models.Model):
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_instance_of_Parent')
     userProfile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
-    parentOf = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
+    parentOf = models.ForeignKey(Student, on_delete=models.SET_NULL, null=True, blank=True, related_name='Student_Parent_relation')
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
