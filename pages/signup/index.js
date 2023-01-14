@@ -17,7 +17,10 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import moment from 'moment';
 
-function Signup() {
+function Signup({ csrf }) {
+    console.log(csrf)
+
+    axios.defaults.headers.common['X-CSRFToken'] = csrf;
 
     const [active, setactive] = useState("step1")
     const router = useRouter()
@@ -39,9 +42,12 @@ function Signup() {
 
             verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
 
-            const { data } = await axios.post("http://127.0.0.1:8000/api/parent-verify", verifyDetails, { withCredentials: true })
+            const test = JSON.stringify(verifyDetails)
+            console.log(test)
+
+            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", test, { withCredentials: true })
             if (data) {
-                console.log(payload)
+                console.log(data)
                 // console.log(payload)
                 // () => { setSignUpSteps(step + 1) }
             }
@@ -137,3 +143,28 @@ function Signup() {
 }
 
 export default Signup
+
+export const getServerSideProps = async ({ req, res }) => {
+    await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
+
+    const token = req?.cookies?.csrftoken || null
+
+    // return {
+    //     props: {
+    //         csrf: token,
+    //     },
+    // };
+    if (token) {
+        return {
+            props: {
+                csrf: token,
+            },
+        };
+    } else {
+        return {
+            props: {
+                csrf: "null"
+            },
+        };
+    }
+};

@@ -17,7 +17,7 @@ function Button2() {
                 typeTwoButton.map(button => {
                     const { id, name } = button
                     return <button key={id} className={`${step === id ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(id) }}>
-                        <p className='absolute ml-8 text-white font-medium tracking-wide'>
+                        <p className='absolute rounded-r-sm ml-8 text-white font-medium tracking-wide'>
                             {name}
                         </p>
                     </button>

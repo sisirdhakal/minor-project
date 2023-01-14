@@ -16,7 +16,7 @@ function Button1() {
             {
                 typeOneButton.map(button => {
                     const { id, name } = button
-                    return <button key={id} className={`${step === id ? "active" : "test"} relative flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(id) }}>
+                    return <button key={id} className={`${step === id ? "active" : "test"} relative rounded-r-sm flex justify-center items-center h-10 w-full`} onClick={() => { setSignUpSteps(id) }}>
                         <p className='absolute ml-8 text-white font-medium tracking-wide'>
                             {name}
                         </p>
