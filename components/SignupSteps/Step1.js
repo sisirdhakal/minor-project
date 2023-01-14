@@ -17,7 +17,7 @@ function Step1() {
     }
 
     useEffect(() => {
-        console.log(verifyDetails)
+        // console.log(verifyDetails)
     }, [verifyDetails])
 
 
@@ -47,9 +47,9 @@ function Step1() {
                         value={verifyDetails.idType}
                         onChange={handleChange}
                     >
-                        <option value="" disabled selected hidden>ID Type</option>
-                        <option value='price-lowest' className='cursor-pointer capitalize'>Citizenship</option>
-                        <option value='price-highest' className='cursor-pointer'>Passport</option>
+                        <option value="" disabled defaultValue>ID Type</option>
+                        <option value='citizenship' className='cursor-pointer capitalize'>Citizenship</option>
+                        <option value='passport' className='cursor-pointer'>Passport</option>
 
                     </select>
                 </div>
@@ -65,17 +65,16 @@ function Step1() {
                 <div className='bg-background pl-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center font-medium'>
                     <input
                         placeholder={`Date of Birth`}
-                        value={verifyDetails.dateOfBirth}
+                        value={verifyDetails.dofStudent}
                         onChange={handleChange}
                         className='rounded-3xl h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
-                        type={"text"}
+                        type={"date"}
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
-                        name="dateOfBirth" />
+                        name="dofStudent" />
                 </div>
             </form>
         </>
     )
 }
-
 export default Step1
