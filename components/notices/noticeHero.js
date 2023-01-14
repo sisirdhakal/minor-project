@@ -19,20 +19,20 @@ export default function NoticeHero({ title }) {
             </div>
             {
                 title ? (
-                    <Link href={"/dashboard/notices"}>
+                    <Link href={"/student/notices"}>
                         <span className='font-bold text-primary-text hover:text-red-600 transition-all ease-in-out duration-300'>
-                            Notices -
+                            Notices
                         </span>
                     </Link>
                 ) : (
                     <span className='font-bold text-primary-text transition-all ease-in-out duration-300'>
-                        Notices -
+                        Notices
                     </span>
                 )
             }
 
             <span className='font-bold text-secondary-text ml-2 '>
-                {title}
+                - {title}
             </span>
         </div>
     )

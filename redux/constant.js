@@ -6,3 +6,7 @@ export const SIGNUPTOGGLE = 'SIGNUPTOGGLE'
 export const SIGNUPSTEPS = 'SIGNUPSTEPS'
 export const SIGNUPTYPE = 'SIGNUPTYPE'
 export const CLEARSIGNUP = 'CLEARSIGNUP'
+
+
+export const VERIFYDATA = 'VERIFYDATA'
+export const SIGNUPDATA = 'SINGUPDATA'
