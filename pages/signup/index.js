@@ -38,14 +38,13 @@ function Signup() {
         try {
 
             verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
-            console.log(verifyDetails)
 
-            // const { data } = await axios.post("http://localhost:3000/api/", userDetails, { withCredentials: true })
-            // if (payload) {
-            //     console.log(payload)
-            //     // console.log(payload)
-            // () => { setSignUpSteps(step + 1) }
-            // }
+            const { data } = await axios.post("http://127.0.0.1:8000/api/parent-verify", verifyDetails, { withCredentials: true })
+            if (data) {
+                console.log(payload)
+                // console.log(payload)
+                // () => { setSignUpSteps(step + 1) }
+            }
         } catch (error) {
             console.log(error)
         }
