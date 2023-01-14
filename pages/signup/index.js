@@ -39,7 +39,7 @@ function Signup() {
 
             verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
 
-            const { data } = await axios.post("http://127.0.0.1:8000/api/parent-verify", verifyDetails, { withCredentials: true })
+            const { data } = await axios.post("http://127.0.0.1:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
             if (data) {
                 console.log(payload)
                 // console.log(payload)

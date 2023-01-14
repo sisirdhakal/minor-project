@@ -14,6 +14,7 @@ import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 function SigninComp() {
@@ -55,10 +56,10 @@ function SigninComp() {
     const user = async () => {
       try {
 
-        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/")
+        const { data } = await axios.get("http://127.0.0.1:8000/api/get-csrf/").then()
 
         if (data) {
-          console.log(data)
+          // console.log(data)
         }
       } catch (error) {
         console.log(error)
