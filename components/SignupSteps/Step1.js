@@ -48,8 +48,8 @@ function Step1() {
                         onChange={handleChange}
                     >
                         <option value="" disabled defaultValue>ID Type</option>
-                        <option value='citizenship' className='cursor-pointer capitalize'>Citizenship</option>
-                        <option value='passport' className='cursor-pointer'>Passport</option>
+                        <option value='Citizenship' className='cursor-pointer capitalize'>Citizenship</option>
+                        <option value='Passport' className='cursor-pointer'>Passport</option>
 
                     </select>
                 </div>
