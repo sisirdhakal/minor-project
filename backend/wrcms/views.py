@@ -41,9 +41,9 @@ class ParentVerification(APIView):
         try:
             if (len(splitStudentName) == 3):
                 userProfile = UserProfile.objects.get(
-                    firstName=splitStudentName[0],
-                    middleName=splitStudentName[1],
-                    lastName=splitStudentName[2],
+                    firstName__iexact=splitStudentName[0],
+                    middleName__iexact=splitStudentName[1],
+                    lastName__iexact=splitStudentName[2],
                     identificationDocumentType = idType,
                     identificationDocumentNumber = idNumber,
                     dateOfBirth = dobStudent
@@ -58,8 +58,8 @@ class ParentVerification(APIView):
                     return Response({'error': 'No student found with given details'})
             else:
                 userProfile = UserProfile.objects.get(
-                    firstName=splitStudentName[0],
-                    lastName=splitStudentName[1],
+                    firstName__iexact=splitStudentName[0],
+                    lastName__iexact=splitStudentName[1],
                     identificationDocumentType = idType,
                     identificationDocumentNumber = idNumber,
                     dateOfBirth = dobStudent
@@ -117,7 +117,7 @@ class ParentSignUp(APIView):
                     )
                     student.isParentRegistered = True
                     student.save()
-                    return Response({'error': 'Signed up successfully.'})
+                    return Response({'success': 'Signed up successfully.'})
                 else:
                     userProfile = UserProfile.objects.create(
                         user = user,
@@ -135,7 +135,7 @@ class ParentSignUp(APIView):
                     )
                     student.isParentRegistered = True
                     student.save()
-                    return Response({'error': 'Signed up successfully.'})
+                    return Response({'success': 'Signed up successfully.'})
         else:
             return Response({'error': 'Passwords do not match'})
 
