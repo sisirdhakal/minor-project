@@ -1,4 +1,5 @@
 
+import moment from 'moment'
 import {
     CLEARSIGNUP,
     SIDEBARTOGGLE,
@@ -55,6 +56,10 @@ export const verifyData = (e) => async dispatch => {
     try {
         let name = e.target.name
         let value = e.target.value
+
+        if (name === "dofStudent") {
+
+        }
 
         dispatch({ type: VERIFYDATA, payload: { name, value } })
     } catch (error) {
