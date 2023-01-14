@@ -42,10 +42,7 @@ function Signup({ csrf }) {
 
             verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
 
-            const test = JSON.stringify(verifyDetails)
-            console.log(test)
-
-            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", test, { withCredentials: true })
+            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
             if (data) {
                 console.log(data)
                 // console.log(payload)
