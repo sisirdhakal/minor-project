@@ -21,7 +21,7 @@ const signup_reducer = (state = initialState, action) => {
 
         return {
             ...state,
-            filters: { ...state.filters, [name]: value }
+            verifyDetails: { ...state.verifyDetails, [name]: value }
         }
     }
     else {
