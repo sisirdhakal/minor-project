@@ -24,6 +24,10 @@ class UserProfile(models.Model):
         ("Ms.", "Ms."),
         ("Mrs.", "Mrs."),
     )
+    ID_TYPE_CHOICES = (
+        ("Citizenship", "Citizenship"),
+        ("Passport", "Passport"),
+    )
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     courtesyTitle = models.CharField(max_length=255, choices=COURTESY_TITLE_CHOICES, null=True, blank=True)
     firstName = models.CharField(max_length=255, null=True, blank=True)
@@ -39,7 +43,7 @@ class UserProfile(models.Model):
     secondaryContact = models.CharField(max_length=255, null=True, blank=True)
     temporaryAddress = models.CharField(max_length=255, null=True, blank=True)
     nationality = models.CharField(max_length=255, null=True, blank=True)
-    identificationDocumentType = models.CharField(max_length=255, null=True, blank=True)
+    identificationDocumentType = models.CharField(max_length=255, choices=ID_TYPE_CHOICES, null=True, blank=True)
     identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
     dateOfBirth = models.CharField(max_length=10, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
