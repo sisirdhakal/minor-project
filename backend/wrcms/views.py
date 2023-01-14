@@ -32,7 +32,6 @@ class ParentVerification(APIView):
 
     def post(self, request, format=None):
         data = request.data
-        print(request.headers)
         studentName = data['text']
         idType = data['idType']
         idNumber = data['idNumber']
@@ -55,6 +54,8 @@ class ParentVerification(APIView):
                         return Response({'success': 'Parents already registered'})
                     else:
                         return Response({'success': 'Student Verified', 'student': student.id})
+                else:
+                    return Response({'error': 'No student found with given details'})
             else:
                 userProfile = UserProfile.objects.get(
                     firstName=splitStudentName[0],
@@ -69,6 +70,8 @@ class ParentVerification(APIView):
                         return Response({'success': 'Parents already registered'})
                     else:
                         return Response({'success': 'Student Verified', 'student': student.id})
+                else:
+                    return Response({'error': 'No student found with given details'})
         except:
             return Response({'error': 'No student found with given details'})
 
