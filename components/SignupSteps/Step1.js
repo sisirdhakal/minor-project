@@ -65,13 +65,13 @@ function Step1() {
                 <div className='bg-background pl-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center font-medium'>
                     <input
                         placeholder={`Date of Birth`}
-                        value={verifyDetails.dofStudent}
+                        value={verifyDetails.dobStudent}
                         onChange={handleChange}
                         className='rounded-3xl h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={"date"}
                         onFocus={(e) => (e.target.type = "date")}
                         onBlur={(e) => (e.target.type = "text")}
-                        name="dofStudent" />
+                        name="dobStudent" />
                 </div>
             </form>
         </>

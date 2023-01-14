@@ -59,8 +59,6 @@ export const verifyData = (e) => async dispatch => {
 
         if (name === "dofStudent") {
 
-            value = moment(value).format("YYYY/MM/DD")
-
         }
 
         dispatch({ type: VERIFYDATA, payload: { name, value } })

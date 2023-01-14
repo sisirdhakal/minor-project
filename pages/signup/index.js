@@ -14,6 +14,8 @@ import TypeTwo from '../../components/Steps/TypeTwo';
 import Button1 from '../../components/buttons/Button1';
 import Button2 from '../../components/buttons/Button2';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import moment from 'moment';
 
 function Signup() {
 
@@ -24,12 +26,30 @@ function Signup() {
     const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
     const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
+    const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
 
     useEffect(() => {
         if (!user) {
             router.push("/")
         }
     }, [user])
+
+    const verifyData = async () => {
+        try {
+
+            verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
+            console.log(verifyDetails)
+
+            // const { data } = await axios.post("http://localhost:3000/api/", userDetails, { withCredentials: true })
+            // if (payload) {
+            //     console.log(payload)
+            //     // console.log(payload)
+            // () => { setSignUpSteps(step + 1) }
+            // }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
@@ -97,7 +117,7 @@ function Signup() {
                         {
                             step === steps ?
                                 (<button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>) : (
-                                    <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={() => { setSignUpSteps(step + 1) }} >Proceed</button>
+                                    <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={verifyData} >Proceed</button>
                                 )
                         }
 
