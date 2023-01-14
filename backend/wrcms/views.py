@@ -32,6 +32,7 @@ class ParentVerification(APIView):
 
     def post(self, request, format=None):
         data = request.data
+        print(request.headers)
         studentName = data['text']
         idType = data['idType']
         idNumber = data['idNumber']
@@ -64,7 +65,10 @@ class ParentVerification(APIView):
                 )
                 if (userProfile is not None and userProfile.role==role):
                     student = Student.objects.get(userProfile=userProfile)
-                    return Response({'success': 'Student Verified', 'student': student.id})
+                    if (student.isParentRegistered == True):
+                        return Response({'success': 'Parents already registered'})
+                    else:
+                        return Response({'success': 'Student Verified', 'student': student.id})
         except:
             return Response({'error': 'No student found with given details'})
 
@@ -148,3 +152,26 @@ class LoginView(APIView):
         if user is not None:
             login(request, user)
             return Response({'success': 'User logged in successfully', 'username': username})
+
+    
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherStudentVerification(APIView):
+    permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, format=None):
+        data = request.data
+        portalId = data['text']
+        idType = data['idType']
+        idNumber = data['idNumber']
+        dob = data['dob']
+        try:
+            userProfile = UserProfile.objects.get(
+                portalId = portalId,
+                identificationDocumentType = idType,
+                identificationDocumentNumber = idNumber,
+                dateOfBirth = dob
+            )
+            if (userProfile is not None):
+                return Response({'success': 'User verified', 'userRole': userProfile.role.type})
+        except:
+            return Response({'error': 'No user found with given details.'})
