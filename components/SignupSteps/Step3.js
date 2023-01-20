@@ -3,21 +3,21 @@ import { MdVpnKey } from 'react-icons/md'
 import { BiShow, BiHide } from 'react-icons/bi';
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 
-function Step3() {
+function Step4() {
 
     const [showpass, setshowpass] = useState(false);
     const [showconfirmpass, setshowconfirmpass] = useState(false);
 
     return (
         <>
-         <div className='items-center flex mt-2 mb-4'>
-                            <BsFillCheckCircleFill className='text-[#0096C7]' />
-                            <p className='items-center text-[#0096C7] mx-1 font-semibold'>
-                                {/* <span className='inline-block '> */}
-                                {/* </span> */}
-                                Final Confirmation
-                            </p>
-                        </div>
+            <div className='items-center flex mt-2 mb-4'>
+                <BsFillCheckCircleFill className='text-[#0096C7]' />
+                <p className='items-center text-[#0096C7] mx-1 font-semibold'>
+                    {/* <span className='inline-block '> */}
+                    {/* </span> */}
+                    Final Confirmation
+                </p>
+            </div>
             <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
@@ -27,16 +27,8 @@ function Step3() {
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
-                        name="text" />
-                </div>
-                <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
-                    <input
-                        placeholder={`Contact Number`}
-                        // value={values.email}
-                        // onChange={handleChange}
-                        className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
-                        type="number"
-                        name="text" />
+                        name="text"
+                        required />
                 </div>
                 {/* password */}
 
@@ -62,7 +54,8 @@ function Step3() {
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
-                        name="password" />
+                        name="password"
+                        required />
                 </div>
 
 
@@ -90,12 +83,15 @@ function Step3() {
                         // onChange={handleChange} 
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
-                        name="password" />
+                        name="password"
+                        required />
                 </div>
+
+                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>
 
             </form>
         </>
     )
 }
 
-export default Step3
+export default Step4
