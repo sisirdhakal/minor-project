@@ -27,7 +27,8 @@ function Step4() {
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
-                        name="text" />
+                        name="text"
+                        required />
                 </div>
                 {/* password */}
 
@@ -53,7 +54,8 @@ function Step4() {
                         // onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
-                        name="password" />
+                        name="password"
+                        required />
                 </div>
 
 
@@ -81,10 +83,11 @@ function Step4() {
                         // onChange={handleChange} 
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
-                        name="password" />
+                        name="password"
+                        required />
                 </div>
 
-                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>)
+                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>
 
             </form>
         </>
