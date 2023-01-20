@@ -58,6 +58,7 @@ function Step2() {
                         type="text"
                         name="text" />
                 </div>
+                <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' type='submit' >Proceed</button>
             </form>
         </>
     )

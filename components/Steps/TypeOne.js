@@ -1,6 +1,6 @@
 import React from 'react'
 import Step1 from '../SignupSteps/Step1'
-import Step4 from '../SignupSteps/Step4'
+import Step3 from '../SignupSteps/Step3'
 import { useSelector } from 'react-redux';
 
 function TypeOne() {
@@ -10,7 +10,7 @@ function TypeOne() {
         <>
             {
                 step === 1 ?
-                    (<Step1 />) : (<Step4 />)
+                    (<Step1 />) : (<Step3 />)
             }
         </>
     )
