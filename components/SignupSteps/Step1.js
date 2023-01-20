@@ -3,22 +3,47 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators } from '../../redux';
+import axios from 'axios';
+import moment from 'moment';
+import toast from 'react-hot-toast';
+const date_regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+
 
 function Step1() {
 
     const dispatch = useDispatch()
-    const { verifyData } = bindActionCreators(actionCreators, dispatch)
+    const { setVerifyDetailsValue } = bindActionCreators(actionCreators, dispatch)
 
     const { signUpDetails: { step1, placeholder1 } } = useSelector(state => state.auth)
-    const { verifyDetails } = useSelector(state => state.signup)
+    const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
 
     const handleChange = (e) => {
-        verifyData(e)
+        setVerifyDetailsValue(e)
     }
 
     useEffect(() => {
         // console.log(verifyDetails)
     }, [verifyDetails])
+
+    const verifyData = async (e) => {
+        e.preventDefault()
+        try {
+            let result = date_regex.test(dobStudent)
+            if (!result) {
+                toast.error("Wrong date format !!")
+                return;
+            }
+
+            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+            if (data) {
+                console.log(data)
+                // console.log(payload)
+                // () => { setSignUpSteps(step + 1) }
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
@@ -29,7 +54,7 @@ function Step1() {
                     {step1}
                 </p>
             </div>
-            <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
+            <form onSubmit={verifyData} className='grid grid-cols-1 gap-y-2'>
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
@@ -38,7 +63,8 @@ function Step1() {
                         onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="text"
-                        name="text" />
+                        name="text"
+                        required />
                 </div>
 
                 <div className=''>
@@ -73,6 +99,7 @@ function Step1() {
                         // onBlur={(e) => (e.target.type = "text")}
                         name="dobStudent" />
                 </div>
+                <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' type='submit' >Proceed</button>
             </form>
         </>
     )

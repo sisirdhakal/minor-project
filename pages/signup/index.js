@@ -117,7 +117,7 @@ function Signup({ csrf }) {
                             }
                         </div>
 
-                        <div className='h-[240px] items-center'>
+                        <div className='h-[290px] items-center'>
 
                             {
                                 user === "one" ? (<TypeOne />) : (<TypeTwo />)
@@ -125,12 +125,12 @@ function Signup({ csrf }) {
                             }
                         </div>
 
-                        {
+                        {/* {
                             step === steps ?
                                 (<button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>) : (
-                                    <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' onClick={verifyData} >Proceed</button>
+                                    <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' type='submit' >Proceed</button>
                                 )
-                        }
+                        } */}
 
 
                         <div className='flex justify-center items-center'>

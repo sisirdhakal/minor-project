@@ -8,7 +8,8 @@ import {
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
-    VERIFYDATA
+    VERIFYDATA,
+    VERIFYDETAILSVALUE
 } from '../constant'
 
 /**
@@ -53,7 +54,7 @@ export const signupData = (e) => async dispatch => {
 
     }
 }
-export const verifyData = (e) => async dispatch => {
+export const setVerifyDetailsValue = (e) => async dispatch => {
     try {
         let name = e.target.name
         let value = e.target.value
@@ -62,11 +63,37 @@ export const verifyData = (e) => async dispatch => {
 
         }
 
+        dispatch({ type: VERIFYDETAILSVALUE, payload: { name, value } })
+    } catch (error) {
+
+    }
+}
+export const verifyData = (e) => async dispatch => {
+    try {
+        
+        
+            // let result = date_regex.test(dobStudent)
+            // if (!result) {
+            //     toast.error("Wrong date format !!")
+            //     return;
+            // }
+
+            // const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+            // if (data) {
+            //     console.log(data)
+            //     // console.log(payload)
+            //     // () => { setSignUpSteps(step + 1) }
+            // }
+    
+
         dispatch({ type: VERIFYDATA, payload: { name, value } })
     } catch (error) {
 
     }
 }
+
+
+
 export const clearSignupData = (e) => async dispatch => {
     try {
 

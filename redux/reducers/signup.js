@@ -2,6 +2,7 @@ import {
     CLEARSIGNUPDATA,
     SIGNUPDATA,
     VERIFYDATA,
+    VERIFYDETAILSVALUE,
 } from "../constant";
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
 }
 
 const signup_reducer = (state = initialState, action) => {
-    if (action.type === VERIFYDATA) {
+    if (action.type === VERIFYDETAILSVALUE) {
         const { name, value } = action.payload
 
         return {
