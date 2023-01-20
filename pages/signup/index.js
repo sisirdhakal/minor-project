@@ -16,17 +16,18 @@ import Button2 from '../../components/buttons/Button2';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import moment from 'moment';
+import toast from 'react-hot-toast';
+const date_regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
+
 
 function Signup({ csrf }) {
-    console.log(csrf)
-
     axios.defaults.headers.common['X-CSRFToken'] = csrf;
 
     const [active, setactive] = useState("step1")
     const router = useRouter()
 
     const dispatch = useDispatch()
-    const { setSignUpToggle, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
+    const { setSignUpToggle, setSignUpSteps, clearSignupData } = bindActionCreators(actionCreators, dispatch)
 
     const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
     const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
@@ -39,8 +40,11 @@ function Signup({ csrf }) {
 
     const verifyData = async () => {
         try {
-
-            verifyDetails.dobStudent = moment(dobStudent).format("YYYY/MM/DD")
+            let result = date_regex.test(dobStudent)
+            if (!result) {
+                toast.error("Wrong date format !!")
+                return;
+            }
 
             const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
             if (data) {
@@ -52,6 +56,11 @@ function Signup({ csrf }) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        clearSignupData()
+    }, [])
+
 
 
     return (

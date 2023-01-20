@@ -2,6 +2,7 @@
 import moment from 'moment'
 import {
     CLEARSIGNUP,
+    CLEARSIGNUPDATA,
     SIDEBARTOGGLE,
     SIGNUPDATA,
     SIGNUPSTEPS,
@@ -66,6 +67,15 @@ export const verifyData = (e) => async dispatch => {
 
     }
 }
+export const clearSignupData = (e) => async dispatch => {
+    try {
+
+        dispatch({ type: CLEARSIGNUPDATA })
+    } catch (error) {
+
+    }
+}
+
 
 
 

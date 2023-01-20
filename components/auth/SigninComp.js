@@ -4,7 +4,7 @@ import { BiShow, BiHide } from 'react-icons/bi';
 import { FiMail } from 'react-icons/fi'
 import { MdVpnKey } from 'react-icons/md'
 
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 /**
  * for importing the actioncreators
@@ -91,29 +91,6 @@ function SigninComp(props) {
 
   return (
     <>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={6}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: '',
-          duration: 1000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        }}
-      />
       <div className='flex justify-center items-center h-screen'>
 
         <div className='lg:grid grid-cols-2 gap-8 w-full hover:shadow-xl shadow-black transition-all ease-linear duration-300 lg:w-[800px] px-2 lg:px-6 rounded py-5 mx-auto bg-white'>

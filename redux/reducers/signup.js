@@ -1,4 +1,5 @@
 import {
+    CLEARSIGNUPDATA,
     SIGNUPDATA,
     VERIFYDATA,
 } from "../constant";
@@ -22,6 +23,20 @@ const signup_reducer = (state = initialState, action) => {
         return {
             ...state,
             verifyDetails: { ...state.verifyDetails, [name]: value }
+        }
+    }
+    if (action.type === CLEARSIGNUPDATA) {
+        return {
+            ...state,
+            verifyDetails: {
+                ...state.verifyDetails,
+                text: "",
+                idType: "",
+                idNumber: "",
+                dobStudent: ""
+            },
+            id: 0,
+            verifiedStatus: false
         }
     }
     else {
