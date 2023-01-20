@@ -3,6 +3,7 @@ import { BsFillCheckCircleFill } from 'react-icons/bs'
 import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators } from '../../redux';
+const date_regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 
 function Step1() {
 
@@ -64,13 +65,13 @@ function Step1() {
                 </div>
                 <div className='bg-background pl-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center font-medium'>
                     <input
-                        placeholder={`Date of Birth`}
+                        placeholder={`Date of Birth : yyyy/mm/dd`}
                         value={verifyDetails.dobStudent}
                         onChange={handleChange}
                         className='rounded-3xl h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
-                        type={"date"}
-                        onFocus={(e) => (e.target.type = "date")}
-                        onBlur={(e) => (e.target.type = "text")}
+                        type={"text"}
+                        // onFocus={(e) => (e.target.type = "date")}
+                        // onBlur={(e) => (e.target.type = "text")}
                         name="dobStudent" />
                 </div>
             </form>
