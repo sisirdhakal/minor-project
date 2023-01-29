@@ -14,18 +14,16 @@ import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 
-function SigninComp(props) {
+function SigninComp() {
 
-  // console.log(props)
 
   const dispatch = useDispatch()
   const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
-    email: "",
+    username: "",
     password: ""
   }
 
@@ -45,7 +43,22 @@ function SigninComp(props) {
 
     e.preventDefault()
 
-    toast.success('Logged in Successfull!')
+    try {
+      console.log(values)
+
+      const { data } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
+
+      if (data) {
+        console.log(data)
+      }
+    } catch (error) {
+      console.log(error)
+      //   if (error.response?.data.msg) {
+      //     toast.error(error.response.data.msg)
+      // }
+    }
+
+    // toast.success('Logged in Successfull!')
     // router.push(`/${user}`)
 
   }
@@ -153,11 +166,11 @@ function SigninComp(props) {
                 </div>
                 <input
                   placeholder='Email'
-                  value={values.email}
+                  value={values.username}
                   onChange={handleChange}
                   className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type="email"
-                  name="email"
+                  name="username"
                   required
                 />
               </div>
