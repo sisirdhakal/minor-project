@@ -14,7 +14,7 @@ class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny, )
 
     def get(self, request, format=None):
-        return Response({ 'success': 'CSRF Cookie set'})
+        return Response({ 'msg': 'CSRF Cookie set'})
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -52,11 +52,11 @@ class ParentVerification(APIView):
                 if (userProfile is not None and userProfile.role==role):
                     student = Student.objects.get(userProfile=userProfile)
                     if (student.isParentRegistered == True):
-                        return Response({'success': 'Parents already registered'})
+                        return Response({'msg': 'Parents already registered'})
                     else:
-                        return Response({'success': 'Student Verified', 'student': student.id})
+                        return Response({'msg': 'Student Verified', 'student': student.id})
                 else:
-                    return Response({'error': 'No student found with given details'})
+                    return Response({'msg': 'No student found with given details'})
             else:
                 userProfile = UserProfile.objects.get(
                     firstName__iexact=splitStudentName[0],
@@ -68,13 +68,13 @@ class ParentVerification(APIView):
                 if (userProfile is not None and userProfile.role==role):
                     student = Student.objects.get(userProfile=userProfile)
                     if (student.isParentRegistered == True):
-                        return Response({'success': 'Parents already registered'})
+                        return Response({'msg': 'Parents already registered'})
                     else:
-                        return Response({'success': 'Student Verified', 'student': student.id})
+                        return Response({'msg': 'Student Verified', 'student': student.id})
                 else:
-                    return Response({'error': 'No student found with given details'})
+                    return Response({'msg': 'No student found with given details'})
         except:
-            return Response({'error': 'No student found with given details'})
+            return Response({'msg': 'No student found with given details'})
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -96,7 +96,7 @@ class ParentSignUp(APIView):
         student = Student.objects.get(id=studentId)
         if password == confirmPassword:
             if User.objects.filter(username=email).exists():
-                return Response({'error': 'Email is already registered.'})
+                return Response({'msg': 'Email is already registered.'}, status=status.HTTP_400_BAD_REQUEST)
             else:
                 user = User.objects.create_user(username=email, email=email, password=password)
                 user.save()
@@ -118,7 +118,7 @@ class ParentSignUp(APIView):
                     )
                     student.isParentRegistered = True
                     student.save()
-                    return Response({'success': 'Signed up successfully.'})
+                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 else:
                     userProfile = UserProfile.objects.create(
                         user = user,
@@ -136,9 +136,9 @@ class ParentSignUp(APIView):
                     )
                     student.isParentRegistered = True
                     student.save()
-                    return Response({'success': 'Signed up successfully.'})
+                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
         else:
-            return Response({'error': 'Passwords do not match'})
+            return Response({'msg': 'Passwords do not match'}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -151,11 +151,13 @@ class LoginView(APIView):
         username = data['email']
         password = data['password']
         if not User.objects.filter(username=username):
-            return Response({'msg': 'No user found with given email!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': 'No user found with given email!'}, status=status.HTTP_404_NOT_FOUND)
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return Response({'msg': 'User logged in successfully!', 'username': username}, status=status.HTTP_400_BAD_REQUEST)
+            loggedInUser = User.objects.get(username=username)
+            profile = UserProfile.objects.get(user=loggedInUser)
+            return Response({'msg': 'User logged in successfully!', 'username': username, 'role': profile.role.type}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -178,6 +180,6 @@ class TeacherStudentVerification(APIView):
                 dateOfBirth = dob
             )
             if (userProfile is not None):
-                return Response({'success': 'User verified', 'userRole': userProfile.role.type})
+                return Response({'msg': 'User verified', 'userRole': userProfile.role.type}, status=status.HTTP_200_OK)
         except:
-            return Response({'error': 'No user found with given details.'})
+            return Response({'msg': 'No user found with given details.'}, status=status.HTTP_404_NOT_FOUND)
