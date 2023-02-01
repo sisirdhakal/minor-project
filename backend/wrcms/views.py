@@ -100,7 +100,6 @@ class SignUp(APIView):
         data = request.data
         role = data['role']
         password = data['password']
-        confirmPassword = data['confirmPassword']
         if role=='two':
             if User.objects.filter(username=email).exists():
                 return Response({'msg': 'Email is already registered.'}, status=status.HTTP_409_CONFLICT)
