@@ -24,7 +24,7 @@ function Sidebar() {
 
     const [pathname] = useState(router.pathname.split("/[id]")[0])
 
-    const [user, setuser] = useState(parent)
+    const [user, setuser] = useState(student)
 
     return (
         <>

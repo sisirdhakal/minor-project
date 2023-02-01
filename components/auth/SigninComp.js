@@ -23,7 +23,7 @@ function SigninComp() {
   const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
-    username: "",
+    email: "",
     password: ""
   }
 
@@ -44,23 +44,22 @@ function SigninComp() {
     e.preventDefault()
 
     try {
-      console.log(values)
 
       const { data } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
 
       if (data) {
-        console.log(data)
+        toast.success(data.success)
+      
+        // router.push("/parent")
       }
     } catch (error) {
-      console.log(error)
+      console.log(error.response)
       //   if (error.response?.data.msg) {
       //     toast.error(error.response.data.msg)
       // }
     }
-
     // toast.success('Logged in Successfull!')
     // router.push(`/${user}`)
-
   }
 
   useEffect(() => {
@@ -71,11 +70,7 @@ function SigninComp() {
     const user = async () => {
       try {
 
-        const { data } = await axios.get("http://localhost:8000/api/get-csrf/", { withCredentials: true })
-
-        if (data) {
-          // console.log(data)
-        }
+        await axios.get("http://localhost:8000/api/get-csrf/", { withCredentials: true })
       } catch (error) {
         console.log(error)
       }
@@ -166,11 +161,11 @@ function SigninComp() {
                 </div>
                 <input
                   placeholder='Email'
-                  value={values.username}
+                  value={values.email}
                   onChange={handleChange}
                   className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type="email"
-                  name="username"
+                  name="email"
                   required
                 />
               </div>
@@ -195,6 +190,7 @@ function SigninComp() {
                   value={values.password}
                   onChange={handleChange} className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type={showpass ? 'text' : 'password'}
+                  required
                   name="password" />
               </div>
 
@@ -215,7 +211,7 @@ function SigninComp() {
                 <button className=' text-secondary-text/80 font-semibold'  > Forget Password ?</button>
               </div>
 
-              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' onClick={loginUser} >Login</button>
+              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' type='submit' >Login</button>
 
             </form>
             <div className='flex justify-center items-center'>
