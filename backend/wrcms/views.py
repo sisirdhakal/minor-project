@@ -6,6 +6,7 @@ from .models import UserProfile, Student, UserRole, Parent
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
+from rest_framework import status
 
 # Create your views here.
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -150,15 +151,13 @@ class LoginView(APIView):
         username = data['email']
         password = data['password']
         if not User.objects.filter(username=username):
-            return Response({'msg': 'No user found with given email!'})
+            return Response({'msg': 'No user found with given email!'}, status=status.HTTP_400_BAD_REQUEST)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({'msg': 'User logged in successfully!', 'username': username}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            try:
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return Response({'msg': 'User logged in successfully!', 'username': username})
-            except:
-                return Response({'msg': 'Incorrect Credentials!'})
+            return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 
     
 @method_decorator(csrf_protect, name='dispatch')
