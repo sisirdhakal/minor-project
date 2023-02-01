@@ -149,12 +149,16 @@ class LoginView(APIView):
 
         username = data['email']
         password = data['password']
-
-        user = authenticate(username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            return Response({'success': 'User logged in successfully', 'username': username})
+        if not User.objects.filter(username=username):
+            return Response({'msg': 'No user found with given email!'})
+        else:
+            try:
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return Response({'msg': 'User logged in successfully!', 'username': username})
+            except:
+                return Response({'msg': 'Incorrect Credentials!'})
 
     
 @method_decorator(csrf_protect, name='dispatch')
