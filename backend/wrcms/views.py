@@ -152,14 +152,12 @@ class LoginView(APIView):
         password = data['password']
         if not User.objects.filter(username=username):
             return Response({'msg': 'No user found with given email!'}, status=status.HTTP_400_BAD_REQUEST)
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return Response({'msg': 'User logged in successfully!', 'username': username}, status=status.HTTP_400_BAD_REQUEST)
         else:
-            try:
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
-                    return Response({'msg': 'User logged in successfully!', 'username': username}, status=status.HTTP_400_BAD_REQUEST)
-            except:
-                return Response({'msg': 'Incorrect Credentials!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 
     
 @method_decorator(csrf_protect, name='dispatch')
