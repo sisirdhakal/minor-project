@@ -2,13 +2,13 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
 from django.contrib.auth.models import User
-from .models import UserProfile, Student, UserRole, Parent, Teacher
+from wrcms.models import UserProfile, Student, UserRole, Parent, Teacher
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login
 from rest_framework import status
 
-# Create your views here.
+
 @method_decorator(ensure_csrf_cookie, name='dispatch')
 class GetCSRFToken(APIView):
     permission_classes = (permissions.AllowAny, )

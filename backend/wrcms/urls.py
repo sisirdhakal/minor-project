@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import *
+from .views.auth_views import *
+
 
 urlpatterns = [
     path('check-auth/', CheckAuthenticated.as_view()),
