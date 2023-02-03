@@ -33,6 +33,7 @@ class UserProfile(models.Model):
     firstName = models.CharField(max_length=255, null=True, blank=True)
     middleName = models.CharField(max_length=255, null=True, blank=True)
     lastName = models.CharField(max_length=255, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     contact = models.CharField(max_length=255, null=True, blank=True)
     fathersName = models.CharField(max_length=255, null=True, blank=True)
