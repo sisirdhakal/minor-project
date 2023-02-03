@@ -48,6 +48,7 @@ class UserProfile(models.Model):
     identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
     dateOfBirth = models.CharField(max_length=10, null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+    photo = models.ImageField(upload_to='profile-pictures/', null=True, blank=True)
 
     def __str__(self):
         fullName = str(self.firstName)+' '+str(self.middleName)+' '+str(self.lastName)
@@ -90,6 +91,7 @@ class Student(models.Model):
     cLass = models.ForeignKey(Class, on_delete=models.SET_NULL, null=True, blank=True)
     isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+    rollNumber = models.CharField(max_length=12, blank=True, null=True)
 
     def __str__(self):
         studentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.lastName)+'-'+str(self.cLass.name)
