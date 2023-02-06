@@ -101,15 +101,15 @@ class SignUp(APIView):
         role = data['role']
         password = data['password']
         if role=='two':
+            courtesyTitle = data['courtesyTitle']
+            parentName = data['parentName']
+            address = data['address']
+            contactNumber = data['contactNumber']
+            email = data['email']
+            studentId = data['id']
             if User.objects.filter(username=email).exists():
                 return Response({'msg': 'Email is already registered.'}, status=status.HTTP_409_CONFLICT)
             else:
-                courtesyTitle = data['courtesyTitle']
-                parentName = data['parentName']
-                address = data['address']
-                contactNumber = data['contactNumber']
-                email = data['email']
-                studentId = data['id']
                 student = Student.objects.get(id=studentId)
                 splitParentName = parentName.split(" ")
                 try:
@@ -166,17 +166,22 @@ class SignUp(APIView):
                     teacherUserProfile.user = user
                     teacher = Teacher.objects.get(userProfile=teacherUserProfile)
                     teacher.user = user
+                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             elif userType=='Student':
                 try:
                     role = UserRole.objects.get(type='Student')
-                    studentUserProfile = UserProfile.objects.get(portalID=portalID, role=role)
+                    print("OK")
+                    studentUserProfile = UserProfile.objects.get(portalId=portalID, role=role)
                     user = User.objects.create_user(username=studentUserProfile.email, email=studentUserProfile.email, password=password)
                     user.save()
                     studentUserProfile.user = user
-                    teacher = Teacher.objects.get(userProfile=studentUserProfile)
-                    teacher.user = user
+                    studentUserProfile.save()
+                    student = Student.objects.get(userProfile=studentUserProfile)
+                    student.user = user
+                    student.save()
+                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
