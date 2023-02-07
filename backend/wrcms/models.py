@@ -118,3 +118,60 @@ class Parent(models.Model):
     def __str__(self):
         parentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.middleName)+' '+str(self.userProfile.lastName)
         return parentsName
+
+
+class Program(models.Model):
+    name = models.CharField(max_length=1024)
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, related_name='Program_belongs_to_department')
+    syllabus = models.FileField(upload_to='syllabus/', null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Subject(models.Model):
+    SUBJECT_TYPE_CHOICES = (
+        ("Theory", "Theory"),
+        ("Practical", "Practical"),
+    )
+    subjectName = models.CharField(max_length=1024)
+    subjectCode = models.CharField(max_length=12, null=True, blank=True)
+    program = models.ForeignKey(Program, on_delete=models.CASCADE, null=True, blank=True)
+    subjectType = models.CharField(max_length=10, choices=SUBJECT_TYPE_CHOICES, null=True, blank=True)
+    semester = models.IntegerField(null=True, blank=True)
+    fullMarks = models.IntegerField(null=True, blank=True)
+    passMarks = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return self.program.name+'-'+self.subjectName
+
+
+class Lecture(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    isArchived = models.BooleanField(default=False)
+    totalLectureDays = models.IntegerField(default=0)
+
+    def getLectureName(self):
+        teacher = self.teacher.userProfile
+        teacherName = teacher.firstName+''+teacher.lastName
+        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacherName
+
+    def __str__(self):
+        return self.getLectureName()
+
+class Attendance(models.Model):
+    ATTENDANCE_CHOICES = (
+        ("Present", "Present"),
+        ("Absent", "Absent"),
+    )
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    status = models.CharField(max_length=10, choices=ATTENDANCE_CHOICES, null=True, blank=True)
+    date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        lecture = self.lecture.getLectureName
+        return self.student.userProfile.firstName+'-'+lecture+'-'+self.date
