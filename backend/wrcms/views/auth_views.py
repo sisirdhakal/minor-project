@@ -166,6 +166,8 @@ class SignUp(APIView):
                     teacherUserProfile.user = user
                     teacher = Teacher.objects.get(userProfile=teacherUserProfile)
                     teacher.user = user
+                    teacherUserProfile.save()
+                    teacher.save()
                     return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -177,9 +179,9 @@ class SignUp(APIView):
                     user = User.objects.create_user(username=studentUserProfile.email, email=studentUserProfile.email, password=password)
                     user.save()
                     studentUserProfile.user = user
-                    studentUserProfile.save()
                     student = Student.objects.get(userProfile=studentUserProfile)
                     student.user = user
+                    studentUserProfile.save()
                     student.save()
                     return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:

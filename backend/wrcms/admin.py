@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-from .models import UserRole, UserProfile, Department, Batch, Class, Student, Teacher, Parent
+from .models import *
 
 
 admin.site.site_header = "WRCMS Admin Dashboard"
@@ -39,4 +39,20 @@ class TeacherAdmin(admin.ModelAdmin):
 
 @admin.register(Parent)
 class ParentAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Program)
+class ProgramAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Subject)
+class SubjectAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Lecture)
+class LectureAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Attendance)
+class AttendanceAdmin(admin.ModelAdmin):
     pass
