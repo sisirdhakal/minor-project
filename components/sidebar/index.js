@@ -14,6 +14,7 @@ function Sidebar() {
 
     const router = useRouter();
 
+    const [user, setuser] = useState(student)
     const [student] = useState(dashboardStudent)
     const [teacher] = useState(dashboardTeacher)
     const [parent] = useState(dashboardParent)
@@ -22,9 +23,12 @@ function Sidebar() {
     const dispatch = useDispatch()
     const { sidebarToggle: setsidebar } = bindActionCreators(actionCreators, dispatch)
 
-    const [pathname] = useState(router.pathname.split("/[id]")[0])
+    useEffect(() => {
+        console.log(router)
+    }, [router])
 
-    const [user, setuser] = useState(student)
+
+    const [pathname] = useState(router.pathname.split("/[id]")[0])
 
     return (
         <>

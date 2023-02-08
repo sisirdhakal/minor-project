@@ -45,21 +45,19 @@ function SigninComp() {
 
     try {
 
-      const { data } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
+      const { data: { msg, role, username } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
 
-      if (data) {
-        toast.success(data.success)
-      
-        // router.push("/parent")
+      if (msg) {
+        let test = role.toLowerCase()
+        toast.success(msg)
+        router.push(`/${test}`)
+
       }
     } catch (error) {
-      console.log(error.response)
-      //   if (error.response?.data.msg) {
-      //     toast.error(error.response.data.msg)
-      // }
+      if (error.response?.data.msg) {
+        toast.error(error.response.data.msg)
+      }
     }
-    // toast.success('Logged in Successfull!')
-    // router.push(`/${user}`)
   }
 
   useEffect(() => {
@@ -208,7 +206,7 @@ function SigninComp() {
                     </div>
                   </label>
                 </div>
-                <button className=' text-secondary-text/80 font-semibold'  > Forget Password ?</button>
+                <button className=' text-secondary-text/80 font-semibold'  > Forgot Password ?</button>
               </div>
 
               <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' type='submit' >Login</button>
