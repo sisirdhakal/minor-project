@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from wrcms.models import UserProfile, Student, UserRole, Parent, Teacher
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
 
 
@@ -207,3 +207,12 @@ class LoginView(APIView):
             return Response({'msg': 'User logged in successfully!', 'username': username, 'role': profile.role.type}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        logout(request)
+        return Response({'msg': 'You are logged out from WRCMS!'}, status=status.HTTP_200_OK)
