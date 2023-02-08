@@ -20,7 +20,7 @@ function SigninComp() {
 
 
   const dispatch = useDispatch()
-  const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
+  const { setSignUpToggle, clearSignup, sidebarUser } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
     email: "",
@@ -49,9 +49,9 @@ function SigninComp() {
 
       if (msg) {
         let test = role.toLowerCase()
+        sidebarUser(test)
         toast.success(msg)
         router.push(`/${test}`)
-
       }
     } catch (error) {
       if (error.response?.data.msg) {
