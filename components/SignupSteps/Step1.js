@@ -6,7 +6,7 @@ import { actionCreators } from '../../redux';
 import axios from 'axios';
 import moment from 'moment';
 import toast from 'react-hot-toast';
-const date_regex =/^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
+const date_regex = /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
 
 
 function Step1() {
@@ -34,12 +34,12 @@ function Step1() {
                 return;
             }
 
-            // const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
-            // if (data) {
-                console.log("data")
+            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+            if (data) {
+                console.log(data)
                 // console.log(payload)
                 // () => { setSignUpSteps(step + 1) }
-            // }
+            }
         } catch (error) {
             console.log(error)
         }

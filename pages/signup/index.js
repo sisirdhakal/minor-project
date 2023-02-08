@@ -21,7 +21,7 @@ const date_regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\
 
 
 function Signup({ csrf }) {
-    axios.defaults.headers.common['X-CSRFToken'] = csrf;
+    // axios.defaults.headers.common['X-CSRFToken'] = csrf;
 
     const [active, setactive] = useState("step1")
     const router = useRouter()
@@ -143,32 +143,27 @@ function Signup({ csrf }) {
 
 export default Signup
 
-export const getServerSideProps = async ({ req, res }) => {
-    try {
+// export const getServerSideProps = async ({ req, res }) => {
+//     try {
 
-        await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
-    } catch (error) {
-        console.log(error)
-    }
+//         await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
+//     } catch (error) {
+//         console.log(error)
+//     }
 
-    const token = req?.cookies?.csrftoken || null
+//     const token = req?.cookies?.csrftoken || null
 
-    // return {
-    //     props: {
-    //         csrf: token,
-    //     },
-    // };
-    if (token) {
-        return {
-            props: {
-                csrf: token,
-            },
-        };
-    } else {
-        return {
-            props: {
-                csrf: "null"
-            },
-        };
-    }
-};
+//     if (token) {
+//         return {
+//             props: {
+//                 csrf: token,
+//             },
+//         };
+//     } else {
+//         return {
+//             props: {
+//                 csrf: "null"
+//             },
+//         };
+//     }
+// };

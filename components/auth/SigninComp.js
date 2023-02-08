@@ -14,15 +14,13 @@ import { actionCreators } from '../../redux';
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 
-function SigninComp(props) {
+function SigninComp() {
 
-  // console.log(props)
 
   const dispatch = useDispatch()
-  const { setSignUpToggle, clearSignup } = bindActionCreators(actionCreators, dispatch)
+  const { setSignUpToggle, clearSignup, sidebarUser } = bindActionCreators(actionCreators, dispatch)
 
   const initialValue = {
     email: "",
@@ -45,9 +43,21 @@ function SigninComp(props) {
 
     e.preventDefault()
 
-    toast.success('Logged in Successfull!')
-    // router.push(`/${user}`)
+    try {
 
+      const { data: { msg, role, username } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
+
+      if (msg) {
+        let test = role.toLowerCase()
+        sidebarUser(test)
+        toast.success(msg)
+        router.push(`/${test}`)
+      }
+    } catch (error) {
+      if (error.response?.data.msg) {
+        toast.error(error.response.data.msg)
+      }
+    }
   }
 
   useEffect(() => {
@@ -58,11 +68,7 @@ function SigninComp(props) {
     const user = async () => {
       try {
 
-        const { data } = await axios.get("http://localhost:8000/api/get-csrf/", { withCredentials: true })
-
-        if (data) {
-          // console.log(data)
-        }
+        await axios.get("http://localhost:8000/api/get-csrf/", { withCredentials: true })
       } catch (error) {
         console.log(error)
       }
@@ -182,6 +188,7 @@ function SigninComp(props) {
                   value={values.password}
                   onChange={handleChange} className='rounded-3xl text-gray-700 h-12 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium'
                   type={showpass ? 'text' : 'password'}
+                  required
                   name="password" />
               </div>
 
@@ -199,10 +206,10 @@ function SigninComp(props) {
                     </div>
                   </label>
                 </div>
-                <button className=' text-secondary-text/80 font-semibold'  > Forget Password ?</button>
+                <button className=' text-secondary-text/80 font-semibold'  > Forgot Password ?</button>
               </div>
 
-              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' onClick={loginUser} >Login</button>
+              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' type='submit' >Login</button>
 
             </form>
             <div className='flex justify-center items-center'>

@@ -1,5 +1,6 @@
 
 export const SIDEBARTOGGLE = 'SIDEBARTOGGLE'
+export const SIDEBARUSER = 'SIDEBARUSER'
 
 
 export const SIGNUPTOGGLE = 'SIGNUPTOGGLE'

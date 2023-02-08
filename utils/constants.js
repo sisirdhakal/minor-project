@@ -51,170 +51,170 @@ export const typeTwoButton = [
     }
 ]
 
-export const dashboardStudent = [
-    {
-        id: 1,
-        icon: "/assets/images/home.svg",
-        url: "/student",
-        name: "dashboard",
+export const sidebarOptions = {
+    student: [
+        {
+            id: 1,
+            icon: "/assets/images/home.svg",
+            url: "/student",
+            name: "dashboard",
 
-    },
-    {
-        id: 2,
-        icon: "/assets/images/exam.svg",
-        url: "/student/exams",
-        name: "exams",
+        },
+        {
+            id: 2,
+            icon: "/assets/images/exam.svg",
+            url: "/student/exams",
+            name: "exams",
 
-    },
-    {
-        id: 3,
-        icon: "/assets/images/results.svg",
-        url: "/student/results",
-        name: "results",
+        },
+        {
+            id: 3,
+            icon: "/assets/images/results.svg",
+            url: "/student/results",
+            name: "results",
 
-    },
-    {
-        id: 4,
-        icon: "/assets/images/attendance.svg",
-        url: "/student/attendance",
-        name: "attendance",
+        },
+        {
+            id: 4,
+            icon: "/assets/images/attendance.svg",
+            url: "/student/attendance",
+            name: "attendance",
 
-    },
-    {
-        id: 5,
-        icon: "/assets/images/credits.svg",
-        url: "/student/credits",
-        name: "Credits/Payments",
+        },
+        {
+            id: 5,
+            icon: "/assets/images/credits.svg",
+            url: "/student/credits",
+            name: "Credits/Payments",
 
-    },
-    {
-        id: 6,
-        icon: "/assets/images/notice.svg",
-        url: "/student/notices",
-        name: "notices",
+        },
+        {
+            id: 6,
+            icon: "/assets/images/notice.svg",
+            url: "/student/notices",
+            name: "notices",
 
-    },
-    {
-        id: 7,
-        icon: "/assets/images/complaints.svg",
-        url: "/student/complaints",
-        name: "complaints",
+        },
+        {
+            id: 7,
+            icon: "/assets/images/complaints.svg",
+            url: "/student/complaints",
+            name: "complaints",
 
-    },
-    {
-        id: 8,
-        icon: "/assets/images/feedback.svg",
-        url: "/student/teacherfeedback",
-        name: "teacher feedback",
+        },
+        {
+            id: 8,
+            icon: "/assets/images/feedback.svg",
+            url: "/student/teacherfeedback",
+            name: "teacher feedback",
 
-    },
-    // {
-    //     id: 9,
-    //     icon: "/assets/images/routine.svg",
-    //     url: "/dashboard/routine",
-    //     name: "routine",
+        },
+        // {
+        //     id: 9,
+        //     icon: "/assets/images/routine.svg",
+        //     url: "/dashboard/routine",
+        //     name: "routine",
 
-    // },
-    // {
-    //     id: 10,
-    //     icon: "/assets/images/syllabus.svg",
-    //     url: "/dashboard/syllabus",
-    //     name: "syllabus",
+        // },
+        // {
+        //     id: 10,
+        //     icon: "/assets/images/syllabus.svg",
+        //     url: "/dashboard/syllabus",
+        //     name: "syllabus",
 
-    // },
-    // {
-    //     id: 11,
-    //     icon: "/assets/images/calendar.svg",
-    //     url: "/dashboard/calendar",
-    //     name: "calendar",
+        // },
+        // {
+        //     id: 11,
+        //     icon: "/assets/images/calendar.svg",
+        //     url: "/dashboard/calendar",
+        //     name: "calendar",
 
-    // },
+        // },
 
-]
+    ],
+    parent: [
+        {
+            id: 1,
+            icon: "/assets/images/home.svg",
+            url: "/parent",
+            name: "dashboard",
 
-export const dashboardParent = [
-    {
-        id: 1,
-        icon: "/assets/images/home.svg",
-        url: "/parent",
-        name: "dashboard",
+        },
+        {
+            id: 2,
+            icon: "/assets/images/feedback.svg",
+            url: "/parent/teacherfeedback",
+            name: "teacher feedback",
 
-    },
-    {
-        id: 2,
-        icon: "/assets/images/feedback.svg",
-        url: "/parent/teacherfeedback",
-        name: "teacher feedback",
+        },
+        {
+            id: 3,
+            icon: "/assets/images/results.svg",
+            url: "/parent/results",
+            name: "results",
 
-    },
-    {
-        id: 3,
-        icon: "/assets/images/results.svg",
-        url: "/parent/results",
-        name: "results",
+        },
+        {
+            id: 4,
+            icon: "/assets/images/attendance.svg",
+            url: "/parent/attendance",
+            name: "attendance",
 
-    },
-    {
-        id: 4,
-        icon: "/assets/images/attendance.svg",
-        url: "/parent/attendance",
-        name: "attendance",
+        }
+    ],
+    teacher: [
+        {
+            id: 1,
+            icon: "/assets/images/home.svg",
+            url: "/teacher",
+            name: "dashboard",
 
-    }
-]
+        },
+        {
+            id: 2,
+            icon: "/assets/images/exam.svg",
+            url: "/teacher/exams",
+            name: "exams",
 
-export const dashboardTeacher = [
-    {
-        id: 1,
-        icon: "/assets/images/home.svg",
-        url: "/teacher",
-        name: "dashboard",
+        },
+        {
+            id: 3,
+            icon: "/assets/images/results.svg",
+            url: "/teacher/results",
+            name: "results",
 
-    },
-    {
-        id: 2,
-        icon: "/assets/images/exam.svg",
-        url: "/teacher/exams",
-        name: "exams",
+        },
+        {
+            id: 4,
+            icon: "/assets/images/attendance.svg",
+            url: "/teacher/attendance",
+            name: "attendance",
 
-    },
-    {
-        id: 3,
-        icon: "/assets/images/results.svg",
-        url: "/teacher/results",
-        name: "results",
+        },
 
-    },
-    {
-        id: 4,
-        icon: "/assets/images/attendance.svg",
-        url: "/teacher/attendance",
-        name: "attendance",
+        {
+            id: 5,
+            icon: "/assets/images/notice.svg",
+            url: "/teacher/notices",
+            name: "notices",
 
-    },
+        },
+        {
+            id: 6,
+            icon: "/assets/images/complaints.svg",
+            url: "/teacher/complaints",
+            name: "complaints",
 
-    {
-        id: 5,
-        icon: "/assets/images/notice.svg",
-        url: "/teacher/notices",
-        name: "notices",
+        },
+        {
+            id: 7,
+            icon: "/assets/images/feedback.svg",
+            url: "/teacher/givefeedback",
+            name: "give feedback",
 
-    },
-    {
-        id: 6,
-        icon: "/assets/images/complaints.svg",
-        url: "/teacher/complaints",
-        name: "complaints",
-
-    },
-    {
-        id: 7,
-        icon: "/assets/images/feedback.svg",
-        url: "/teacher/givefeedback",
-        name: "give feedback",
-
-    },
-]
+        },
+    ]
+}
 
 export const statsOptions = [
     {
