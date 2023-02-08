@@ -122,7 +122,7 @@ class Parent(models.Model):
 
 class Program(models.Model):
     name = models.CharField(max_length=1024)
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, related_name='Program_belongs_to_department')
+    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True, related_name='Program_belongs_to_department')
     syllabus = models.FileField(upload_to='syllabus/', null=True, blank=True)
 
     def __str__(self):
