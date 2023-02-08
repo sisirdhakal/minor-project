@@ -1,0 +1,27 @@
+from rest_framework.views import APIView
+from rest_framework import permissions
+from rest_framework.response import Response
+from django.contrib.auth.models import User
+from wrcms.models import UserProfile, Student, UserRole, Parent, Teacher, Lecture
+from django.views.decorators.csrf import csrf_protect
+from django.utils.decorators import method_decorator
+from rest_framework import status
+from ..serializers import LectureSerializer
+
+@method_decorator(csrf_protect, name='dispatch')
+class GetLectures(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        user = request.user
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == "Teacher":
+            try:
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                lectures = Lecture.objects.filter(teacher=teacher, isArchived=False)
+                serializer = LectureSerializer(lectures, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response({'msg': 'No records found!'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
