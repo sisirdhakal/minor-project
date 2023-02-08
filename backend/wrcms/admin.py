@@ -15,7 +15,7 @@ class UserRoleAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('firstName', 'role',)
+    list_display = ('getFullName', 'role',)
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
