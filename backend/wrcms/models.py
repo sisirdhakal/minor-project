@@ -58,7 +58,7 @@ class UserProfile(models.Model):
         return fullName
 
     def __str__(self):
-        return self.getFullName
+        return self.getFullName()
 
 class Department(models.Model):
     name = models.CharField(max_length=255)
@@ -100,8 +100,8 @@ class Student(models.Model):
     rollNumber = models.CharField(max_length=12, unique=True, null=True)
 
     def __str__(self):
-        studentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.lastName)+'-'+str(self.cLass.name)
-        return studentsName
+        cLass = self.cLass.name
+        return cLass+'-'+self.userProfile.getFullName()
 
 class Teacher(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -112,8 +112,8 @@ class Teacher(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        teachersName = str(self.userProfile.firstName)+' '+str(self.userProfile.lastName)+'-'+str(self.department.name)
-        return teachersName
+        department = self.department.name
+        return self.userProfile.getFullName()+'-'+department
 
 class Parent(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='User_instance_of_Parent')
@@ -122,8 +122,8 @@ class Parent(models.Model):
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
-        parentsName = str(self.userProfile.firstName)+' '+str(self.userProfile.middleName)+' '+str(self.userProfile.lastName)
-        return parentsName
+        studentName = self.parentOf.userProfile.getFullName()
+        return self.userProfile.getFullName()+'- parent of -'+studentName
 
 
 class Program(models.Model):
@@ -160,9 +160,8 @@ class Lecture(models.Model):
     totalLectureDays = models.IntegerField(default=0)
 
     def getLectureName(self):
-        teacher = self.teacher.userProfile
-        teacherName = teacher.firstName+''+teacher.lastName
-        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacherName
+        teacher = self.teacher.userProfile.getFullName()
+        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacher
 
     def __str__(self):
         return self.getLectureName()
@@ -179,5 +178,5 @@ class Attendance(models.Model):
     date = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        lecture = self.lecture.getLectureName
-        return self.student.userProfile.firstName+'-'+lecture+'-'+self.date
+        lecture = self.lecture.getLectureName()
+        return self.student.userProfile.getFullName()+'-'+lecture+'-'+self.date
