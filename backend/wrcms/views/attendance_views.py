@@ -6,7 +6,7 @@ from wrcms.models import UserProfile, Student, UserRole, Parent, Teacher, Lectur
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
-from ..serializers import LectureSerializer
+from ..serializers import LectureSerializer, StudentSerializer
 
 @method_decorator(csrf_protect, name='dispatch')
 class GetLectures(APIView):
@@ -25,3 +25,25 @@ class GetLectures(APIView):
                 return Response({'msg': 'No records found!'}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+class GetAllStudentsForAttendance(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, id, format=None):
+        user = request.user
+        try:
+            userProfile = UserProfile.objects.get(user=user)
+            requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
+            lecture = Lecture.objects.get(id=id)
+            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+                allStudents = Student.objects.filter(cLass=lecture.cLass)
+                allStudents = allStudents.extra(select={'str_rollNumber':'SUBSTRING("rollNumber",7,3)'}).order_by('str_rollNumber')
+                serializer = StudentSerializer(allStudents, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_400_NOT_FOUND)
+
+        

@@ -11,3 +11,14 @@ class LectureSerializer(serializers.ModelSerializer):
 
     def get_class_name(self, obj):
         return obj.cLass.name
+
+
+class StudentSerializer(serializers.ModelSerializer):
+    full_name = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Student
+        fields = ['id', 'rollNumber', 'full_name']
+
+    def get_full_name(self, obj):
+        return obj.userProfile.getFullName
