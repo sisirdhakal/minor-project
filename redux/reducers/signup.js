@@ -10,7 +10,8 @@ const initialState = {
         text: "",
         idType: "",
         idNumber: "",
-        dobStudent: ""
+        dobStudent: "",
+        role: ""
     },
     id: 0,
     verifiedStatus: false

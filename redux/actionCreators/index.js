@@ -35,6 +35,7 @@ export const setSignUpSteps = (value) => dispatch => {
 }
 
 export const setSignupType = (value) => dispatch => {
+    localStorage.setItem("signupRole", value)
     dispatch({ type: SIGNUPTYPE, payload: value })
 }
 

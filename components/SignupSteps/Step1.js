@@ -33,8 +33,9 @@ function Step1() {
                 toast.error("Wrong date format !!")
                 return;
             }
+            verifyDetails.role = localStorage.getItem("signupRole")
 
-            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+            const { data } = await axios.post("http://localhost:8000/api/verify/", verifyDetails, { withCredentials: true })
             if (data) {
                 console.log(data)
                 // console.log(payload)
