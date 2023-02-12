@@ -4,6 +4,7 @@ import {
     CLEARSIGNUP,
     CLEARSIGNUPDATA,
     SIDEBARTOGGLE,
+    SIDEBARUSER,
     SIGNUPDATA,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
@@ -13,10 +14,13 @@ import {
 } from '../constant'
 
 /**
- * sidebar toggle
+ * sidebars
  */
 export const sidebarToggle = (value) => dispatch => {
     dispatch({ type: SIDEBARTOGGLE, payload: value })
+}
+export const sidebarUser = (value) => dispatch => {
+    dispatch({ type: SIDEBARUSER, payload: value })
 }
 
 /**
@@ -70,21 +74,21 @@ export const setVerifyDetailsValue = (e) => async dispatch => {
 }
 export const verifyData = (e) => async dispatch => {
     try {
-        
-        
-            // let result = date_regex.test(dobStudent)
-            // if (!result) {
-            //     toast.error("Wrong date format !!")
-            //     return;
-            // }
 
-            // const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
-            // if (data) {
-            //     console.log(data)
-            //     // console.log(payload)
-            //     // () => { setSignUpSteps(step + 1) }
-            // }
-    
+
+        // let result = date_regex.test(dobStudent)
+        // if (!result) {
+        //     toast.error("Wrong date format !!")
+        //     return;
+        // }
+
+        // const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+        // if (data) {
+        //     console.log(data)
+        //     // console.log(payload)
+        //     // () => { setSignUpSteps(step + 1) }
+        // }
+
 
         dispatch({ type: VERIFYDATA, payload: { name, value } })
     } catch (error) {
