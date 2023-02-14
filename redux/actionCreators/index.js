@@ -10,6 +10,7 @@ import {
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
+    USERNAME,
     VERIFIED,
     VERIFYDATA,
     VERIFYDETAILSVALUE
@@ -23,6 +24,9 @@ export const sidebarToggle = (value) => dispatch => {
 }
 export const sidebarUser = (value) => dispatch => {
     dispatch({ type: SIDEBARUSER, payload: value })
+}
+export const setUserName = (value) => dispatch => {
+    dispatch({ type: USERNAME, payload: value })
 }
 
 /**

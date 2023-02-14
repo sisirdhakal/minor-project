@@ -4,11 +4,14 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { AiFillCaretDown } from 'react-icons/ai'
 import { BsPerson, BsPersonFill } from 'react-icons/bs'
+import { useSelector } from 'react-redux';
 
 export default function Topbar() {
 
     const [visible, setvisible] = useState(false)
     const router = useRouter()
+
+    const { userName } = useSelector(state => state.dashboard)
 
     const logout = async () => {
 
@@ -42,7 +45,7 @@ export default function Topbar() {
                         <span className='rounded-full flex items-center justify-center p-[2px] border-2 border-secondary-text'>
                             <BsPerson className='text-secondary-text text-xl' />
                         </span>
-                        <p className="font-bold text-secondary-text flex-1 text-center">test</p>
+                        <p className="font-bold text-secondary-text flex-1 text-center">{userName}</p>
                         <AiFillCaretDown className='text-secondary-text' />
 
                         {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-48 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
