@@ -39,7 +39,7 @@ export default function Topbar() {
 
                 <div className='bg-white w-full h-10 px-2 flex justify-between rounded-full py-1 lg:px-8 mb-2'>
                     <p className='text-primary-text text-[14px] lg:text-[16px] mt-1 font-bold lg:mt-[2px]'>PASCHIMANCHAL Campus, Pokhara</p>
-                    <div className='w-48 relative bg-clrgrey10 hover:bg-clrprimary8 transition-all duration-500 ease-in-out p-3 h-full items-center flex justify-center rounded-xl cursor-pointer' onClick={() => {
+                    <div className='w-auto space-x-4 relative bg-clrgrey10 hover:bg-clrprimary8 transition-all duration-500 ease-in-out p-3 h-full items-center flex justify-center rounded-xl cursor-pointer' onClick={() => {
                         visible ? (setvisible(false)) : (setvisible(true))
                     }}>
                         <span className='rounded-full flex items-center justify-center p-[2px] border-2 border-secondary-text'>

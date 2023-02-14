@@ -51,6 +51,7 @@ function SigninComp() {
         localStorage.setItem("userName", name)
         toast.success(msg)
         let test = role.toLowerCase()
+        console.log(test)
         sidebarUser(test)
         router.push(`/${test}`)
       }

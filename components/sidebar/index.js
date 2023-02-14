@@ -18,7 +18,6 @@ function Sidebar() {
     const dispatch = useDispatch()
     const { sidebarToggle: setsidebar } = bindActionCreators(actionCreators, dispatch)
 
-
     const [pathname] = useState(router.pathname.split("/[id]")[0])
 
     return (

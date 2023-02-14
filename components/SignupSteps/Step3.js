@@ -135,7 +135,7 @@ function Step3() {
                         value={values.confirmPassword}
                         onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
-                        type={showpass ? 'text' : 'password'}
+                        type={showconfirmpass ? 'text' : 'password'}
                         name="confirmPassword"
                         required />
                 </div>

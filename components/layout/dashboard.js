@@ -12,12 +12,10 @@ export function DashboardLayout({ children }) {
 
     useEffect(() => {
         sidebarUser(localStorage.getItem('user'))
-    }, [sidebarUser])
+    }, [])
 
     useEffect(() => {
         const userName = localStorage.getItem("userName")
-
-
         if (userName) {
             setUserName(userName)
         }
