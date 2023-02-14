@@ -26,7 +26,7 @@ export const getServerSideProps = async ({ req, res }) => {
 
     await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 
   const token = req?.cookies?.csrftoken || null
