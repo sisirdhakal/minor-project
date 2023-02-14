@@ -43,6 +43,7 @@ function Step3() {
             signupValues.userRole = userType
             signupValues.password = values.password
             signupValues.id = id
+            console.log(signupValues)
             const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
             if (data) {
                 toast.success(data.msg)

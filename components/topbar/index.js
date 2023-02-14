@@ -48,7 +48,7 @@ export default function Topbar() {
                         <p className="font-bold text-secondary-text flex-1 text-center">{userName}</p>
                         <AiFillCaretDown className='text-secondary-text' />
 
-                        {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-48 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
+                        {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-full right-0 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
                             <button className='text-white ' onClick={logout}>Logout</button>
                         </div>}
                     </div>
