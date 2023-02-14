@@ -56,7 +56,7 @@ class Verification(APIView):
                         if (student.isParentRegistered == True):
                             return Response({'msg': 'Parents already registered'}, status=status.HTTP_409_CONFLICT)
                         else:
-                            return Response({'msg': 'Student Verified', 'student': student.id}, status=status.HTTP_200_OK)
+                            return Response({'msg': 'Student Verified', 'id': student.id}, status=status.HTTP_200_OK)
                     else:
                         return Response({'msg': 'No student found with given details'}, status=status.HTTP_404_NOT_FOUND)
                 else:
@@ -72,7 +72,7 @@ class Verification(APIView):
                         if (student.isParentRegistered == True):
                             return Response({'msg': 'Parents already registered'}, status=status.HTTP_409_CONFLICT)
                         else:
-                            return Response({'msg': 'Student Verified', 'student': student.id}, status=status.HTTP_200_OK)
+                            return Response({'msg': 'Student Verified', 'id': student.id}, status=status.HTTP_200_OK)
                     else:
                         return Response({'msg': 'No student found with given details'}, status=status.HTTP_404_NOT_FOUND)
             except:
@@ -86,7 +86,7 @@ class Verification(APIView):
                     dateOfBirth = dobStudent
                 )
                 if (userProfile is not None):
-                    return Response({'msg': 'User verified', 'userRole': userProfile.role.type, 'portalId':nameOrID}, status=status.HTTP_200_OK)
+                    return Response({'msg': 'User verified', 'userRole': userProfile.role.type, 'id':nameOrID, 'email':userProfile.email}, status=status.HTTP_200_OK)
             except:
                 return Response({'msg': 'No user found with given details.'}, status=status.HTTP_404_NOT_FOUND)
         
@@ -161,29 +161,34 @@ class SignUp(APIView):
                 try:
                     role = UserRole.objects.get(type='Teacher')
                     teacherUserProfile = UserProfile.objects.get(portalID=portalID, role=role)
-                    user = User.objects.create_user(username=teacherUserProfile.email, email=teacherUserProfile.email, password=password)
-                    user.save()
-                    teacherUserProfile.user = user
-                    teacher = Teacher.objects.get(userProfile=teacherUserProfile)
-                    teacher.user = user
-                    teacherUserProfile.save()
-                    teacher.save()
-                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
+                    if User.objects.filter(username=teacherUserProfile.email).exists():
+                        return Response({'msg': 'Email is already registered.'}, status=status.HTTP_409_CONFLICT)
+                    else:
+                        user = User.objects.create_user(username=teacherUserProfile.email, email=teacherUserProfile.email, password=password)
+                        user.save()
+                        teacherUserProfile.user = user
+                        teacher = Teacher.objects.get(userProfile=teacherUserProfile)
+                        teacher.user = user
+                        teacherUserProfile.save()
+                        teacher.save()
+                        return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             elif userType=='Student':
                 try:
                     role = UserRole.objects.get(type='Student')
-                    print("OK")
                     studentUserProfile = UserProfile.objects.get(portalId=portalID, role=role)
-                    user = User.objects.create_user(username=studentUserProfile.email, email=studentUserProfile.email, password=password)
-                    user.save()
-                    studentUserProfile.user = user
-                    student = Student.objects.get(userProfile=studentUserProfile)
-                    student.user = user
-                    studentUserProfile.save()
-                    student.save()
-                    return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
+                    if User.objects.filter(username=teacherUserProfile.email).exists():
+                        return Response({'msg': 'Email is already registered.'}, status=status.HTTP_409_CONFLICT)
+                    else:
+                        user = User.objects.create_user(username=studentUserProfile.email, email=studentUserProfile.email, password=password)
+                        user.save()
+                        studentUserProfile.user = user
+                        student = Student.objects.get(userProfile=studentUserProfile)
+                        student.user = user
+                        studentUserProfile.save()
+                        student.save()
+                        return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -204,7 +209,7 @@ class LoginView(APIView):
             login(request, user)
             loggedInUser = User.objects.get(username=username)
             profile = UserProfile.objects.get(user=loggedInUser)
-            return Response({'msg': 'User logged in successfully!', 'username': username}, status=status.HTTP_200_OK)
+            return Response({'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 

@@ -44,6 +44,6 @@ class GetAllStudentsForAttendance(APIView):
             else:
                 return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
-            return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_400_NOT_FOUND)
+            return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_404_NOT_FOUND)
 
         
