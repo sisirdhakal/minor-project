@@ -22,8 +22,8 @@ function Step3() {
         setvalues({ ...values, [e.target.name]: e.target.value })
     }
 
-    const { id } = useSelector(state => state.signup)
-    const { signUpDetails: { type: userType }, user, signupData } = useSelector(state => state.auth)
+    const { id, signupData } = useSelector(state => state.signup)
+    const { signUpDetails: { type: userType }, user } = useSelector(state => state.auth)
 
     const signupUser = async (e) => {
         e.preventDefault()
@@ -38,14 +38,14 @@ function Step3() {
             signupValues.role = localStorage.getItem("signupRole")
             signupValues.userRole = userType
             signupValues.password = values.password
-            signupValues.portalId = id
-            console.log(signupValues)
+            signupValues.email = values.email
+            signupValues.id = id
             const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
             if (data) {
                 toast.success(data.msg)
-                // setTimeout(() => {
-                //     router.push("/")
-                // }, 1000);
+                setTimeout(() => {
+                    router.push("/")
+                }, 1000);
             }
         } catch (error) {
             console.log(error)
@@ -76,7 +76,7 @@ function Step3() {
                         onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
-                        name="text"
+                        name="email"
                         disabled={user === "one" ? true : false}
                     />
                 </div>

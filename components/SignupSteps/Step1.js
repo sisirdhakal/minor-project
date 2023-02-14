@@ -36,14 +36,13 @@ function Step1() {
             verifydatas.role = localStorage.getItem("signupRole")
             const { data } = await axios.post("http://localhost:8000/api/verify/", verifydatas, { withCredentials: true })
             if (data) {
-                setVerified(data.portalId)
+                setVerified(data.id)
                 setSignUpSteps(step + 1)
             }
         } catch (error) {
             console.log(error)
         }
     }
-
 
     return (
         <>

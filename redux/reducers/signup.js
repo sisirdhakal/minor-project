@@ -16,7 +16,7 @@ const initialState = {
     signupData: {
         courtesyTitle: "",
         parentName: "",
-        contactNumber: 0,
+        contactNumber: "",
         address: ""
     },
     id: 0,

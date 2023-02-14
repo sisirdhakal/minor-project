@@ -53,7 +53,7 @@ export const clearSignup = () => dispatch => {
  * Signup steps data verification
  */
 
-export const signupData = (e) => async dispatch => {
+export const setSignupData = (e) => async dispatch => {
     try {
         let name = e.target.name
         let value = e.target.value
