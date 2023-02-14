@@ -61,6 +61,7 @@ function SigninComp() {
   }
 
   useEffect(() => {
+    localStorage.clear()
     clearSignup()
   }, [])
 

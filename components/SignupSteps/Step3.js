@@ -2,11 +2,60 @@ import React, { useState } from 'react'
 import { MdVpnKey } from 'react-icons/md'
 import { BiShow, BiHide } from 'react-icons/bi';
 import { BsFillCheckCircleFill } from 'react-icons/bs'
+import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-function Step4() {
+function Step3() {
 
+    const initialValue = {
+        email: "",
+        password: "",
+        confirmPassword: ""
+    }
+
+    const [values, setvalues] = useState(initialValue)
     const [showpass, setshowpass] = useState(false);
     const [showconfirmpass, setshowconfirmpass] = useState(false);
+
+    const handleChange = (e) => {
+        setvalues({ ...values, [e.target.name]: e.target.value })
+    }
+
+    const { id, signupData } = useSelector(state => state.signup)
+    const { signUpDetails: { type: userType }, user } = useSelector(state => state.auth)
+
+    const signupUser = async (e) => {
+        e.preventDefault()
+        try {
+            if (values.password !== values.confirmPassword) {
+                return toast.error("Passwords doesnot match !!")
+            }
+            let signupValues = {}
+            if (user === "two") {
+                signupValues = { ...signupData }
+            }
+            signupValues.role = localStorage.getItem("signupRole")
+            signupValues.userRole = userType
+            signupValues.password = values.password
+            signupValues.email = values.email
+            signupValues.id = id
+            const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
+            if (data) {
+                toast.success(data.msg)
+                setTimeout(() => {
+                    router.push("/")
+                }, 1000);
+            }
+        } catch (error) {
+            console.log(error)
+            if (error.response?.data.msg) {
+                toast.error(error.response.data.msg)
+            }
+        }
+
+    }
+
 
     return (
         <>
@@ -18,17 +67,18 @@ function Step4() {
                     Final Confirmation
                 </p>
             </div>
-            <form onSubmit={e => e.preventDefault()} action="" className='grid grid-cols-1 gap-y-2'>
+            <form onSubmit={signupUser} action="" className='grid grid-cols-1 gap-y-2'>
 
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
                         placeholder={`Email`}
-                        // value={values.email}
-                        // onChange={handleChange}
+                        value={values.email}
+                        onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
-                        name="text"
-                        required />
+                        name="email"
+                        disabled={user === "one" ? true : false}
+                    />
                 </div>
                 {/* password */}
 
@@ -50,11 +100,12 @@ function Step4() {
 
                     <input
                         placeholder='Password'
-                        // value={values.password}
-                        // onChange={handleChange}
+                        value={values.password}
+                        onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
                         name="password"
+
                         required />
                 </div>
 
@@ -79,19 +130,19 @@ function Step4() {
 
                     <input
                         placeholder='Confirm Password'
-                        // value={values.password}
-                        // onChange={handleChange} 
+                        value={values.confirmPassword}
+                        onChange={handleChange}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type={showpass ? 'text' : 'password'}
-                        name="password"
+                        name="confirmPassword"
                         required />
                 </div>
 
-                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '  >Signup</button>
+                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '>Signup</button>
 
             </form>
         </>
     )
 }
 
-export default Step4
+export default Step3

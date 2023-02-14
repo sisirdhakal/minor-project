@@ -9,6 +9,7 @@ import {
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
+    VERIFIED,
     VERIFYDATA,
     VERIFYDETAILSVALUE
 } from '../constant'
@@ -35,6 +36,10 @@ export const setSignUpSteps = (value) => dispatch => {
 }
 
 export const setSignupType = (value) => dispatch => {
+    if (value === "Student" || "Teacher") { localStorage.setItem("signupRole", "one") }
+    if (value === "Parent") {
+        localStorage.setItem("signupRole", "two")
+    }
     dispatch({ type: SIGNUPTYPE, payload: value })
 }
 
@@ -48,7 +53,7 @@ export const clearSignup = () => dispatch => {
  * Signup steps data verification
  */
 
-export const signupData = (e) => async dispatch => {
+export const setSignupData = (e) => async dispatch => {
     try {
         let name = e.target.name
         let value = e.target.value
@@ -63,15 +68,16 @@ export const setVerifyDetailsValue = (e) => async dispatch => {
         let name = e.target.name
         let value = e.target.value
 
-        if (name === "dofStudent") {
-
-        }
-
         dispatch({ type: VERIFYDETAILSVALUE, payload: { name, value } })
     } catch (error) {
 
     }
 }
+
+export const setVerified = (value) => async dispatch => {
+    dispatch({ type: VERIFIED, payload: value })
+}
+
 export const verifyData = (e) => async dispatch => {
     try {
 

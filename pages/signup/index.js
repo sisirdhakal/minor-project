@@ -22,15 +22,12 @@ const date_regex = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\
 
 function Signup({ csrf }) {
     // axios.defaults.headers.common['X-CSRFToken'] = csrf;
-
-    const [active, setactive] = useState("step1")
     const router = useRouter()
 
     const dispatch = useDispatch()
-    const { setSignUpToggle, setSignUpSteps, clearSignupData } = bindActionCreators(actionCreators, dispatch)
+    const { clearSignupData } = bindActionCreators(actionCreators, dispatch)
 
-    const { step, signUpDetails: { type, quote, steps }, user } = useSelector(state => state.auth)
-    const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
+    const { signUpDetails: { type, quote, }, user } = useSelector(state => state.auth)
 
     useEffect(() => {
         if (!user) {
@@ -38,24 +35,24 @@ function Signup({ csrf }) {
         }
     }, [user])
 
-    const verifyData = async () => {
-        try {
-            let result = date_regex.test(dobStudent)
-            if (!result) {
-                toast.error("Wrong date format !!")
-                return;
-            }
+    // const verifyData = async () => {
+    //     try {
+    //         let result = date_regex.test(dobStudent)
+    //         if (!result) {
+    //             toast.error("Wrong date format !!")
+    //             return;
+    //         }
 
-            const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
-            if (data) {
-                console.log(data)
-                // console.log(payload)
-                // () => { setSignUpSteps(step + 1) }
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //         const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
+    //         if (data) {
+    //             console.log(data)
+    //             // console.log(payload)
+    //             // () => { setSignUpSteps(step + 1) }
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     useEffect(() => {
         clearSignupData()
