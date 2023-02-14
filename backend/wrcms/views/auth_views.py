@@ -209,7 +209,7 @@ class LoginView(APIView):
             login(request, user)
             loggedInUser = User.objects.get(username=username)
             profile = UserProfile.objects.get(user=loggedInUser)
-            return Response({'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type}, status=status.HTTP_200_OK)
+            return Response({'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName()}, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 
