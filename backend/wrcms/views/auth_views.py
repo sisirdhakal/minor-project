@@ -178,7 +178,7 @@ class SignUp(APIView):
                 try:
                     role = UserRole.objects.get(type='Student')
                     studentUserProfile = UserProfile.objects.get(portalId=portalID, role=role)
-                    if User.objects.filter(username=teacherUserProfile.email).exists():
+                    if User.objects.filter(username=studentUserProfile.email).exists():
                         return Response({'msg': 'Email is already registered.'}, status=status.HTTP_409_CONFLICT)
                     else:
                         user = User.objects.create_user(username=studentUserProfile.email, email=studentUserProfile.email, password=password)
