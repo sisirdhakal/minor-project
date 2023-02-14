@@ -11,9 +11,9 @@ const date_regex = /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
 function Step1() {
 
     const dispatch = useDispatch()
-    const { setVerifyDetailsValue } = bindActionCreators(actionCreators, dispatch)
+    const { setVerifyDetailsValue, setVerified, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
 
-    const { signUpDetails: { step1, placeholder1 } } = useSelector(state => state.auth)
+    const { signUpDetails: { step1, placeholder1 }, step } = useSelector(state => state.auth)
     const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
 
     const handleChange = (e) => {
@@ -32,11 +32,12 @@ function Step1() {
                 toast.error("Wrong date format !!")
                 return;
             }
-            verifyDetails.role = localStorage.getItem("signupRole")
-            const { data } = await axios.post("http://localhost:8000/api/verify/", verifyDetails, { withCredentials: true })
+            let verifydatas = { ...verifyDetails }
+            verifydatas.role = localStorage.getItem("signupRole")
+            const { data } = await axios.post("http://localhost:8000/api/verify/", verifydatas, { withCredentials: true })
             if (data) {
-                
-                // () => { setSignUpSteps(step + 1) }
+                setVerified(data.portalId)
+                setSignUpSteps(step + 1)
             }
         } catch (error) {
             console.log(error)

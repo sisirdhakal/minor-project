@@ -9,6 +9,7 @@ import {
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
+    VERIFIED,
     VERIFYDATA,
     VERIFYDETAILSVALUE
 } from '../constant'
@@ -67,15 +68,16 @@ export const setVerifyDetailsValue = (e) => async dispatch => {
         let name = e.target.name
         let value = e.target.value
 
-        if (name === "dofStudent") {
-
-        }
-
         dispatch({ type: VERIFYDETAILSVALUE, payload: { name, value } })
     } catch (error) {
 
     }
 }
+
+export const setVerified = (value) => async dispatch => {
+    dispatch({ type: VERIFIED, payload: value })
+}
+
 export const verifyData = (e) => async dispatch => {
     try {
 
