@@ -13,6 +13,12 @@ const initialState = {
         idNumber: "",
         dobStudent: ""
     },
+    signupData: {
+        courtesyTitle: "",
+        parentName: "",
+        contactNumber: 0,
+        address: ""
+    },
     id: 0,
     verifiedStatus: false
 
@@ -25,6 +31,14 @@ const signup_reducer = (state = initialState, action) => {
         return {
             ...state,
             verifyDetails: { ...state.verifyDetails, [name]: value }
+        }
+    }
+    if (action.type === SIGNUPDATA) {
+        const { name, value } = action.payload
+
+        return {
+            ...state,
+            signupData: { ...state.signupData, [name]: value }
         }
     }
     if (action.type === VERIFIED) {
