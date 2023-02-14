@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators } from '../../redux';
 import axios from 'axios';
-import moment from 'moment';
 import toast from 'react-hot-toast';
 const date_regex = /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
 
@@ -34,11 +33,9 @@ function Step1() {
                 return;
             }
             verifyDetails.role = localStorage.getItem("signupRole")
-
             const { data } = await axios.post("http://localhost:8000/api/verify/", verifyDetails, { withCredentials: true })
             if (data) {
-                console.log(data)
-                // console.log(payload)
+                
                 // () => { setSignUpSteps(step + 1) }
             }
         } catch (error) {
