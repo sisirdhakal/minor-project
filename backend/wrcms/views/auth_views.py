@@ -156,7 +156,7 @@ class SignUp(APIView):
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         elif role=='one':
             userType = data['userRole']
-            portalID = data['portalId']
+            portalID = data['id']
             if userType=='Teacher':
                 try:
                     role = UserRole.objects.get(type='Teacher')
