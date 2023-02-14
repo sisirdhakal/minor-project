@@ -37,8 +37,10 @@ class GetAllStudentsForAttendance(APIView):
             requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
             lecture = Lecture.objects.get(id=id)
             if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
-                allStudents = Student.objects.filter(cLass=lecture.cLass)
-                allStudents = allStudents.extra(select={'str_rollNumber':'SUBSTRING("rollNumber",7,3)'}).order_by('str_rollNumber')
+                allStudents = Student.objects.extra(select={'str_rollNumber':'SUBSTRING("rollNumber",7,3)'}).order_by('str_rollNumber')
+                # print(allStudents)
+                # sorted(Student.objects.filter(cLass=lecture.cLass),key=lambda o:len(o.name),reverse=True)
+                # return Response({'msg': 'Unauthorized access!'})
                 serializer = StudentSerializer(allStudents, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
