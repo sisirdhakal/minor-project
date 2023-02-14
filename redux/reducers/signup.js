@@ -1,6 +1,7 @@
 import {
     CLEARSIGNUPDATA,
     SIGNUPDATA,
+    SIGNUPEMAIL,
     VERIFIED,
     VERIFYDATA,
     VERIFYDETAILSVALUE,
@@ -17,7 +18,8 @@ const initialState = {
         courtesyTitle: "",
         parentName: "",
         contactNumber: "",
-        address: ""
+        address: "",
+        email: ""
     },
     id: 0,
     verifiedStatus: false
@@ -33,12 +35,19 @@ const signup_reducer = (state = initialState, action) => {
             verifyDetails: { ...state.verifyDetails, [name]: value }
         }
     }
+
     if (action.type === SIGNUPDATA) {
         const { name, value } = action.payload
 
         return {
             ...state,
             signupData: { ...state.signupData, [name]: value }
+        }
+    }
+    if (action.type === SIGNUPEMAIL) {
+        return {
+            ...state,
+            signupData: { ...state.signupData, email: action.payload }
         }
     }
     if (action.type === VERIFIED) {

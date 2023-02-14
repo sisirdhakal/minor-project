@@ -3,8 +3,10 @@ import { MdVpnKey } from 'react-icons/md'
 import { BiShow, BiHide } from 'react-icons/bi';
 import { BsFillCheckCircleFill } from 'react-icons/bs'
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../redux';
 
 function Step3() {
 
@@ -13,6 +15,8 @@ function Step3() {
         password: "",
         confirmPassword: ""
     }
+    const dispatch = useDispatch()
+    const { setSignupData } = bindActionCreators(actionCreators, dispatch)
 
     const [values, setvalues] = useState(initialValue)
     const [showpass, setshowpass] = useState(false);
@@ -38,7 +42,6 @@ function Step3() {
             signupValues.role = localStorage.getItem("signupRole")
             signupValues.userRole = userType
             signupValues.password = values.password
-            signupValues.email = values.email
             signupValues.id = id
             const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
             if (data) {
@@ -48,7 +51,6 @@ function Step3() {
                 }, 1000);
             }
         } catch (error) {
-            console.log(error)
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
@@ -72,8 +74,8 @@ function Step3() {
                 <div className='bg-background px-4 space-x-1 py-[2px] rounded-2xl flex justify-center items-center'>
                     <input
                         placeholder={`Email`}
-                        value={values.email}
-                        onChange={handleChange}
+                        value={signupData.email}
+                        onChange={() => { setSignupData(e) }}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
                         name="email"

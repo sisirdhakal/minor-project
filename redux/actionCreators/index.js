@@ -6,6 +6,7 @@ import {
     SIDEBARTOGGLE,
     SIDEBARUSER,
     SIGNUPDATA,
+    SIGNUPEMAIL,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
@@ -59,6 +60,14 @@ export const setSignupData = (e) => async dispatch => {
         let value = e.target.value
 
         dispatch({ type: SIGNUPDATA, payload: { name, value } })
+    } catch (error) {
+
+    }
+}
+export const setSignupEmail = (value) => async dispatch => {
+    try {
+
+        dispatch({ type: SIGNUPEMAIL, payload: value })
     } catch (error) {
 
     }
