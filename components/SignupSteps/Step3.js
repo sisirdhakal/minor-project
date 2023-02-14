@@ -42,7 +42,6 @@ function Step3() {
             console.log(signupValues)
             const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
             if (data) {
-                console.log(data)
                 toast.success(data.msg)
                 // setTimeout(() => {
                 //     router.push("/")
@@ -50,9 +49,9 @@ function Step3() {
             }
         } catch (error) {
             console.log(error)
-            // if (error.response?.data.msg) {
-            //     toast.error(error.response.data.msg)
-            // }
+            if (error.response?.data.msg) {
+                toast.error(error.response.data.msg)
+            }
         }
 
     }
