@@ -45,9 +45,10 @@ function SigninComp() {
 
     try {
 
-      const { data: { msg, role, username } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
+      const { data: { msg, role, username, name } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
 
       if (msg) {
+        localStorage.setItem("username", name)
         toast.success(msg)
         let test = role.toLowerCase()
         sidebarUser(test)
