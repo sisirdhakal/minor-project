@@ -8,11 +8,18 @@ import Topbar from '../topbar'
 export function DashboardLayout({ children }) {
 
     const dispatch = useDispatch()
-    const { sidebarUser } = bindActionCreators(actionCreators, dispatch)
+    const { sidebarUser, setUserName } = bindActionCreators(actionCreators, dispatch)
 
     useEffect(() => {
         sidebarUser(localStorage.getItem('user'))
-    }, [sidebarUser])
+    }, [])
+
+    useEffect(() => {
+        const userName = localStorage.getItem("userName")
+        if (userName) {
+            setUserName(userName)
+        }
+    }, [])
 
 
     return (

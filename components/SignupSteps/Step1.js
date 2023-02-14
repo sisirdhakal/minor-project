@@ -11,7 +11,7 @@ const date_regex = /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
 function Step1() {
 
     const dispatch = useDispatch()
-    const { setVerifyDetailsValue, setVerified, setSignUpSteps } = bindActionCreators(actionCreators, dispatch)
+    const { setVerifyDetailsValue, setVerified, setSignUpSteps, setSignupEmail } = bindActionCreators(actionCreators, dispatch)
 
     const { signUpDetails: { step1, placeholder1 }, step } = useSelector(state => state.auth)
     const { verifyDetails, verifyDetails: { dobStudent } } = useSelector(state => state.signup)
@@ -36,11 +36,16 @@ function Step1() {
             verifydatas.role = localStorage.getItem("signupRole")
             const { data } = await axios.post("http://localhost:8000/api/verify/", verifydatas, { withCredentials: true })
             if (data) {
+                if (data.email) {
+                    setSignupEmail(data.email)
+                }
                 setVerified(data.id)
                 setSignUpSteps(step + 1)
             }
         } catch (error) {
-            console.log(error)
+            if (error.response?.data.msg) {
+                toast.error(error.response.data.msg)
+            }
         }
     }
 

@@ -6,9 +6,11 @@ import {
     SIDEBARTOGGLE,
     SIDEBARUSER,
     SIGNUPDATA,
+    SIGNUPEMAIL,
     SIGNUPSTEPS,
     SIGNUPTOGGLE,
     SIGNUPTYPE,
+    USERNAME,
     VERIFIED,
     VERIFYDATA,
     VERIFYDETAILSVALUE
@@ -22,6 +24,9 @@ export const sidebarToggle = (value) => dispatch => {
 }
 export const sidebarUser = (value) => dispatch => {
     dispatch({ type: SIDEBARUSER, payload: value })
+}
+export const setUserName = (value) => dispatch => {
+    dispatch({ type: USERNAME, payload: value })
 }
 
 /**
@@ -59,6 +64,14 @@ export const setSignupData = (e) => async dispatch => {
         let value = e.target.value
 
         dispatch({ type: SIGNUPDATA, payload: { name, value } })
+    } catch (error) {
+
+    }
+}
+export const setSignupEmail = (value) => async dispatch => {
+    try {
+
+        dispatch({ type: SIGNUPEMAIL, payload: value })
     } catch (error) {
 
     }
