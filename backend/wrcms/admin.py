@@ -56,3 +56,11 @@ class LectureAdmin(admin.ModelAdmin):
 @admin.register(Attendance)
 class AttendanceAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(PracticalClass)
+class PracticalClassAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(PracticalAttendance)
+class PracticalAttendanceAdmin(admin.ModelAdmin):
+    pass
