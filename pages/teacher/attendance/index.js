@@ -4,7 +4,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { DashboardLayout } from '../../../components/layout/dashboard';
 
-function TeacherAttendance({ data }) {
+function TeacherAttendance({ lectures }) {
 
     return (
         <>
@@ -13,7 +13,7 @@ function TeacherAttendance({ data }) {
                     <h1 className='text-primary-text mb-3 font-bold text-lg'>My Lectures</h1>
                 </div>
                 {
-                    data.map(item => {
+                    lectures.map(item => {
                         const { id, cLass, class_name, totalLectureDays, subject_name } = item
                         return <div key={id} className="h-auto grid bg-white rounded-sm w-full items-center px-4" >
                             <div className='relative w-full h-full rounded-sm'>
@@ -37,18 +37,27 @@ function TeacherAttendance({ data }) {
 export default TeacherAttendance
 
 export const getServerSideProps = async ({ req }) => {
-    const { data } = await axios.get("http://localhost:8000/api/get-lectures/", {
-        withCredentials: true,
-        headers: {
-            Cookie: req.headers.cookie
-        }
-    })
+
+    let lectures = []
+    try {
+        const { data } = await axios.get("http://localhost:8000/api/get-lectures/", {
+            withCredentials: true,
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+        lectures = data;
+    } catch (error) {
+        console.log(error)
+    }
+
     return {
         props: {
-            data: data || []
+            lectures: lectures || []
         }
     };
 }
+
 
 TeacherAttendance.getLayout = function getLayout(page) {
     return <DashboardLayout>{page}</DashboardLayout>;
