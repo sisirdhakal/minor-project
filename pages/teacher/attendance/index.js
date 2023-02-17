@@ -13,10 +13,10 @@ function TeacherAttendance({ lectures }) {
         <>
             <div>
                 <div className='grid grid-cols-2 gap-32'>
-                    <button className='bg-white rounded py-2 items-center text-start flex px-5'>
-                        <p className='text-primary-text font-bold text-[1rem] my-auto'>Theory Lectures</p>
+                    <button className='bg-white rounded-lg py-2 items-center shadow-md shadow-green-500 text-start flex px-5'>
+                        <p className='text-primary-text font-bold text-[1rem] my-auto '>Theory Lectures</p>
                     </button>
-                    <button className='bg-white rounded py-2 text-start items-center px-5'>
+                    <button className='bg-white rounded-lg py-2 text-start items-center px-5'>
                         <p className='text-primary-text my-auto font-bold text-[1rem]'>Practical Labs</p>
                     </button>
                 </div>
