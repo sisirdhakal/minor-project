@@ -7,8 +7,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
+import { useRouter } from 'next/router';
 
 function Step3() {
+
+    const router = useRouter()
 
     const initialValue = {
         email: "",

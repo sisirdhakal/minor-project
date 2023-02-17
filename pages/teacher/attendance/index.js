@@ -2,33 +2,38 @@ import axios from 'axios';
 import Link from 'next/link';
 import React from 'react'
 import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { DashboardLayout } from '../../../components/layout/dashboard';
+import LecturesComp from '../../../components/lectures';
+import { actionCreators } from '../../../redux';
 
-function TeacherAttendance({ data }) {
+function TeacherAttendance({ theory, practical }) {
+
+    const dispatch = useDispatch()
+    const { setAttendanceType } = bindActionCreators(actionCreators, dispatch)
+
+    const { attendanceType } = useSelector(state => state.attendance)
 
     return (
         <>
             <div>
-                <div>
-                    <h1 className='text-primary-text mb-3 font-bold text-lg'>My Lectures</h1>
+                <div className='grid grid-cols-2 gap-32'>
+                    <button className={`bg-white rounded-lg py-2 items-center ${attendanceType === "th" ? "shadow-md shadow-green-500" : ""} text-start flex px-5`} onClick={() => { setAttendanceType("th") }}>
+                        <p className='text-primary-text font-bold text-[1rem] my-auto '>Theory Lectures</p>
+                    </button>
+                    <button className={`bg-white rounded-lg py-2 text-start items-center px-5 ${attendanceType === "pr" ? "shadow-md shadow-green-500" : ""}`} onClick={() => { setAttendanceType("pr") }}>
+                        <p className='text-primary-text my-auto font-bold text-[1rem]'>Practical Labs</p>
+                    </button>
                 </div>
-                {
-                    data.map(item => {
-                        const { id, cLass, class_name, totalLectureDays, subject_name } = item
-                        return <div key={id} className="h-auto grid bg-white rounded-sm w-full items-center px-4" >
-                            <div className='relative w-full h-full rounded-sm'>
-                                <h1 className='text-primary-text mb-3 font-bold text-lg'>{class_name}</h1>
-                                <p className='text-secondary-text font-medium mb-3 h-12'>{subject_name}</p>
-                                <Link href={`/teacher/attendance/${id}`}>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                        Add
-                                    </button>
-                                </Link>
-                            </div>
-                        </div>
-
-                    })
-                }
+                <div className='py-5'>
+                    {
+                        attendanceType === "th" ?
+                            (<LecturesComp lectures={theory} />) : (
+                                <LecturesComp lectures={practical} />
+                            )
+                    }
+                </div>
             </div>
         </>
     )
@@ -37,18 +42,28 @@ function TeacherAttendance({ data }) {
 export default TeacherAttendance
 
 export const getServerSideProps = async ({ req }) => {
-    const { data } = await axios.get("http://localhost:8000/api/get-lectures/", {
-        withCredentials: true,
-        headers: {
-            Cookie: req.headers.cookie
-        }
-    })
+
+    let theory = []
+    try {
+        const { data } = await axios.get("http://localhost:8000/api/get-lectures/", {
+            withCredentials: true,
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+        theory = data;
+    } catch (error) {
+        console.log(error)
+    }
+
     return {
         props: {
-            data: data || []
+            theory: theory || [],
+            practical: []
         }
     };
 }
+
 
 TeacherAttendance.getLayout = function getLayout(page) {
     return <DashboardLayout>{page}</DashboardLayout>;

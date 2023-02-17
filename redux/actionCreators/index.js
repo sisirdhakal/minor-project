@@ -1,6 +1,7 @@
 
 import moment from 'moment'
 import {
+    ATTENDANCETYPE,
     CLEARSIGNUP,
     CLEARSIGNUPDATA,
     SIDEBARTOGGLE,
@@ -126,6 +127,14 @@ export const clearSignupData = (e) => async dispatch => {
     }
 }
 
+
+/**
+ * Attendance
+ */
+
+export const setAttendanceType = (value) => async dispatch => {
+    dispatch({ type: ATTENDANCETYPE, payload: value })
+}
 
 
 
