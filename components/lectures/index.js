@@ -29,11 +29,11 @@ function LecturesComp({ lectures }) {
                                     </div>
                                     <div className='grid grid-cols-2  gap-8 items-center px-5'>
                                         <Link href={`/teacher/attendance/${id}`}>
-                                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider w-full font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
                                                 Add
                                             </button>
                                         </Link>
-                                        <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-xl text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                        <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium w-full text-xl text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
                                             View
                                         </button>
                                     </div>
