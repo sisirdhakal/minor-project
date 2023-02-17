@@ -155,6 +155,7 @@ class Subject(models.Model):
 class Lecture(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    semester = models.IntegerField(default=1)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     isArchived = models.BooleanField(default=False)
     totalLectureDays = models.IntegerField(default=0)
