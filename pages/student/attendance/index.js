@@ -1,5 +1,6 @@
 import React from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
+import { BsFillCaretDownFill } from 'react-icons/bs'
 
 function Attendance() {
   return (
@@ -28,8 +29,9 @@ function Attendance() {
             </button>
           </div>
           <div className=' flex  justify-end'>
-            <button className={`bg-white rounded-lg py-2 text-start items-center px-5 $`} >
+            <button className={`bg-white rounded-lg flex py-2 text-start items-center px-5 $`} >
               <p className='text-primary-text my-auto font-bold text-[1rem]'> Sixth Semester </p>
+              <p className='px-2 text-primary-text mt-1'><BsFillCaretDownFill /></p>
             </button>
           </div>
 
