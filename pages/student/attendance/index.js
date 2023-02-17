@@ -18,7 +18,20 @@ function Attendance() {
 
           </div>
         </div>
-        <div>
+        <div className='grid grid-cols-2 gap-16 py-5'>
+          <div className='grid grid-cols-2 gap-8'>
+            <button className={`bg-white rounded-lg py-2 items-center shadow-md shadow-green-500 text-start flex px-5`} >
+              <p className='text-primary-text font-bold text-[1rem] my-auto '>Theory Lectures</p>
+            </button>
+            <button className={`bg-white rounded-lg py-2 text-start items-center px-5 $`} >
+              <p className='text-primary-text my-auto font-bold text-[1rem]'>Practical Labs</p>
+            </button>
+          </div>
+          <div className=' flex  justify-end'>
+            <button className={`bg-white rounded-lg py-2 text-start items-center px-5 $`} >
+              <p className='text-primary-text my-auto font-bold text-[1rem]'> Sixth Semester </p>
+            </button>
+          </div>
 
         </div>
       </div>
