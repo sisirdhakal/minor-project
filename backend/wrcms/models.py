@@ -167,17 +167,45 @@ class Lecture(models.Model):
     def __str__(self):
         return self.getLectureName()
 
+
+class PracticalClass(models.Model):
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    semester = models.IntegerField(default=1)
+    teacherOne = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, related_name='Teacher_One')
+    teacherTwo = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True, related_name='Teacher_Two')
+    isArchived = models.BooleanField(default=False)
+    totalLabDays = models.IntegerField(default=0)
+
+    def getPracticalClassName(self):
+        teacher = self.teacherOne.userProfile.getFullName()
+        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacher
+
+    def __str__(self):
+        return self.getPracticalClassName()
+
+
+
 class Attendance(models.Model):
-    ATTENDANCE_CHOICES = (
-        ("Present", "Present"),
-        ("Absent", "Absent"),
-    )
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    status = models.CharField(max_length=10, choices=ATTENDANCE_CHOICES, null=True, blank=True)
+    status = models.BooleanField(default=True)
     date = models.DateField(null=True, blank=True)
 
     def __str__(self):
         lecture = self.lecture.getLectureName()
         return self.student.userProfile.getFullName()+'-'+lecture+'-'+self.date
+
+
+
+class PracticalAttendance(models.Model):
+    practicalClass = models.ForeignKey(PracticalClass, on_delete=models.CASCADE)
+    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
+    date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        practical = self.practicalClass.getPracticalClassName()
+        return self.student.userProfile.getFullName()+'-'+practical+'-'+self.date

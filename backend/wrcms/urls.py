@@ -12,5 +12,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view()),
 
     path('get-lectures/', GetLectures.as_view()),
-    path('get-students-for-attendance/<str:id>/', GetAllStudentsForAttendance.as_view()),
+    path('get-practical-classes/', GetPracticalClass.as_view()),
+    path('get-students-for-attendance/<str:id>/', LectureDetailForAttendance.as_view()),
 ]
