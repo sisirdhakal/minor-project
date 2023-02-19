@@ -82,6 +82,7 @@ export const getServerSideProps = async ({ req, query }) => {
                 Cookie: req.headers.cookie
             }
         })
+        console.log(data)
         students = data
     } catch (error) {
         console.log(error)
