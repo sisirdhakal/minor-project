@@ -3,18 +3,20 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
 
-function AttendanceComp({ students }) {
+function AttendanceComp({ values }) {
+    const { students, department_name, class_name, subject_name, totalLectureDays } = values
+
     return (
         <div className=''>
             {/* <div className="h-auto bg-white  w-full items-center " > */}
             <div className='relative bg-white px-4 py-2 w-full h-full rounded-sm'>
 
-                <h1 className='text-primary-text text-lg mb-3 font-semibold capitalize'>department_name</h1>
+                <h1 className='text-primary-text text-lg mb-3 font-semibold capitalize'>{department_name}</h1>
                 <div className=' items-center flex'>
-                    <h1 className='text-clrgrey1 mb-1 font-bold text-lg'>Class : <span >class_name</span></h1>
+                    <h1 className='text-clrgrey1 mb-1 font-bold text-lg'>Class : <span >{class_name}</span></h1>
                 </div>
                 <div className=' items-center flex'>
-                    <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>Total Lectures : <span >subject_name</span></h1>
+                    <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>{subject_name}</h1>
                 </div>
             </div>
             <div className='h-full py-5'>
@@ -74,7 +76,7 @@ export const getServerSideProps = async ({ req, query }) => {
 
     // console.log(query)
     const { id } = query
-    let students = []
+    let values = {}
     try {
         const { data } = await axios.get(`http://localhost:8000/api/get-students-for-attendance/${id}/`, {
             withCredentials: true,
@@ -82,15 +84,14 @@ export const getServerSideProps = async ({ req, query }) => {
                 Cookie: req.headers.cookie
             }
         })
-        console.log(data)
-        students = data
+        values = data
     } catch (error) {
         console.log(error)
     }
 
     return {
         props: {
-            students: students || []
+            values: values
         }
     };
 }
