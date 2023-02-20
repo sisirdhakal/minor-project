@@ -15,6 +15,7 @@ class GetLectures(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request, format=None):
+        print(request.headers)
         user = request.user
         userProfile = UserProfile.objects.get(user=user)
         if userProfile.role.type == "Teacher":
@@ -107,6 +108,8 @@ class AddAttendance(APIView):
                                     status = False,
                                     date = attendanceDate
                                 )
+                            lecture.totalLectureDays += 1
+                            lecture.save()
                             return Response({'msg': 'Attendance added successfully!'}, status=status.HTTP_200_OK)
                     except:
                         return Response({'msg': 'Database error!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -123,15 +126,15 @@ class ViewLectureAttendance(APIView):
 
     def get(self, request, id, format=None):
         user = request.user
-        # try:
-        userProfile = UserProfile.objects.get(user=user)
-        requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
-        lecture = Lecture.objects.get(id=id)
-        if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
-            serializer = LectureAttendanceSerializer(lecture, many=False)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        else:
-            return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
-        # except:
-        #     return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            userProfile = UserProfile.objects.get(user=user)
+            requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
+            lecture = Lecture.objects.get(id=id)
+            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+                serializer = LectureAttendanceSerializer(lecture, many=False)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_404_NOT_FOUND)
         
