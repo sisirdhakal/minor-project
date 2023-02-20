@@ -11,7 +11,7 @@ import ViewAttendance from '../../../components/attendance/ViewAttendance';
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { actionCreators } from '../../../redux';
 
-function AttendanceComp({ values, cookies }) {
+function AttendanceComp({ values, cookies, viewStudent }) {
     const { students, department_name, class_name, subject_name, totalLectureDays } = values
 
     const { query: { id: lectureId, type } } = useRouter()
@@ -30,7 +30,7 @@ function AttendanceComp({ values, cookies }) {
                 </div>
             </div>
             {
-                type === "add" ? (<AddAttendance values={values} cookies={cookies} />) : (<ViewAttendance />)
+                type === "add" ? (<AddAttendance values={values} cookies={cookies} />) : (<ViewAttendance values={viewStudent} />)
             }
 
         </div>
@@ -44,6 +44,7 @@ export const getServerSideProps = async ({ req, query }) => {
     // console.log(query)
     const { id } = query
     let values = {}
+    let viewStudent = {}
     try {
         const { data } = await axios.get(`http://localhost:8000/api/get-students-for-attendance/${id}/`, {
             withCredentials: true,
@@ -51,7 +52,14 @@ export const getServerSideProps = async ({ req, query }) => {
                 Cookie: req.headers.cookie
             }
         })
-        values = data
+        const { data: viewStudentData } = await axios.get(`http://localhost:8000/api/view-lecture-attendance/${id}/`, {
+            withCredentials: true,
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+        values = data;
+        viewStudent = viewStudentData;
     } catch (error) {
         console.log(error)
     }
@@ -59,7 +67,8 @@ export const getServerSideProps = async ({ req, query }) => {
     return {
         props: {
             values: values,
-            cookies: req.cookies
+            cookies: req.cookies,
+            viewStudent: viewStudent
         }
     };
 }
