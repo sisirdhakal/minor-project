@@ -6,6 +6,8 @@ import { DashboardLayout } from '../../../components/layout/dashboard';
 function AttendanceComp({ values }) {
     const { students, department_name, class_name, subject_name, totalLectureDays } = values
 
+    const { query } = useRouter()
+    console.log(query, values)
     return (
         <div className=''>
             {/* <div className="h-auto bg-white  w-full items-center " > */}

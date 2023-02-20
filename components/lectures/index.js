@@ -9,7 +9,7 @@ function LecturesComp({ lectures }) {
             <div>
                 {
                     lectures.map(item => {
-                        const { id, class_name, totalLectureDays, subject_name, department_name } = item
+                        const { id, class_name, totalLectureDays, totalLabDays, subject_name, department_name } = item
                         return <div key={id} className="h-auto grid bg-white rounded-sm w-full items-center px-4 py-2" >
                             <div className='relative w-full h-full rounded-sm'>
                                 <h1 className='text-primary-text text-lg mb-1 font-semibold capitalize'>{department_name}</h1>
@@ -24,7 +24,7 @@ function LecturesComp({ lectures }) {
                                 </div>
                                 <div className='grid grid-cols-2'>
                                     <div className=' items-center flex'>
-                                        <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>Total Lectures : <span >{totalLectureDays}</span></h1>
+                                        <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>Total Lectures : <span >{totalLectureDays ?? totalLabDays}</span></h1>
 
                                     </div>
                                     <div className='grid grid-cols-2  gap-8 items-center px-5'>
