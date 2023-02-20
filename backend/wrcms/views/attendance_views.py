@@ -88,14 +88,14 @@ class AddAttendance(APIView):
                 if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
                     presentStudents = Student.objects.filter(id__in=attendances)
                     allStudents = Student.objects.filter(cLass=lecture.cLass)
-                    absentStudents = allStudents.difference(presentStudents)
+                    absentStudents = allStudents.exclude(id__in=presentStudents)
                     try:
                         with transaction.atomic():
                             for i in presentStudents:
                                 Attendance.objects.create(
                                     lecture = lecture,
                                     cLass = lecture.cLass,
-                                    student = Student.objects.get(id=i['id']),
+                                    student = Student.objects.get(id=i.id),
                                     status = True,
                                     date = attendanceDate
                                 )
@@ -103,11 +103,11 @@ class AddAttendance(APIView):
                                 Attendance.objects.create(
                                     lecture = lecture,
                                     cLass = lecture.cLass,
-                                    student = Student.objects.get(id=i['id']),
+                                    student = Student.objects.get(id=i.id),
                                     status = False,
                                     date = attendanceDate
                                 )
-                        return Response({'msg': 'Attendance added successfully!'}, status=status.HTTP_200_OK)
+                            return Response({'msg': 'Attendance added successfully!'}, status=status.HTTP_200_OK)
                     except:
                         return Response({'msg': 'Database error!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                 else:
