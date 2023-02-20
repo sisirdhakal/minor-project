@@ -3,12 +3,13 @@ import { useRouter } from 'next/router';
 import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { actionCreators } from '../../../redux';
 
-function AttendanceComp({ values }) {
+function AttendanceComp({ values, cookies }) {
     const { students, department_name, class_name, subject_name, totalLectureDays } = values
 
     const { query: { id: lectureId } } = useRouter()
@@ -16,29 +17,31 @@ function AttendanceComp({ values }) {
     const dispatch = useDispatch()
     const { addStudentList, setDayAttendance } = bindActionCreators(actionCreators, dispatch)
     const { studentsList, dayAttendance } = useSelector(state => state.attendance)
+    const router = useRouter()
 
     const submitAttendance = async () => {
         try {
             setDayAttendance(lectureId, date)
             const details = {
                 lecture_id: dayAttendance.lecture_id,
-                date: dayAttendance.date,
+                date: "2023/01/21",
                 attendance: [...studentsList]
             }
-            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/`, { withCredentials: true })
+            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/`, details, {
+                withCredentials: true,
+                headers: {
+                    "X-CSRFTOKEN": cookies.csrftoken
+                }
+            })
             if (data) {
-                console.log(data)
+                toast.success(data.msg)
+                router.push("/teacher/attendance")
             }
 
-
         } catch (error) {
-
+            console.log(error)
         }
     }
-
-    useEffect(() => {
-        console.log(studentsList)
-    }, [studentsList])
 
     const pushStudent = (e) => {
         let status = e.target.checked ? 1 : 0
@@ -144,7 +147,8 @@ export const getServerSideProps = async ({ req, query }) => {
 
     return {
         props: {
-            values: values
+            values: values,
+            cookies: req.cookies
         }
     };
 }
