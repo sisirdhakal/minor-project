@@ -102,10 +102,11 @@ class AttendanceSerializer(serializers.ModelSerializer):
 class StudentAttendanceSerializer(StudentSerializer):
     attendances = serializers.SerializerMethodField(read_only=True)
     presentDays = serializers.SerializerMethodField(read_only=True)
+    presentPercentage = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Student
-        fields = ['id', 'rollNumber', 'full_name', 'presentDays', 'attendances']
+        fields = ['id', 'rollNumber', 'full_name', 'presentDays', 'presentPercentage', 'attendances']
 
     def get_attendances(self, obj):
         lecture_id = self.context.get("lecture_id")
@@ -121,6 +122,14 @@ class StudentAttendanceSerializer(StudentSerializer):
         student = Student.objects.get(id=obj.id)
         presentCount = Attendance.objects.filter(lecture=lecture, student=student, status=True).count()
         return presentCount
+
+    def get_presentPercentage(self, obj):
+        lecture_id = self.context.get("lecture_id")
+        lecture = Lecture.objects.get(id=lecture_id)
+        student = Student.objects.get(id=obj.id)
+        presentCount = Attendance.objects.filter(lecture=lecture, student=student, status=True).count()
+        percent = int(presentCount/lecture.totalLectureDays*100)
+        return percent
 
 
 class LectureAttendanceSerializer(LectureSerializer):
