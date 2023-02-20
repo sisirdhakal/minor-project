@@ -111,7 +111,7 @@ class StudentAttendanceSerializer(StudentSerializer):
         lecture_id = self.context.get("lecture_id")
         lecture = Lecture.objects.get(id=lecture_id)
         student = Student.objects.get(id=obj.id)
-        attendances = Attendance.objects.filter(lecture=lecture, student=student)
+        attendances = Attendance.objects.filter(lecture=lecture, student=student).order_by('date')
         serializer = AttendanceSerializer(attendances, many=True)
         return serializer.data
 
