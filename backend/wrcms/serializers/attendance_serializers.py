@@ -101,16 +101,26 @@ class AttendanceSerializer(serializers.ModelSerializer):
 
 class StudentAttendanceSerializer(StudentSerializer):
     attendances = serializers.SerializerMethodField(read_only=True)
+    presentDays = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Student
-        fields = ['id', 'rollNumber', 'full_name', 'attendances']
+        fields = ['id', 'rollNumber', 'full_name', 'presentDays', 'attendances']
 
     def get_attendances(self, obj):
+        lecture_id = self.context.get("lecture_id")
+        lecture = Lecture.objects.get(id=lecture_id)
         student = Student.objects.get(id=obj.id)
-        attendances = Attendance.objects.filter(student=student)
+        attendances = Attendance.objects.filter(lecture=lecture, student=student).order_by('date')
         serializer = AttendanceSerializer(attendances, many=True)
         return serializer.data
+
+    def get_presentDays(self, obj):
+        lecture_id = self.context.get("lecture_id")
+        lecture = Lecture.objects.get(id=lecture_id)
+        student = Student.objects.get(id=obj.id)
+        presentCount = Attendance.objects.filter(lecture=lecture, student=student, status=True).count()
+        return presentCount
 
 
 class LectureAttendanceSerializer(LectureSerializer):
@@ -121,6 +131,7 @@ class LectureAttendanceSerializer(LectureSerializer):
         fields = ['id', 'subject_name', 'class_name', 'totalLectureDays', 'department_name', 'students']
 
     def get_students(self, obj):
+        context = {"lecture_id": obj.id}
         students = sorted(Student.objects.filter(cLass=obj.cLass), key=lambda x:x.rollNumber[-3:])
-        serializer = StudentAttendanceSerializer(students, many=True)
+        serializer = StudentAttendanceSerializer(students, many=True, context=context)
         return serializer.data
