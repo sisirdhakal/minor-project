@@ -1,7 +1,8 @@
 import { ATTENDANCETYPE } from "../constant";
 
 const initialState = {
-    attendanceType: "th"
+    attendanceType: "th",
+    students: {}
 }
 
 const attendance_reducer = (state = initialState, action) => {

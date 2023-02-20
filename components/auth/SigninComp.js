@@ -52,8 +52,7 @@ function SigninComp() {
         toast.success(msg)
         let test = role.toLowerCase()
         sidebarUser(test)
-        router.push(`/${test}`)
-        setProcess("login")
+        router.push(`/${test}`).then(setProcess("login"))
       }
     } catch (error) {
       setProcess("login")
