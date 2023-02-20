@@ -4,6 +4,7 @@ import {
     ATTENDANCETYPE,
     CLEARSIGNUP,
     CLEARSIGNUPDATA,
+    PUSHSTUDENT,
     SIDEBARTOGGLE,
     SIDEBARUSER,
     SIGNUPDATA,
@@ -134,6 +135,10 @@ export const clearSignupData = (e) => async dispatch => {
 
 export const setAttendanceType = (value) => async dispatch => {
     dispatch({ type: ATTENDANCETYPE, payload: value })
+}
+
+export const addStudentList = (student, status) => dispatch => {
+    dispatch({ type: PUSHSTUDENT, payload: { student: student, status: status } })
 }
 
 

@@ -1,13 +1,37 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import React from 'react'
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { DashboardLayout } from '../../../components/layout/dashboard';
+import { actionCreators } from '../../../redux';
 
 function AttendanceComp({ values }) {
     const { students, department_name, class_name, subject_name, totalLectureDays } = values
 
     const { query } = useRouter()
-    console.log(query, values)
+    const dispatch = useDispatch()
+    const { addStudentList } = bindActionCreators(actionCreators, dispatch)
+    const { studentsList } = useSelector(state => state.attendance)
+
+    const submitAttendance = async () => {
+        try {
+
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        console.log(studentsList)
+    }, [studentsList])
+
+    const pushStudent = (e) => {
+        let status = e.target.checked ? 1 : 0
+        addStudentList(Number(e.target.id), status)
+    }
+
     return (
         <div className=''>
             {/* <div className="h-auto bg-white  w-full items-center " > */}
@@ -61,7 +85,16 @@ function AttendanceComp({ values }) {
                                     </p>
                                 </div>
                                 <div>
-                                    <input type="checkbox" className='cursor-pointer' name="" id="" />
+                                    <form action="" onSubmit={(e) => e.preventDefault()}>
+                                        <input
+                                            type="checkbox"
+                                            className=" rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 cursor-pointer"
+                                            id={id}
+                                            onChange={pushStudent}
+                                            name="studentAttendance"
+
+                                        />
+                                    </form>
                                 </div>
                             </div>
                         })
