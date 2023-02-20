@@ -195,7 +195,7 @@ class Attendance(models.Model):
 
     def __str__(self):
         lecture = self.lecture.getLectureName()
-        return self.student.userProfile.getFullName()+'-'+lecture+'-'+self.date
+        return self.student.userProfile.getFullName()+'-'+lecture+'-'+str(self.date)
 
 
 
@@ -208,4 +208,4 @@ class PracticalAttendance(models.Model):
 
     def __str__(self):
         practical = self.practicalClass.getPracticalClassName()
-        return self.student.userProfile.getFullName()+'-'+practical+'-'+self.date
+        return self.student.userProfile.getFullName()+'-'+practical+'-'+str(self.date)
