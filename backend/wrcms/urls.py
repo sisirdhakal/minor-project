@@ -14,4 +14,6 @@ urlpatterns = [
     path('get-lectures/', GetLectures.as_view()),
     path('get-practical-classes/', GetPracticalClass.as_view()),
     path('get-students-for-attendance/<str:id>/', LectureDetailForAttendance.as_view()),
+    path('add-attendance/', AddAttendance.as_view()),
+    path('view-lecture-attendance/<str:id>/', ViewLectureAttendance.as_view())
 ]
