@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
+import toast from 'react-hot-toast';
 
 function AddAttendance({ values, cookies }) {
     const { students, department_name, class_name, subject_name, totalLectureDays } = values
@@ -21,7 +22,7 @@ function AddAttendance({ values, cookies }) {
             setDayAttendance(lectureId, date)
             const details = {
                 lecture_id: dayAttendance.lecture_id,
-                date: "2023/01/21",
+                date: "2023/02/12",
                 attendance: [...studentsList]
             }
             const { data } = await axios.post(`http://localhost:8000/api/add-attendance/`, details, {
