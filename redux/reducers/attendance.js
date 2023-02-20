@@ -4,8 +4,7 @@ const initialState = {
     attendanceType: "th",
     dayAttendance: {
         lecture_id: 0,
-        date: "",
-        students: []
+        date: ""
     },
     studentsList: []
 }
@@ -15,12 +14,11 @@ const attendance_reducer = (state = initialState, action) => {
         return { ...state, attendanceType: action.payload }
     }
     if (action.type === DAYATTENDANCE) {
-        const { lecture_id, date, students } = action.payload
+        const { lecture_id, date } = action.payload
         return {
             ...state, dayAttendance: {
                 lecture_id: lecture_id,
-                date: date,
-                students: [...students]
+                date: date
             }
         }
     }
@@ -30,6 +28,14 @@ const attendance_reducer = (state = initialState, action) => {
             return {
                 ...state,
                 studentsList: state.studentsList.filter(item => item === student ? 0 : item)
+            }
+        }
+        if (student) {
+            let check = state.studentsList.filter(item => item === student)
+            if (check.length > 0) {
+                return {
+                    ...state
+                }
             }
         }
         return {

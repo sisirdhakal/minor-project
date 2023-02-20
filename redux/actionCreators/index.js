@@ -4,6 +4,7 @@ import {
     ATTENDANCETYPE,
     CLEARSIGNUP,
     CLEARSIGNUPDATA,
+    DAYATTENDANCE,
     PUSHSTUDENT,
     SIDEBARTOGGLE,
     SIDEBARUSER,
@@ -135,6 +136,9 @@ export const clearSignupData = (e) => async dispatch => {
 
 export const setAttendanceType = (value) => async dispatch => {
     dispatch({ type: ATTENDANCETYPE, payload: value })
+}
+export const setDayAttendance = (lecture_id, date) => async dispatch => {
+    dispatch({ type: DAYATTENDANCE, payload: { lecture_id: lecture_id, date: date } })
 }
 
 export const addStudentList = (student, status) => dispatch => {
