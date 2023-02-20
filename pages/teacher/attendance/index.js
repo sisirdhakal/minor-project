@@ -44,14 +44,22 @@ export default TeacherAttendance
 export const getServerSideProps = async ({ req }) => {
 
     let theory = []
+    let practial = []
     try {
-        const { data } = await axios.get("http://localhost:8000/api/get-lectures/", {
+        const { data: theoryData } = await axios.get("http://localhost:8000/api/get-lectures/", {
             withCredentials: true,
             headers: {
                 Cookie: req.headers.cookie
             }
         })
-        theory = data;
+        const { data: practicalData } = await axios.get("http://localhost:8000/api/get-practical-classes/", {
+            withCredentials: true,
+            headers: {
+                Cookie: req.headers.cookie
+            }
+        })
+        theory = theoryData;
+        practial = practicalData
     } catch (error) {
         console.log(error)
     }
@@ -59,7 +67,7 @@ export const getServerSideProps = async ({ req }) => {
     return {
         props: {
             theory: theory || [],
-            practical: []
+            practical: practial || []
         }
     };
 }

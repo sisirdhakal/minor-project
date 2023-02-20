@@ -35,7 +35,7 @@ function SigninComp() {
     setvalues({ ...values, [e.target.name]: e.target.value })
   }
 
-  const [user, setuser] = useState("parent")
+  const [process, setProcess] = useState("login")
 
   const router = useRouter()
 
@@ -44,18 +44,18 @@ function SigninComp() {
     e.preventDefault()
 
     try {
-
+      setProcess("logging in ...")
       const { data: { msg, role, username, name } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
 
       if (msg) {
         localStorage.setItem("userName", name)
         toast.success(msg)
         let test = role.toLowerCase()
-        console.log(test)
         sidebarUser(test)
-        router.push(`/${test}`)
+        router.push(`/${test}`).then(setProcess("login"))
       }
     } catch (error) {
+      setProcess("login")
       if (error.response?.data.msg) {
         toast.error(error.response.data.msg)
       }
@@ -80,21 +80,6 @@ function SigninComp() {
 
     // eslint-disable-next-line
   }, [])
-
-
-  // const [password, setPassword] = useState('');
-  // const [email, setemail] = useState('');
-
-  // const passwordBlur = (e) => {
-  //   if (!e.target.value) {
-  //     setPassword('');
-  //   }
-  // };
-  // const emailBlur = (e) => {
-  //   if (!e.target.value) {
-  //     setemail('');
-  //   }
-  // };
 
 
 
@@ -212,7 +197,7 @@ function SigninComp() {
                 <button className=' text-secondary-text/80 font-semibold'  > Forgot Password ?</button>
               </div>
 
-              <button className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium ' type='submit' >Login</button>
+              <button disabled={process === "login" ? false : true} className='w-full p-1 bg-button rounded-2xl  transition-all duration-500 ease-in-out text-white text-xl font-medium capitalize disabled:cursor-not-allowed' type='submit' >{process}</button>
 
             </form>
             <div className='flex justify-center items-center'>
