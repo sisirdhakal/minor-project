@@ -96,7 +96,7 @@ class LectureDetailSerializer(LectureSerializer):
 class AttendanceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attendance
-        fields = ['date', 'status']
+        fields = ['id', 'date', 'status']
 
 
 class StudentAttendanceSerializer(StudentSerializer):
@@ -143,4 +143,21 @@ class LectureAttendanceSerializer(LectureSerializer):
         context = {"lecture_id": obj.id}
         students = sorted(Student.objects.filter(cLass=obj.cLass), key=lambda x:x.rollNumber[-3:])
         serializer = StudentAttendanceSerializer(students, many=True, context=context)
+        return serializer.data
+
+
+class EditAttendanceStudentSerializer(StudentSerializer):
+    attendance = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Student
+        fields = ['id', 'rollNumber', 'full_name', 'attendance']
+
+    def get_attendance(self, obj):
+        lecture_id = self.context.get("lecture_id")
+        date = self.context.get("attendanceDate")
+        lecture = Lecture.objects.get(id=lecture_id)
+        student = Student.objects.get(id=obj.id)
+        attendance = Attendance.objects.get(lecture=lecture, student=student, date=date)
+        serializer = AttendanceSerializer(attendance, many=False)
         return serializer.data
