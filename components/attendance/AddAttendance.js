@@ -7,6 +7,8 @@ import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
 import toast from 'react-hot-toast';
 import { useEffect } from 'react'
+import Cookies from 'js-cookie'
+import CenteredLoading from '../loader'
 
 function AddAttendance({ cookies }) {
 
@@ -20,6 +22,7 @@ function AddAttendance({ cookies }) {
 
     useEffect(() => {
         const getData = async () => {
+
             try {
                 const { data } = await axios.get(`http://localhost:8000/api/add-attendance/${lectureId}/`, {
                     withCredentials: true,
@@ -96,8 +99,9 @@ function AddAttendance({ cookies }) {
                     </div>
                     {
                         !values ? (
-                            <div>
-                                loading...
+                            <div className='py-6'>
+                                <p className='text-secondary-text text-center text-lg font-medium'>Loading Students list ...</p>
+                                <CenteredLoading />
                             </div>
                         ) : (
                             <div>
