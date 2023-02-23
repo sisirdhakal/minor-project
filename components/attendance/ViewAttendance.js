@@ -4,7 +4,6 @@ import React from 'react'
 
 function ViewAttendance({ values }) {
     const { students, totalLectureDays } = values
-    console.log(values)
 
     return (
         <>
@@ -29,9 +28,9 @@ function ViewAttendance({ values }) {
                             </div>
                             <div className='grid grid-cols-9 gap-1 py-1'>
                                 {
-                                    attendances.map(item => {
+                                    attendances.map((item, index) => {
                                         const { date, status } = item
-                                        return <div key={date} className={`border h-9 py-1 w-10 ${status ? "shadowGreen border-green-500" : "shadowRed border-red-500"}`}>
+                                        return <div key={index} className={`border h-9 py-1 w-10 ${status ? "shadowGreen border-green-500" : "shadowRed border-red-500"}`}>
                                             <h1 className='text-[14px] leading-[14px] text-center font-medium'>{new Date(date).toLocaleString('default', { month: "short" })}</h1>
                                             <h1 className='text-[14px] leading-[14px] text-center font-semibold'>{new Date(date).getDate()}</h1>
                                         </div>

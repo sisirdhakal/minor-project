@@ -46,7 +46,7 @@ export const getServerSideProps = async ({ req, query }) => {
     let values = {}
     let viewStudent = {}
     try {
-        const { data } = await axios.get(`http://localhost:8000/api/get-students-for-attendance/${id}/`, {
+        const { data } = await axios.get(`http://localhost:8000/api/add-attendance/${id}/`, {
             withCredentials: true,
             headers: {
                 Cookie: req.headers.cookie
