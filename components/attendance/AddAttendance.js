@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import CenteredLoading from '../loader'
+import DateComp from '../common/DatePicker'
 
 function AddAttendance({ cookies }) {
 
@@ -76,7 +77,7 @@ function AddAttendance({ cookies }) {
 
                 <div className='bg-white h-full py-3 px-8'>
                     <div className='mb-2 flex justify-end'>
-                        <p className='text-primary-text text-lg font-semibold'> Date : {date}</p>
+                        <DateComp />
                     </div>
                     <div>
                         <div className="grid grid-cols-3 mb-3">
