@@ -6,7 +6,7 @@ function LecturesComp({ lectures }) {
 
     return (
         <>
-            <div>
+            <div className='grid grid-cols-1 gap-y-2'>
                 {
                     lectures.map(item => {
                         const { id, class_name, totalLectureDays, totalLabDays, subject_name, department_name } = item
@@ -27,10 +27,15 @@ function LecturesComp({ lectures }) {
                                         <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>Total Lectures : <span >{totalLectureDays ?? totalLabDays}</span></h1>
 
                                     </div>
-                                    <div className='grid grid-cols-2  gap-8 items-center px-5'>
+                                    <div className='grid grid-cols-3  gap-4 items-center px-3'>
                                         <Link href={`/teacher/attendance/${id}?type=add`}>
                                             <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider w-full font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
                                                 Add
+                                            </button>
+                                        </Link>
+                                        <Link href={`/teacher/attendance/${id}?type=edit`}>
+                                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider w-full font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                                Edit
                                             </button>
                                         </Link>
                                         <Link href={`/teacher/attendance/${id}?type=view`}>
