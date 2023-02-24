@@ -62,9 +62,11 @@ function EditAttendance({ cookies }) {
     const submitAttendance = async () => {
         try {
             setDayAttendance(lectureId, date)
-            const attendance = [...studentsList]
-
-            const { data } = await axios.post(`http://localhost:8000/api/edit-attendance/${date}/`, attendance, {
+            const details = {
+                attendance: [...studentsList]
+            }
+            const params = lectureId + "-" + date
+            const { data } = await axios.post(`http://localhost:8000/api/edit-attendance/${params}/`, details, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookies.csrftoken
