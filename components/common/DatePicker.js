@@ -10,14 +10,15 @@ import { DatePicker } from '@mui/x-date-pickers';
 
 function DateComp(props) {
     const [value, setValue] = useState(
-        dayjs('2023-02-23T21:11:54'),
+        dayjs(new Date()),
     );
-
+    // console.log()
     const handleChange = (newValue) => {
         setValue(newValue);
-        const date = dayjs(newValue).format("YYYY/MM/DD")
+        const date = dayjs(newValue).format("YYYY-MM-DD")
         // console.log(date)
-        props.getData(date)
+        const lectureId = props.lectureId
+        props?.getData(lectureId + "-" + date, date)
     };
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

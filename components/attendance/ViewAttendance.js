@@ -37,7 +37,7 @@ function ViewAttendance({ cookies }) {
             <div className='grid grid-cols-1 gap-y-2 mt-6 py-6'>
                 {
                     !values ? (
-                        <div className='py-6'>
+                        <div className='py-6 bg-white'>
                             <p className='text-secondary-text text-center text-lg font-medium'>Loading Students list ...</p>
                             <CenteredLoading />
                         </div>
