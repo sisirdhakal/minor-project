@@ -24,7 +24,7 @@ function AttendanceComp({ values, cookies }) {
                 </div>
             </div>
             {
-                type === "view" ? (<ViewAttendance />) : type === "edit" ? (<EditAttendance cookies={cookies} />) : (<AddAttendance cookies={cookies} />)
+                type === "view" ? (<ViewAttendance cookies={cookies} />) : type === "edit" ? (<EditAttendance cookies={cookies} />) : (<AddAttendance cookies={cookies} />)
             }
 
         </div>

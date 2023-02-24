@@ -8,25 +8,56 @@ import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
 
-function DateComp() {
+function DateComp(props) {
     const [value, setValue] = useState(
         dayjs('2023-02-23T21:11:54'),
     );
 
     const handleChange = (newValue) => {
         setValue(newValue);
+        const date = dayjs(newValue).format("YYYY/MM/DD")
+        // console.log(date)
+        props.getData(date)
     };
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <div className='flex justify-center items-center text-secondary-text p-3'>
-                <DatePicker
-                    label="Date"
-                    inputFormat="YYYY/MM/DD"
-                    className=''
-                    value={value}
-                    onChange={handleChange}
-                    renderInput={(params) => <TextField {...params} />}
-                />
+            <div className='flex justify-center items-center text-secondary-text'>
+                <div>
+                    <p className='font-semibold'>Select Date :</p>
+                    <DatePicker
+                        label=""
+                        inputFormat="YYYY/MM/DD"
+                        className=''
+                        value={value}
+                        onChange={handleChange}
+                        PopperProps={{
+                            sx: {
+                                '& .MuiPaper-root': {
+                                    backgroundColor: 'white',
+                                }
+                            }
+                        }}
+                        InputProps={{
+                            sx: {
+                                '&:focus': {
+                                    border: "0px",
+                                    outline: "0px",
+                                    color: "white"
+                                },
+                                outline: 0
+                            }
+                        }}
+                        renderInput={(params) => <TextField variant='outlined' css={{ border: 0, outline: "none" }} style={{ outline: "none" }} sx={[
+                            {
+                                '&:focus': {
+                                    border: "0px",
+                                    outline: "0px",
+                                    color: "white"
+                                }
+                            }
+                        ]}  {...params} />}
+                    />
+                </div>
             </div>
         </LocalizationProvider>
     );

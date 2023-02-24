@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
 import CenteredLoading from '../loader'
+import DateComp from '../common/DatePicker'
 
 function EditAttendance({ cookies }) {
 
@@ -19,26 +20,29 @@ function EditAttendance({ cookies }) {
     const { studentsList, dayAttendance } = useSelector(state => state.attendance)
     const router = useRouter()
     const [values, setValues] = useState(null)
+    const [start, setstart] = useState(false)
 
-    useEffect(() => {
-        const getData = async () => {
-            try {
-                const { data } = await axios.get(`http://localhost:8000/api/edit-attendance/${lectureId}/`, {
-                    withCredentials: true,
-                    headers: {
-                        "X-CSRFTOKEN": cookies.csrftoken
-                    }
-                })
-                if (data) {
-                    setValues(data)
+    // useEffect(() => {
+    const getData = async (date) => {
+
+        try {
+            const { data } = await axios.get(`http://localhost:8000/api/edit-attendance/${date}/`, {
+                withCredentials: true,
+                headers: {
+                    "X-CSRFTOKEN": cookies.csrftoken
                 }
-            } catch (error) {
-                console.log(error)
+            })
+            if (data) {
+                setValues(data)
+                // setstart(false)
             }
-
+        } catch (error) {
+            console.log(error)
         }
-        getData()
-    }, [])
+
+    }
+    //     getData()
+    // }, [])
 
 
     const submitAttendance = async () => {
@@ -74,8 +78,8 @@ function EditAttendance({ cookies }) {
             <div className='h-full py-5'>
 
                 <div className='bg-white h-full py-3 px-8'>
-                    <div className='mb-2 flex justify-end'>
-                        <p className='text-primary-text text-lg font-semibold'> Date : {date}</p>
+                    <div className=' flex justify-end'>
+                        <DateComp getData={getData} />
                     </div>
                     <div>
                         <div className="grid grid-cols-3 mb-3">
@@ -97,7 +101,7 @@ function EditAttendance({ cookies }) {
                         </div>
                     </div>
                     {
-                        !values ? (
+                        start && !values ? (
                             <div className='py-6'>
                                 <p className='text-secondary-text text-center text-lg font-medium'>Loading Students list ...</p>
                                 <CenteredLoading />
