@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useEffect } from 'react'
 import { useState } from 'react'
-import CenteredLoading from '../../common/Loader/Loader'
+import CenteredLoading from '../../common/Loader'
 
 function ViewAttendance({ cookies }) {
     // const { students, totalLectureDays } = values
