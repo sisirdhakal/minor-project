@@ -4,6 +4,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import CenteredLoading from '../../../common/Loader';
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import LecturesComp from '../../../components/lectures';
 import { actionCreators } from '../../../redux';
@@ -12,14 +13,13 @@ import { getPracticalLectures, getTheoryLectures } from '../../../utils/teachers
 function TeacherAttendance({ cookie }) {
 
     const dispatch = useDispatch()
-    const { setAttendanceType } = bindActionCreators(actionCreators, dispatch)
+    const { setAttendanceType, fetchTheoryLectures, fetchPracticalLabs } = bindActionCreators(actionCreators, dispatch)
     const { attendanceType } = useSelector(state => state.attendance)
+    const { theoryLectures, lectures_loading, lectures_error } = useSelector(state => state.teachersData)
 
     useEffect(() => {
-
-        const fetchLectures = async () => {
-            const theoryLectures = await getTheoryLectures(cookie)
-        }
+        fetchTheoryLectures(cookie)
+        fetchPracticalLabs(cookie)
 
     }, [])
 
@@ -35,14 +35,28 @@ function TeacherAttendance({ cookie }) {
                         <p className='text-primary-text my-auto font-bold text-[1rem]'>Practical Labs</p>
                     </button>
                 </div>
-                {/* <div className='py-5'>
+                <div className='py-5'>
                     {
-                        attendanceType === "th" ?
-                            (<LecturesComp lectures={theory} />) : (
-                                <LecturesComp lectures={practical} />
-                            )
+                        lectures_loading ?
+                            (<div className='py-6 bg-white rounded-md'>
+                                <p className='text-secondary-text text-center text-lg font-medium'>Loading Lectures list ...</p>
+                                <CenteredLoading />
+                            </div>) :
+                            lectures_error ?
+                                (<div>
+                                    <div className='py-6'>
+                                        <p className='text-[#ff0000] text-center text-xl font-medium'>
+                                            Failed to load the Lectures ...</p>
+
+                                    </div>
+                                </div>) :
+                                attendanceType === "th" ?
+                                    (<LecturesComp lectures={theoryLectures} />)
+                                    : (
+                                        <LecturesComp lectures={theoryLectures} />
+                                    )
                     }
-                </div> */}
+                </div>
             </div>
         </>
     )

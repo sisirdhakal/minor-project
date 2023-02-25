@@ -1,6 +1,10 @@
+import { getPracticalLectures, getTheoryLectures } from "../../utils/teachersAttendance/getLectures"
 import {
     ATTENDANCETYPE,
     DAYATTENDANCE,
+    GET_lECTURES_BEGIN,
+    GET_lECTURES_ERROR,
+    GET_lECTURES_SUCCESS,
     PUSHSTUDENT
 } from "../constant"
 
@@ -14,4 +18,27 @@ export const setDayAttendance = (lecture_id, date) => async dispatch => {
 
 export const addStudentList = (student, status) => dispatch => {
     dispatch({ type: PUSHSTUDENT, payload: { student: student, status: status } })
+}
+
+export const fetchTheoryLectures = (cookie) => async dispatch => {
+    dispatch({ type: GET_lECTURES_BEGIN })
+    try {
+        const theoryLectures = await getTheoryLectures(cookie)
+        dispatch({ type: GET_lECTURES_SUCCESS, payload: theoryLectures })
+    } catch (error) {
+        console.log(error)
+        dispatch({ type: GET_lECTURES_ERROR })
+    }
+}
+export const fetchPracticalLabs = (cookie) => async dispatch => {
+    dispatch({ type: GET_lECTURES_BEGIN })
+    try {
+        const practicalLabs = await getPracticalLectures(cookie)
+        dispatch({ type: GET_lECTURES_SUCCESS, payload: practicalLabs })
+    } catch (error) {
+        dispatch({ type: GET_lECTURES_ERROR })
+    }
+}
+export const fetchSingleLecture = (id) => async dispatch => {
+
 }
