@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -8,8 +8,8 @@ import { actionCreators } from '../../redux'
 import toast from 'react-hot-toast';
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
-import CenteredLoading from '../loader'
-import DateComp from '../common/DatePicker'
+import DateComp from '../../common/DatePicker'
+import CenteredLoading from '../../common/Loader'
 import dayjs from 'dayjs'
 
 function EditAttendance({ cookies }) {
@@ -21,7 +21,16 @@ function EditAttendance({ cookies }) {
     const { studentsList, dayAttendance } = useSelector(state => state.attendance)
     const router = useRouter()
     const [values, setValues] = useState(null)
-    const [message, setmessage] = useState(false)
+    const [message, setmessage] = useState(true)
+    const [test, settest] = useState([])
+    useEffect(() => {
+        if (values) {
+            settest(Array.from(values?.map(item => item.attendance.status)))
+        }
+    }, [values])
+
+
+
     // useEffect(() => {
     const getData = async (date, value) => {
         setmessage(false)
@@ -43,8 +52,9 @@ function EditAttendance({ cookies }) {
         }
 
     }
-    useEffect(() => {
-        getData(lectureId + "-" + dayjs(new Date()).format("YYYY-MM-DD"), dayjs(new Date()).format("YYYY-MM-DD"))
+    useMemo(() => {
+        getData(lectureId + "-" + dayjs("2023-01-20T21:11:54").format("YYYY-MM-DD"), dayjs("2023-01-20T21:11:54").format("YYYY-MM-DD"))
+        // getData(lectureId + "-" + dayjs(new Date()).format("YYYY-MM-DD"), dayjs(new Date()).format("YYYY-MM-DD"))
     }, [])
 
 
@@ -53,11 +63,10 @@ function EditAttendance({ cookies }) {
         try {
             setDayAttendance(lectureId, date)
             const details = {
-                lecture_id: dayAttendance.lecture_id,
-                date: "2023/02/12",
                 attendance: [...studentsList]
             }
-            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/`, details, {
+            const params = lectureId + "-" + date
+            const { data } = await axios.post(`http://localhost:8000/api/edit-attendance/${params}/`, details, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookies.csrftoken
@@ -74,8 +83,12 @@ function EditAttendance({ cookies }) {
     }
 
     const pushStudent = (e) => {
+        const updatedCheckedState = test.map((item, index) =>
+            index === Number(e.target.id) ? !item : item
+        )
+        settest(updatedCheckedState);
         let status = e.target.checked ? 1 : 0
-        addStudentList(Number(e.target.id), status)
+        addStudentList(Number(e.target.name), status)
     }
     return (
         <div>
@@ -120,7 +133,7 @@ function EditAttendance({ cookies }) {
                                 </div>
                             ) : (
                                 <div>
-                                    {values?.map(item => {
+                                    {test.length && values?.map((item, index) => {
                                         const { id, rollNumber, full_name, attendance
                                         } = item
                                         return <div key={id} className="grid grid-cols-3 mb-1">
@@ -139,10 +152,10 @@ function EditAttendance({ cookies }) {
                                                     <input
                                                         type="checkbox"
                                                         className=" rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 cursor-pointer"
-                                                        id={id}
-                                                        checked={attendance?.status ?? false}
+                                                        id={index}
+                                                        checked={test[index]}
                                                         onChange={pushStudent}
-                                                        name="studentAttendance"
+                                                        name={id}
 
                                                     />
                                                 </form>
@@ -150,8 +163,8 @@ function EditAttendance({ cookies }) {
                                         </div>
                                     })}
                                     <div className='mt-12 mb-3 flex items-center justify-center'>
-                                        <button className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40' onClick={submitAttendance}>
-                                            Submit
+                                        <button className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-56' onClick={submitAttendance}>
+                                            Update Attendance
                                         </button>
                                     </div>
                                 </div>

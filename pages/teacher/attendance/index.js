@@ -4,16 +4,27 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import LecturesComp from '../../../common/lectures';
+import CenteredLoading from '../../../common/Loader';
 import { DashboardLayout } from '../../../components/layout/dashboard';
-import LecturesComp from '../../../components/lectures';
 import { actionCreators } from '../../../redux';
 
-function TeacherAttendance({ theory, practical }) {
+function TeacherAttendance({ cookie }) {
 
     const dispatch = useDispatch()
-    const { setAttendanceType } = bindActionCreators(actionCreators, dispatch)
-
+    const { setAttendanceType, fetchTheoryLectures, fetchPracticalLabs } = bindActionCreators(actionCreators, dispatch)
     const { attendanceType } = useSelector(state => state.attendance)
+    const { theoryLectures, lectures_loading, lectures_error, practicalLectures } = useSelector(state => state.teachersData)
+
+    useEffect(() => {
+        if (attendanceType !== "th") {
+            !practicalLectures.length && fetchPracticalLabs(cookie)
+        }
+        else {
+            !theoryLectures.length && fetchTheoryLectures(cookie)
+        }
+    }, [attendanceType])
+
 
     return (
         <>
@@ -28,10 +39,24 @@ function TeacherAttendance({ theory, practical }) {
                 </div>
                 <div className='py-5'>
                     {
-                        attendanceType === "th" ?
-                            (<LecturesComp lectures={theory} />) : (
-                                <LecturesComp lectures={practical} />
-                            )
+                        lectures_loading ?
+                            (<div className='py-6 bg-white rounded-md'>
+                                <p className='text-secondary-text text-center text-lg font-medium'>Loading Lectures list ...</p>
+                                <CenteredLoading />
+                            </div>) :
+                            lectures_error ?
+                                (<div>
+                                    <div className='py-6'>
+                                        <p className='text-[#ff0000] text-center text-xl font-medium'>
+                                            Failed to load the Lectures ...</p>
+
+                                    </div>
+                                </div>) :
+                                attendanceType === "th" ?
+                                    (<LecturesComp lectures={theoryLectures} />)
+                                    : (
+                                        <LecturesComp lectures={practicalLectures} />
+                                    )
                     }
                 </div>
             </div>
@@ -42,32 +67,9 @@ function TeacherAttendance({ theory, practical }) {
 export default TeacherAttendance
 
 export const getServerSideProps = async ({ req }) => {
-
-    let theory = []
-    let practial = []
-    try {
-        const { data: theoryData } = await axios.get("http://localhost:8000/api/get-lectures/", {
-            withCredentials: true,
-            headers: {
-                Cookie: req.headers.cookie
-            }
-        })
-        const { data: practicalData } = await axios.get("http://localhost:8000/api/get-practical-classes/", {
-            withCredentials: true,
-            headers: {
-                Cookie: req.headers.cookie
-            }
-        })
-        theory = theoryData;
-        practial = practicalData
-    } catch (error) {
-        console.log(error)
-    }
-
     return {
         props: {
-            theory: theory || [],
-            practical: practial || []
+            cookie: req.cookies
         }
     };
 }
