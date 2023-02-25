@@ -8,8 +8,8 @@ import { actionCreators } from '../../redux'
 import toast from 'react-hot-toast';
 import { useEffect } from 'react'
 import Cookies from 'js-cookie'
-import CenteredLoading from '../loader'
-import DateComp from '../common/DatePicker'
+import DateComp from '../../common/DatePicker/DatePicker'
+import CenteredLoading from '../../common/Loader/Loader'
 import dayjs from 'dayjs'
 
 function EditAttendance({ cookies }) {
