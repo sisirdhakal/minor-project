@@ -5,6 +5,7 @@ import {
     GET_lECTURES_BEGIN,
     GET_lECTURES_ERROR,
     GET_lECTURES_SUCCESS,
+    GET_PRLABS_SUCCESS,
     PUSHSTUDENT
 } from "../constant"
 
@@ -34,7 +35,7 @@ export const fetchPracticalLabs = (cookie) => async dispatch => {
     dispatch({ type: GET_lECTURES_BEGIN })
     try {
         const practicalLabs = await getPracticalLectures(cookie)
-        dispatch({ type: GET_lECTURES_SUCCESS, payload: practicalLabs })
+        dispatch({ type: GET_PRLABS_SUCCESS, payload: practicalLabs })
     } catch (error) {
         dispatch({ type: GET_lECTURES_ERROR })
     }

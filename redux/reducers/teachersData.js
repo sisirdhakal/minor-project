@@ -25,20 +25,14 @@ const teachersData_reducer = (state = initialState, action) => {
             theoryLectures: action.payload
         }
     }
-    if (action.type === GET_lECTURES_ERROR) {
-        return { ...state, lectures_loading: false, lectures_error: true }
-    }
-    if (action.type === GET_PRLABS_BEGIN) {
-        return { ...state, lectures_loading: true }
-    }
     if (action.type === GET_PRLABS_SUCCESS) {
         return {
             ...state,
             lectures_loading: false,
-            theoryLectures: action.payload
+            practicalLectures: action.payload
         }
     }
-    if (action.type === GET_PRLABS_ERROR) {
+    if (action.type === GET_lECTURES_ERROR) {
         return { ...state, lectures_loading: false, lectures_error: true }
     }
     else {

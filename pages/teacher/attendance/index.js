@@ -4,24 +4,26 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import LecturesComp from '../../../common/lectures';
 import CenteredLoading from '../../../common/Loader';
 import { DashboardLayout } from '../../../components/layout/dashboard';
-import LecturesComp from '../../../components/lectures';
 import { actionCreators } from '../../../redux';
-import { getPracticalLectures, getTheoryLectures } from '../../../utils/teachersAttendance/getLectures';
 
 function TeacherAttendance({ cookie }) {
 
     const dispatch = useDispatch()
     const { setAttendanceType, fetchTheoryLectures, fetchPracticalLabs } = bindActionCreators(actionCreators, dispatch)
     const { attendanceType } = useSelector(state => state.attendance)
-    const { theoryLectures, lectures_loading, lectures_error } = useSelector(state => state.teachersData)
+    const { theoryLectures, lectures_loading, lectures_error, practicalLectures } = useSelector(state => state.teachersData)
 
     useEffect(() => {
-        fetchTheoryLectures(cookie)
-        fetchPracticalLabs(cookie)
-
-    }, [])
+        if (attendanceType !== "th") {
+            !practicalLectures.length && fetchPracticalLabs(cookie)
+        }
+        else {
+            !theoryLectures.length && fetchTheoryLectures(cookie)
+        }
+    }, [attendanceType])
 
 
     return (
@@ -53,7 +55,7 @@ function TeacherAttendance({ cookie }) {
                                 attendanceType === "th" ?
                                     (<LecturesComp lectures={theoryLectures} />)
                                     : (
-                                        <LecturesComp lectures={theoryLectures} />
+                                        <LecturesComp lectures={practicalLectures} />
                                     )
                     }
                 </div>
