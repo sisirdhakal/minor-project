@@ -4,19 +4,26 @@ import {
     GET_lECTURES_SUCCESS,
     GET_PRLABS_BEGIN,
     GET_PRLABS_ERROR,
-    GET_PRLABS_SUCCESS
+    GET_PRLABS_SUCCESS,
+    SET_SINGLE_LECTURE
 } from "../constant";
 
 const initialState = {
     theoryLectures: [],
     practicalLectures: [],
     lectures_loading: false,
-    lectures_error: false
+    lectures_error: false,
+    singleLecture: null
 }
 
 const teachersData_reducer = (state = initialState, action) => {
     if (action.type === GET_lECTURES_BEGIN) {
         return { ...state, lectures_loading: true }
+    }
+    if (action.type === SET_SINGLE_LECTURE) {
+        const { id, lecture } = action.payload
+        const singleLecture = lecture.find(item => item.id === Number(id))
+        return { ...state, singleLecture: singleLecture }
     }
     if (action.type === GET_lECTURES_SUCCESS) {
         return {

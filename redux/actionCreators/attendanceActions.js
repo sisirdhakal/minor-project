@@ -6,7 +6,8 @@ import {
     GET_lECTURES_ERROR,
     GET_lECTURES_SUCCESS,
     GET_PRLABS_SUCCESS,
-    PUSHSTUDENT
+    PUSHSTUDENT,
+    SET_SINGLE_LECTURE
 } from "../constant"
 
 export const setAttendanceType = (value) => async dispatch => {
@@ -40,6 +41,6 @@ export const fetchPracticalLabs = (cookie) => async dispatch => {
         dispatch({ type: GET_lECTURES_ERROR })
     }
 }
-export const fetchSingleLecture = (id) => async dispatch => {
-
+export const fetchSingleLecture = (id, lecture) => async dispatch => {
+    dispatch({ type: SET_SINGLE_LECTURE, payload: { id, lecture } })
 }
