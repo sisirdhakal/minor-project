@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { AiFillCaretDown } from 'react-icons/ai'
-import { BsPerson, BsPersonFill } from 'react-icons/bs'
+import { BsPerson } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 
 export default function Topbar() {

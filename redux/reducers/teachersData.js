@@ -14,7 +14,7 @@ const initialState = {
     lectures_loading: false,
     lectures_error: false,
     singleLecture: null,
-    attendanceDate: dayjs(new Date())
+    attendanceDate: dayjs(new Date()).format("YYYY-MM-DD")
 }
 
 const teachersData_reducer = (state = initialState, action) => {
@@ -22,7 +22,8 @@ const teachersData_reducer = (state = initialState, action) => {
         return { ...state, lectures_loading: true }
     }
     if (action.type === ATTENDANCEDATE) {
-        return { ...state, attendanceDate: action.payload }
+        const date = dayjs(action.payload).format("YYYY-MM-DD")
+        return { ...state, attendanceDate: date }
     }
     if (action.type === SET_SINGLE_LECTURE) {
         const { id, lecture } = action.payload

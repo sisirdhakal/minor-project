@@ -14,7 +14,6 @@ import dayjs from 'dayjs'
 function EditAttendance({ cookies }) {
 
     const { query: { id: lectureId } } = useRouter()
-    // const [date, setdate] = useState(dayjs(new Date()).format("YYYY-MM-DD"))
     const dispatch = useDispatch()
     const { addStudentList, setDayAttendance } = bindActionCreators(actionCreators, dispatch)
     const { studentsList } = useSelector(state => state.attendance)
@@ -51,8 +50,10 @@ function EditAttendance({ cookies }) {
         }
 
     }
-    useMemo(() => {
-        getData(lectureId + "-" + attendanceDate)
+    useEffect(() => {
+        const date = dayjs(attendanceDate).format("YYYY-MM-DD")
+        getData(lectureId + "-" + date)
+
     }, [attendanceDate])
 
 

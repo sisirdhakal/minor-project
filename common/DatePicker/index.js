@@ -17,10 +17,9 @@ function DateComp(props) {
 
     const handleChange = (newValue) => {
         setAttendanceDate(newValue)
-        // setValue(newValue);
         // const date = dayjs(newValue).format("YYYY-MM-DD")
         // const lectureId = props.lectureId
-        // props?.getData(lectureId + "-" + date, date)
+        // props?.getData(lectureId + "-" + date)
     };
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
