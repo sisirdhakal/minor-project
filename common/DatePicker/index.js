@@ -1,24 +1,25 @@
 import React from 'react'
 import dayjs, { Dayjs } from 'dayjs';
-// import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import { DatePicker } from '@mui/x-date-pickers';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../redux';
 
 function DateComp(props) {
-    const [value, setValue] = useState(
-        dayjs(new Date()),
-    );
-    // console.log()
+
+    const dispatch = useDispatch()
+    const { setAttendanceDate } = bindActionCreators(actionCreators, dispatch)
+    const { attendanceDate } = useSelector(state => state.teachersData)
+
     const handleChange = (newValue) => {
-        setValue(newValue);
-        const date = dayjs(newValue).format("YYYY-MM-DD")
-        // console.log(date)
-        const lectureId = props.lectureId
-        props?.getData(lectureId + "-" + date, date)
+        setAttendanceDate(newValue)
+        // const date = dayjs(newValue).format("YYYY-MM-DD")
+        // const lectureId = props.lectureId
+        // props?.getData(lectureId + "-" + date)
     };
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -29,7 +30,7 @@ function DateComp(props) {
                         label=""
                         inputFormat="YYYY/MM/DD"
                         className=''
-                        value={value}
+                        value={attendanceDate}
                         onChange={handleChange}
                         PopperProps={{
                             sx: {

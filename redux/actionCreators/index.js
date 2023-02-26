@@ -1,5 +1,5 @@
 import {
-    setAttendanceType, addStudentList, setDayAttendance, fetchTheoryLectures, fetchPracticalLabs, fetchSingleLecture
+    setAttendanceType, addStudentList, setDayAttendance, fetchTheoryLectures, fetchPracticalLabs, fetchSingleLecture, setAttendanceDate
 } from "./attendanceActions";
 import {
     setUserName, sidebarToggle, sidebarUser
@@ -27,5 +27,6 @@ export {
     setVerifyDetailsValue,
     fetchTheoryLectures,
     fetchPracticalLabs,
-    fetchSingleLecture
+    fetchSingleLecture,
+    setAttendanceDate
 }

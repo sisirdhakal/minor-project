@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { AiFillCaretDown } from 'react-icons/ai'
-import { BsPerson, BsPersonFill } from 'react-icons/bs'
+import { BsPerson } from 'react-icons/bs'
 import { useSelector } from 'react-redux';
 
 export default function Topbar() {
 
     const [visible, setvisible] = useState(false)
+    const [process, setProcess] = useState("logout")
     const router = useRouter()
 
     const { userName } = useSelector(state => state.dashboard)
@@ -16,7 +17,7 @@ export default function Topbar() {
     const logout = async () => {
 
         try {
-
+            setProcess("logging in ...")
             const { data: { msg } } = await axios.get("http://localhost:8000/api/logout/", { withCredentials: true })
 
             if (msg) {
@@ -26,7 +27,7 @@ export default function Topbar() {
                 }, 1000);
             }
         } catch (error) {
-            console.log(error)
+            setProcess("logout")
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
@@ -49,7 +50,7 @@ export default function Topbar() {
                         <AiFillCaretDown className='text-secondary-text' />
 
                         {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-full right-0 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
-                            <button className='text-white ' onClick={logout}>Logout</button>
+                            <button disabled={process === "logout" ? false : true} className='text-white ' onClick={logout}>{process}</button>
                         </div>}
                     </div>
                 </div>

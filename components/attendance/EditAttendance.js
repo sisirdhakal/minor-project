@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
 import toast from 'react-hot-toast';
 import { useEffect } from 'react'
-import Cookies from 'js-cookie'
 import DateComp from '../../common/DatePicker'
 import CenteredLoading from '../../common/Loader'
 import dayjs from 'dayjs'
@@ -15,10 +14,10 @@ import dayjs from 'dayjs'
 function EditAttendance({ cookies }) {
 
     const { query: { id: lectureId } } = useRouter()
-    const [date, setdate] = useState(dayjs(new Date()).format("YYYY-MM-DD"))
     const dispatch = useDispatch()
     const { addStudentList, setDayAttendance } = bindActionCreators(actionCreators, dispatch)
-    const { studentsList, dayAttendance } = useSelector(state => state.attendance)
+    const { studentsList } = useSelector(state => state.attendance)
+    const { attendanceDate } = useSelector(state => state.teachersData)
     const router = useRouter()
     const [values, setValues] = useState(null)
     const [message, setmessage] = useState(true)
@@ -32,10 +31,9 @@ function EditAttendance({ cookies }) {
 
 
     // useEffect(() => {
-    const getData = async (date, value) => {
+    const getData = async (date) => {
         setmessage(false)
         setValues(null)
-        setdate(value)
         try {
             const { data } = await axios.get(`http://localhost:8000/api/edit-attendance/${date}/`, {
                 withCredentials: true,
@@ -52,20 +50,21 @@ function EditAttendance({ cookies }) {
         }
 
     }
-    useMemo(() => {
-        getData(lectureId + "-" + dayjs("2023-01-20T21:11:54").format("YYYY-MM-DD"), dayjs("2023-01-20T21:11:54").format("YYYY-MM-DD"))
-        // getData(lectureId + "-" + dayjs(new Date()).format("YYYY-MM-DD"), dayjs(new Date()).format("YYYY-MM-DD"))
-    }, [])
+    useEffect(() => {
+        const date = dayjs(attendanceDate).format("YYYY-MM-DD")
+        getData(lectureId + "-" + date)
+
+    }, [attendanceDate])
 
 
 
     const submitAttendance = async () => {
         try {
-            setDayAttendance(lectureId, date)
+            setDayAttendance(lectureId, attendanceDate)
             const details = {
                 attendance: [...studentsList]
             }
-            const params = lectureId + "-" + date
+            const params = lectureId + "-" + attendanceDate
             const { data } = await axios.post(`http://localhost:8000/api/edit-attendance/${params}/`, details, {
                 withCredentials: true,
                 headers: {
@@ -122,7 +121,7 @@ function EditAttendance({ cookies }) {
                         //     {
                         message ? (
                             <div className='py-6'>
-                                <p className='text-[#ff0000]  text-center text-xl font-medium'>No lecture was taken on the Date : {date}</p>
+                                <p className='text-[#ff0000]  text-center text-xl font-medium'>No lecture was taken on the Date : {dayjs(attendanceDate).format("YYYY/MM/DD")}</p>
 
                             </div>
                         ) :

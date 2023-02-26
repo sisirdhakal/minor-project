@@ -1,5 +1,6 @@
 import { getPracticalLectures, getTheoryLectures } from "../../utils/teachersAttendance/getLectures"
 import {
+    ATTENDANCEDATE,
     ATTENDANCETYPE,
     DAYATTENDANCE,
     GET_lECTURES_BEGIN,
@@ -43,4 +44,7 @@ export const fetchPracticalLabs = (cookie) => async dispatch => {
 }
 export const fetchSingleLecture = (id, lecture) => async dispatch => {
     dispatch({ type: SET_SINGLE_LECTURE, payload: { id, lecture } })
+}
+export const setAttendanceDate = (date) => async dispatch => {
+    dispatch({ type: ATTENDANCEDATE, payload: date })
 }

@@ -1,9 +1,9 @@
+import dayjs from "dayjs";
 import {
+    ATTENDANCEDATE,
     GET_lECTURES_BEGIN,
     GET_lECTURES_ERROR,
     GET_lECTURES_SUCCESS,
-    GET_PRLABS_BEGIN,
-    GET_PRLABS_ERROR,
     GET_PRLABS_SUCCESS,
     SET_SINGLE_LECTURE
 } from "../constant";
@@ -13,12 +13,17 @@ const initialState = {
     practicalLectures: [],
     lectures_loading: false,
     lectures_error: false,
-    singleLecture: null
+    singleLecture: null,
+    attendanceDate: dayjs(new Date()).format("YYYY-MM-DD")
 }
 
 const teachersData_reducer = (state = initialState, action) => {
     if (action.type === GET_lECTURES_BEGIN) {
         return { ...state, lectures_loading: true }
+    }
+    if (action.type === ATTENDANCEDATE) {
+        const date = dayjs(action.payload).format("YYYY-MM-DD")
+        return { ...state, attendanceDate: date }
     }
     if (action.type === SET_SINGLE_LECTURE) {
         const { id, lecture } = action.payload
