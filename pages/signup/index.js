@@ -35,30 +35,9 @@ function Signup({ csrf }) {
         }
     }, [user])
 
-    // const verifyData = async () => {
-    //     try {
-    //         let result = date_regex.test(dobStudent)
-    //         if (!result) {
-    //             toast.error("Wrong date format !!")
-    //             return;
-    //         }
-
-    //         const { data } = await axios.post("http://localhost:8000/api/parent-verify/", verifyDetails, { withCredentials: true })
-    //         if (data) {
-    //             console.log(data)
-    //             // console.log(payload)
-    //             // () => { setSignUpSteps(step + 1) }
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-
     useEffect(() => {
         clearSignupData()
     }, [])
-
-
 
     return (
         <>

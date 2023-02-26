@@ -76,7 +76,7 @@ function AddAttendance({ cookies }) {
 
                 <div className='bg-white h-full py-3 px-8'>
                     <div className='mb-2 flex justify-end'>
-                        <DateComp />
+                        <DateComp  />
                     </div>
                     <div>
                         <div className="grid grid-cols-3 mb-3">

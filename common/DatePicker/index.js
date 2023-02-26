@@ -12,11 +12,9 @@ function DateComp(props) {
     const [value, setValue] = useState(
         dayjs(new Date()),
     );
-    // console.log()
     const handleChange = (newValue) => {
         setValue(newValue);
         const date = dayjs(newValue).format("YYYY-MM-DD")
-        // console.log(date)
         const lectureId = props.lectureId
         props?.getData(lectureId + "-" + date, date)
     };

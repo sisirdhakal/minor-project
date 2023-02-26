@@ -7,7 +7,6 @@ import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
 import toast from 'react-hot-toast';
 import { useEffect } from 'react'
-import Cookies from 'js-cookie'
 import DateComp from '../../common/DatePicker'
 import CenteredLoading from '../../common/Loader'
 import dayjs from 'dayjs'
