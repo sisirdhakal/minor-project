@@ -50,7 +50,7 @@ function AddAttendance({ cookies }) {
                 date: "2023/02/12",
                 attendance: [...studentsList]
             }
-            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/`, details, {
+            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}`, details, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookies.csrftoken
@@ -76,7 +76,7 @@ function AddAttendance({ cookies }) {
 
                 <div className='bg-white h-full py-3 px-8'>
                     <div className='mb-2 flex justify-end'>
-                        <DateComp  />
+                        <DateComp />
                     </div>
                     <div>
                         <div className="grid grid-cols-3 mb-3">
