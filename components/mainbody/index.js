@@ -65,7 +65,7 @@ function MainBody() {
                 </div>
                 <div className='grid lg:grid-cols-2 gap-10'>
                     <div>
-                        <div className='bg-white h-10 flex rounded-full px-5 items-center py-1 mb-3'>
+                        <div className='bg-white h-10 flex rounded-sm px-5 items-center py-1 mb-3'>
                             <div className='relative w-[24px] mr-2 h-[24px]  rounded-sm'>
                                 <Image
                                     alt=''
@@ -109,7 +109,7 @@ function MainBody() {
                         </div>
                     </div>
                     <div>
-                        <div className='bg-white h-10 flex rounded-full items-center px-5 py-1 mb-3'>
+                        <div className='bg-white h-10 flex rounded-sm items-center px-5 py-1 mb-3'>
                             <div className='relative w-[28px] h-[36px] mr-2 rounded-sm'>
                                 <Image
                                     alt=''

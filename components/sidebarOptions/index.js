@@ -25,15 +25,16 @@ export default function SidebarOptions(props) {
                                         src={item.icon}
                                         className='rounded-md'
                                         fill
+                                        title={item.name}
                                         sizes="(min-width: 60em) 24vw,
                             (min-width: 28em) 45vw,
                             100vw"
                                     />
-                                    {
-                                        !sidebar && <p className={`font-semibold group-hover:opacity-100 ${pathname === item.url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 pl-8 absolute  z-50 truncate capitalize text-lg text-end`}>
+                                    {/* {
+                                        !sidebar && <p className={`font-semibold group-hover:opacity-100 ${pathname === item.url ? (" text-red-400 ") : ("text-secondary-text")} opacity-0 pl-8 absolute truncate capitalize text-lg text-end`}>
                                             {item.name}
                                         </p>
-                                    }
+                                    } */}
                                 </div>
                             </div>
                             <div className="overflow-hidden whitespace-nowrap text-[16px] font-semibold capitalize ">
