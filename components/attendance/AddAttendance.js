@@ -9,16 +9,18 @@ import toast from 'react-hot-toast';
 import { useEffect } from 'react'
 import DateComp from '../../common/DatePicker'
 import CenteredLoading from '../../common/Loader'
+import dayjs from 'dayjs'
 
 function AddAttendance({ cookies }) {
 
     const { query: { id: lectureId, type } } = useRouter()
-    const [date, setdate] = useState(new Date().toLocaleDateString('en-GB').split('/').reverse().join('/'))
+    const { attendanceDate } = useSelector(state => state.teachersData)
     const dispatch = useDispatch()
     const { addStudentList, setDayAttendance } = bindActionCreators(actionCreators, dispatch)
     const { studentsList, dayAttendance } = useSelector(state => state.attendance)
     const router = useRouter()
     const [values, setValues] = useState(null)
+    const [process, setProcess] = useState("submit")
 
     useEffect(() => {
         const getData = async () => {
@@ -34,7 +36,9 @@ function AddAttendance({ cookies }) {
                     setValues(data)
                 }
             } catch (error) {
-                console.log(error)
+                if (error.response?.data.msg) {
+                    toast.error(error.response.data.msg)
+                }
             }
 
         }
@@ -44,13 +48,14 @@ function AddAttendance({ cookies }) {
 
     const submitAttendance = async () => {
         try {
+            setProcess("submitting ...")
+            const date = dayjs(attendanceDate).format("YYYY/MM/DD")
             setDayAttendance(lectureId, date)
             const details = {
-                lecture_id: dayAttendance.lecture_id,
-                date: "2023/02/12",
+                date: date,
                 attendance: [...studentsList]
             }
-            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}`, details, {
+            const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}/`, details, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookies.csrftoken
@@ -62,7 +67,10 @@ function AddAttendance({ cookies }) {
             }
 
         } catch (error) {
-            console.log(error)
+            setProcess("submit")
+            if (error.response?.data.msg) {
+                toast.error(error.response.data.msg)
+            }
         }
     }
 
@@ -133,8 +141,8 @@ function AddAttendance({ cookies }) {
                                     </div>
                                 })}
                                 <div className='mt-12 mb-3 flex items-center justify-center'>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40' onClick={submitAttendance}>
-                                        Submit
+                                    <button disabled={process === "submit" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed' onClick={submitAttendance}>
+                                        {process}
                                     </button>
                                 </div>
                             </div>
