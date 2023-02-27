@@ -6,9 +6,10 @@ import NoticeHero from '../../../components/notices/noticeHero'
 function Notice() {
     return (
         <>
-            <div>
+            <div className='grid grid-rows-rowauto h-full'>
                 <NoticeHero />
-                <div>
+                <div className='pb-10'>
+
                     <AddNotice />
                 </div>
             </div>
