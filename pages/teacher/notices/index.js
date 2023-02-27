@@ -1,5 +1,6 @@
 import React from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard'
+import AddNotice from '../../../components/notices/AddNotice'
 import NoticeHero from '../../../components/notices/noticeHero'
 
 function Notice() {
@@ -7,6 +8,9 @@ function Notice() {
         <>
             <div>
                 <NoticeHero />
+                <div>
+                    <AddNotice />
+                </div>
             </div>
         </>
     )
