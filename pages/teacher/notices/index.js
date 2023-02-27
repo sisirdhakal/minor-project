@@ -1,0 +1,28 @@
+import React from 'react'
+import { DashboardLayout } from '../../../components/layout/dashboard'
+import NoticeHero from '../../../components/notices/noticeHero'
+
+function Notice() {
+    return (
+        <>
+            <div>
+                <NoticeHero />
+            </div>
+        </>
+    )
+}
+
+export default Notice
+
+export const getServerSideProps = async ({ req }) => {
+    return {
+        props: {
+            cookie: req.cookies
+        }
+    };
+}
+
+
+Notice.getLayout = function getLayout(page) {
+    return <DashboardLayout>{page}</DashboardLayout>;
+};
