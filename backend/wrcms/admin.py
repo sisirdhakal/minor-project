@@ -64,3 +64,7 @@ class PracticalClassAdmin(admin.ModelAdmin):
 @admin.register(PracticalAttendance)
 class PracticalAttendanceAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Notice)
+class NoticeAdmin(admin.ModelAdmin):
+    pass
