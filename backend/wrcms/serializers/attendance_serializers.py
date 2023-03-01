@@ -161,3 +161,36 @@ class EditAttendanceStudentSerializer(StudentSerializer):
         attendance = Attendance.objects.get(lecture=lecture, student=student, date=date)
         serializer = AttendanceSerializer(attendance, many=False)
         return serializer.data
+    
+
+class ViewStudentAttendanceSerializer(LectureSerializer):
+    attendance = serializers.SerializerMethodField(read_only=True)
+    presentDays = serializers.SerializerMethodField(read_only=True)
+    presentPercentage = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Lecture
+        fields = ['id', 'subject_name', 'teacher_name', 'totalLectureDays', 'presentDays', 'presentPercentage', 'attendance']
+
+    def get_attendance(self, obj):
+        student_id = self.context.get("student_id")
+        student = Student.objects.get(id=student_id)
+        attendances = Attendance.objects.filter(lecture=obj, student=student)
+        serializer = AttendanceSerializer(attendances, many=True)
+        return serializer.data
+
+    def get_presentDays(self, obj):
+        student_id = self.context.get("student_id")
+        student = Student.objects.get(id=student_id)
+        presentCount = Attendance.objects.filter(lecture=obj, student=student, status=True).count()
+        return presentCount
+
+    def get_presentPercentage(self, obj):
+        if obj.totalLectureDays == 0:
+            return 0
+        else:
+            student_id = self.context.get("student_id")
+            student = Student.objects.get(id=student_id)
+            presentCount = Attendance.objects.filter(lecture=obj, student=student, status=True).count()
+            percent = int(presentCount/obj.totalLectureDays*100)
+            return percent
