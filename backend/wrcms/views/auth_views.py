@@ -221,5 +221,8 @@ class LogoutView(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
     def get(self, request, format=None):
+        response = Response()
         logout(request)
-        return Response({'msg': 'You are logged out from WRCMS!'}, status=status.HTTP_200_OK)
+        response.delete_cookie('role')
+        response.data = {'msg': 'You are logged out from WRCMS!'}
+        return response
