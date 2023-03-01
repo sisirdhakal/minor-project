@@ -1,8 +1,35 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { BsFillCaretDownFill } from 'react-icons/bs'
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
-function Attendance() {
+function Attendance({ cookies }) {
+
+  useEffect(() => {
+    const getData = async () => {
+
+      try {
+        const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${6}/`, {
+          withCredentials: true,
+          headers: {
+            "X-CSRFTOKEN": cookies.csrftoken
+          }
+        })
+        if (data) {
+          console.log(data)
+        }
+      } catch (error) {
+        if (error.response?.data.msg) {
+          toast.error(error.response.data.msg)
+        }
+      }
+
+    }
+    getData()
+  }, [])
+
+
   return (
     <>
       <div>
@@ -40,6 +67,16 @@ function Attendance() {
     </>
   )
 }
+
+export const getServerSideProps = async ({ req }) => {
+  return {
+    props: {
+      cookies: req.cookies
+    }
+  };
+}
+
+
 Attendance.getLayout = function getLayout(page) {
   return <DashboardLayout>{page}</DashboardLayout>;
 };

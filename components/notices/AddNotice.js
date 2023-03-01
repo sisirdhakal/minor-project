@@ -1,97 +1,91 @@
-import React from 'react'
+import { Fragment } from 'react'
+import { Menu, Transition } from '@headlessui/react'
+// import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
-function AddNotice() {
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
+export default function Example() {
     return (
-        <>
-            <div className='h-full bg-white rounded-sm w-full px-8 py-8'>
-                <div className='grid grid-cols-2 w-96 mb-3'>
-                    <label htmlFor="noticeType" className='text-lg font-medium capitalize'>Notice Type</label>
-                    <select
-                        className='bg-[#2091F9] px-7 space-x-1 py-[0px] rounded flex justify-center items-center h-[36px] border-0 w-40 cursor-pointer text-clrgrey1 font-medium focus:ring-0' placeholder='Notice Type' name='noticeType'
-                        required
-                    >
-                        <option className='bg-background' value="Notice Type" disabled defaultValue>Notice Type</option>
-                        {/* <option value='Class' className='cursor-pointer capitalize'>Class</option>
-                        <option value='College' className='cursor-pointer'>College</option> */}
-
-                    </select>
-                </div>
-                <div className='grid grid-cols-2 w-96'>
-                    <label htmlFor="noticeFor" className='text-lg font-medium capitalize'>Notice For</label>
+        <div className='h-full bg-white rounded-sm w-full px-8 py-8'>
+            <div className='grid grid-cols-2 w-96 mb-3'>
+                <Menu as="div" className="relative inline-block text-left">
                     <div>
-                    <select
-                        className='bg-[#2091F9] px-7 space-x-1 py-[0px] rounded flex justify-center items-center h-[36px] border-0 w-40 cursor-pointer text-black font-medium focus:ring-0' placeholder='Notice Type' name='noticeType'
-                        required
-                        style={{
-                            backgroundImage:"none"
-                        }}
-                        id='select'
-                    >
-                        <option value="" className='bg-background' defaultValue disabled >Notice For</option>
-                        {/* <option value='Citizenship' className='cursor-pointer capitalize'>Citizenship</option>
-                        <option value='Passport' className='cursor-pointer'>Passport</option> */}
+                        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-indigo-500 focus:ring-offset-0 focus:ring-offset-gray-100">
+                            Options
+                        </Menu.Button>
+                    </div>
 
-                    </select>
-                </div>
-                </div>
+                    <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                    >
+                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                            <div className="py-1">
+                                <Menu.Item>
+                                    {({ active }) => (
+                                        <a
+                                            href="#"
+                                            className={classNames(
+                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
+                                                'block px-4 py-2 text-sm'
+                                            )}
+                                        >
+                                            Account settings
+                                        </a>
+                                    )}
+                                </Menu.Item>
+                            </div>
+                        </Menu.Items>
+                    </Transition>
+                </Menu>
             </div>
-        </>
+        </div>
     )
 }
 
-export default AddNotice
+
+
+
+
+
+
 
 // import React, { useState } from 'react'
-// import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
 
 // function AddNotice() {
 
-//     const [noticeFor, setNoticeFor] = useState("Notice For")
-//     const [noticeType, setNoticeType] = useState("Notice Type")
-
-//     const handleClick = () => {
-        
-//     }
+//     const [noticeType, setnoticeType] = useState('')
+//     const [noticeFor, setnoticeFor] = useState('')
 
 //     return (
 //         <>
 //             <div className='h-full bg-white rounded-sm w-full px-8 py-8'>
 //                 <div className='grid grid-cols-2 w-96 mb-3'>
-//                     <div className='grid grid-cols-2 w-72 items-center'>
-//                         <label htmlFor="noticeType" className='text-lg font-medium capitalize'>Notice Type :</label>
-//                         <div className="group w-40 relative justify-center items-center cursor-pointer">
-//                             <button className="w-full bg-[#2091F9] font-semibold h-9 border border-clrgrey9 text-white grid grid-cols-auto  relative items-center rounded px-2">
-//                                 <span className='text-lg text-center'>{noticeType}</span>
-//                                 <span><MdOutlineKeyboardArrowDown className='text-white h-8 w-8' /></span>
+//                     <label htmlFor="noticeType" className='text-lg font-medium capitalize'>Notice Type</label>
+//                     <div className="relative inline-block text-left">
+//                         <div>
+//                             <button type="button" className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" id="menu-button" aria-expanded="true" aria-haspopup="true">
+//                                 Options
 //                             </button>
-//                             <ul className="hidden absolute z-50 top-[100%] transition-all duration-300 ease-in-out group-hover:block opacity-0 group-hover:opacity-100 bg-background text-gray-700 ">
-
-//                                 <button className="px-5 capitalize  text-clrgrey3 font-medium py-2 disabled:cursor-not-allowed" disabled>
-//                                     Notice Type
-//                                 </button>
-//                                 <button className="px-5 hover:text-clrgrey2 capitalize  text-clrgrey5 font-medium py-2" onClick={() => { setNoticeType("Class") }}>
-//                                     Class
-//                                 </button>
-//                                 <button className="px-5 hover:text-clrgrey2 capitalize  text-clrgrey5 font-medium py-2" onClick={() => { setNoticeType("College") }}>
-//                                     College
-//                                 </button>
-//                             </ul>
+//                         </div>
+//                         <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+//                             <div className="py-1" role="none">
+//                                 <p href="#" className="text-gray-700 cursor-pointer block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Account settings</p>
+//                             </div>
 //                         </div>
 //                     </div>
+
 //                 </div>
-//                 <div className='grid grid-cols-2 w-72 items-center'>
-//                     <label htmlFor="noticeFor" className='text-lg font-medium capitalize'>Notice For :</label>
-//                     <div className="group w-40 relative justify-center items-center cursor-pointer">
-//                         <button className="w-full bg-[#2091F9] font-semibold h-9 border border-clrgrey9 text-white grid grid-cols-auto  relative items-center rounded px-2">
-//                             <span className='text-lg text-center'>{noticeFor}</span>
-//                             <span><MdOutlineKeyboardArrowDown className='text-white h-8 w-8' /></span>
-//                         </button>
-//                         <ul className="hidden absolute w-full z-50 top-[100%] transition-all duration-300 ease-in-out group-hover:block opacity-0 group-hover:opacity-100 bg-background text-gray-700">
-//                             <button className="px-5 hover:text-clrgrey2 capitalize  text-clrgrey5 font-medium py-2" onClick={() => { setNoticeFor("BCT076") }}>
-//                                 BCT076
-//                             </button>
-//                         </ul>
-//                     </div>
+//                 <div className='grid grid-cols-2 w-96'>
+//                     <label htmlFor="noticeFor" className='text-lg font-medium capitalize'>Notice For</label>
+
 //                 </div>
 //             </div>
 //         </>
@@ -99,3 +93,4 @@ export default AddNotice
 // }
 
 // export default AddNotice
+
