@@ -199,7 +199,7 @@ class LoginView(APIView):
 
     def post(self, request, format=None):
         data = self.request.data
-
+        response = Response()
         username = data['email']
         password = data['password']
         if not User.objects.filter(username=username):
@@ -209,7 +209,9 @@ class LoginView(APIView):
             login(request, user)
             loggedInUser = User.objects.get(username=username)
             profile = UserProfile.objects.get(user=loggedInUser)
-            return Response({'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName()}, status=status.HTTP_200_OK)
+            response.set_cookie('role', profile.role.type)
+            response.data = {'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName()}
+            return response
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)
 
