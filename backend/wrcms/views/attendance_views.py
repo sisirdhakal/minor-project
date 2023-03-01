@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Lecture, PracticalClass, Attendance, Student
+from wrcms.models import UserProfile, Teacher, Lecture, PracticalClass, Attendance, Student, Parent
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
-from ..serializers.attendance_serializers import LectureSerializer, PracticalClassSerializer, LectureDetailSerializer, LectureAttendanceSerializer, EditAttendanceStudentSerializer
+from ..serializers.attendance_serializers import LectureSerializer, PracticalClassSerializer, LectureDetailSerializer, LectureAttendanceSerializer, EditAttendanceStudentSerializer, ViewStudentAttendanceSerializer
 from django.db.models import Q
 import datetime
 from django.db import transaction
@@ -200,3 +200,30 @@ class EditLectureAttendance(APIView):
                 return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response({'msg': 'Lecture unavailable!'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class ViewStudentAttendance(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, sem, format=None):
+        user = request.user
+        # try:
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == "Student":
+            student = Student.objects.get(user=user, userProfile=userProfile)
+            context = {"student_id": student.id}
+            lectures = Lecture.objects.filter(cLass=student.cLass, semester=sem)
+            serializer = ViewStudentAttendanceSerializer(lectures, many=True, context=context)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        if userProfile.role.type == "Parent":
+            parent = Parent.objects.get(user=user, userProfile=userProfile)
+            student = parent.parentOf
+            context = {"student_id": student.id}
+            lectures = Lecture.objects.filter(cLass=student.cLass, semester=sem)
+            serializer = ViewStudentAttendanceSerializer(lectures, many=True, context=context)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'msg': 'Unauthorized access!'}, status=status.HTTP_401_UNAUTHORIZED)
+        # except:
+        #     return Response({'msg': 'User details not found!'}, status=status.HTTP_404_NOT_FOUND)
