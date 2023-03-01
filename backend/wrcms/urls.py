@@ -17,4 +17,5 @@ urlpatterns = [
     path('add-attendance/<str:id>/', AddAttendance.as_view()),
     path('view-lecture-attendance/<str:id>/', ViewLectureAttendance.as_view()),
     path('edit-attendance/<str:idDate>/', EditLectureAttendance.as_view()),
+    path('view-student-attendance/<str:sem>/', ViewStudentAttendance.as_view()),
 ]
