@@ -63,8 +63,8 @@ class UserProfile(models.Model):
 class Department(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    headOfDepartment = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Head_of_Department')
-    deputyHeadOfDepartment = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Deputy_Head_of_Department')
+    headOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Head_of_Department')
+    deputyHeadOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Deputy_Head_of_Department')
     contact = models.CharField(max_length=10, null=True, blank=True)
 
     def __str__(self):
@@ -83,8 +83,8 @@ class Class(models.Model):
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
     semester = models.IntegerField(default=1)
-    classRepresentative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name="Class_Representative")
-    viceClassRepresentative = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='Vice_Class_Representative')
+    classRepresentative = models.ForeignKey('wrcms.Student', on_delete=models.SET_NULL, null=True, blank=True, related_name="Class_Representative")
+    viceClassRepresentative = models.ForeignKey('wrcms.Student', on_delete=models.SET_NULL, null=True, blank=True, related_name='Vice_Class_Representative')
 
     def __str__(self):
         return str(self.name)
@@ -209,3 +209,20 @@ class PracticalAttendance(models.Model):
     def __str__(self):
         practical = self.practicalClass.getPracticalClassName()
         return self.student.userProfile.getFullName()+'-'+practical+'-'+str(self.date)
+
+
+class Notice(models.Model):
+    NOTICE_TYPE_CHOICES = (
+        ("Class", "Class"),
+        ("Department", "Department"),
+        ("College", "College")
+    )
+    title = models.CharField(max_length=1024)
+    uploaded_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    noticeType = models.CharField(max_length=10, choices=NOTICE_TYPE_CHOICES, null=True, blank=True)
+    noticeFor = models.CharField(max_length=255, null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
+    file = models.FileField(upload_to='notices/', null=True, blank=True)
+
+    def __str__(self):
+        return self.title+'-'+str(self.noticeFor)
