@@ -17,7 +17,7 @@ export default function Topbar() {
     const logout = async () => {
 
         try {
-            setProcess("logging in ...")
+            setProcess("logging out ...")
             const { data: { msg } } = await axios.get("http://localhost:8000/api/logout/", { withCredentials: true })
 
             if (msg) {
@@ -38,7 +38,7 @@ export default function Topbar() {
         <>
             <div className='h-20 sticky bg-[#CAF0F8] top-0 z-20  items-center flex justify-center'>
 
-                <div className='bg-white w-full h-10 px-2 flex justify-between rounded-full py-1 lg:px-8 mb-2'>
+                <div className='bg-white w-full h-10 px-2 flex justify-between rounded-sm py-1 lg:px-8 mb-2'>
                     <p className='text-primary-text text-[14px] lg:text-[16px] mt-1 font-bold lg:mt-[2px]'>PASCHIMANCHAL Campus, Pokhara</p>
                     <div className='w-auto space-x-4 relative bg-clrgrey10 hover:bg-clrprimary8 transition-all duration-500 ease-in-out p-3 h-full items-center flex justify-center rounded-xl cursor-pointer' onClick={() => {
                         visible ? (setvisible(false)) : (setvisible(true))
@@ -49,8 +49,8 @@ export default function Topbar() {
                         <p className="font-bold text-secondary-text flex-1 text-center">{userName}</p>
                         <AiFillCaretDown className='text-secondary-text' />
 
-                        {visible && <div className='absolute flex items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-full right-0 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
-                            <button disabled={process === "logout" ? false : true} className='text-white ' onClick={logout}>{process}</button>
+                        {visible && <div className='absolute flex  items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-full right-0 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
+                            <button disabled={process === "logout" ? false : true} className='text-white capitalize' onClick={logout}>{process}</button>
                         </div>}
                     </div>
                 </div>

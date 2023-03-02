@@ -60,32 +60,34 @@ export const sidebarOptions = {
             name: "dashboard",
 
         },
+
+
         {
             id: 2,
-            icon: "/assets/images/exam.svg",
-            url: "/student/exams",
-            name: "exams",
-
-        },
-        {
-            id: 3,
-            icon: "/assets/images/results.svg",
-            url: "/student/results",
-            name: "results",
-
-        },
-        {
-            id: 4,
             icon: "/assets/images/attendance.svg",
             url: "/student/attendance",
             name: "attendance",
 
         },
         {
-            id: 5,
+            id: 3,
+            icon: "/assets/images/complaints.svg",
+            url: "/student/complaints",
+            name: "complaints",
+
+        },
+        {
+            id: 4,
             icon: "/assets/images/credits.svg",
             url: "/student/credits",
             name: "Credits/Payments",
+
+        },
+        {
+            id: 5,
+            icon: "/assets/images/exam.svg",
+            url: "/student/exams",
+            name: "exams",
 
         },
         {
@@ -95,11 +97,12 @@ export const sidebarOptions = {
             name: "notices",
 
         },
+
         {
             id: 7,
-            icon: "/assets/images/complaints.svg",
-            url: "/student/complaints",
-            name: "complaints",
+            icon: "/assets/images/results.svg",
+            url: "/student/results",
+            name: "results",
 
         },
         {
@@ -172,45 +175,44 @@ export const sidebarOptions = {
         },
         {
             id: 2,
-            icon: "/assets/images/exam.svg",
-            url: "/teacher/exams",
-            name: "exams",
-
-        },
-        {
-            id: 3,
-            icon: "/assets/images/results.svg",
-            url: "/teacher/results",
-            name: "results",
-
-        },
-        {
-            id: 4,
             icon: "/assets/images/attendance.svg",
             url: "/teacher/attendance",
             name: "attendance",
 
         },
-
         {
-            id: 5,
-            icon: "/assets/images/notice.svg",
-            url: "/teacher/notices",
-            name: "notices",
-
-        },
-        {
-            id: 6,
+            id: 3,
             icon: "/assets/images/complaints.svg",
             url: "/teacher/complaints",
             name: "complaints",
 
         },
         {
-            id: 7,
+            id: 4,
+            icon: "/assets/images/exam.svg",
+            url: "/teacher/exams",
+            name: "exams",
+
+        },
+        {
+            id: 5,
             icon: "/assets/images/feedback.svg",
             url: "/teacher/givefeedback",
             name: "give feedback",
+
+        },
+        {
+            id: 6,
+            icon: "/assets/images/notice.svg",
+            url: "/teacher/notices",
+            name: "notices",
+
+        },
+        {
+            id: 7,
+            icon: "/assets/images/results.svg",
+            url: "/teacher/results",
+            name: "results",
 
         },
     ]

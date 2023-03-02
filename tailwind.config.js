@@ -46,6 +46,10 @@ module.exports = {
       },
       gridTemplateRows: {
         "auto": "80px 1fr",
+        "rowauto": "auto 1fr"
+      },
+      gridTemplateColumns: {
+        "auto": "1fr auto"
       }
     },
   },

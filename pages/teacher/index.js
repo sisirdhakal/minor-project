@@ -1,9 +1,10 @@
 import React from 'react'
 import { DashboardLayout } from '../../components/layout/dashboard';
+import MainBody from '../../components/mainbody';
 
 export default function Teacher() {
     return (
-        <div>Teacher</div>
+        <div><MainBody /> </div>
     )
 }
 
