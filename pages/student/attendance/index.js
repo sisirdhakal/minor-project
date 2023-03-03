@@ -8,7 +8,6 @@ function Attendance({ cookies }) {
 
   useEffect(() => {
     const getData = async () => {
-
       try {
         const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${6}/`, {
           withCredentials: true,
