@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Student, Class, Department, Lecture
+from wrcms.models import UserProfile, Teacher, Student, Class, Department, Lecture, Notice
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
@@ -47,4 +47,17 @@ class AddNotice(APIView):
         
     def post(self, request, format=None):
         user = request.user
-        return Response({'msg': 'Add Notice'}, status=status.HTTP_200_OK)
+        data = self.request.data
+        noticeType = data['noticeType']
+        noticeFor = data['noticeFor']
+        noticeTitle = data['title']
+        content = data['content']
+        file = request.FILES.get('noticeFile')
+        if Class.objects.filter(name=noticeFor).exists or Department.objects.filter(name=noticeFor).exists:
+            try:
+                Notice.objects.create(noticeFor=noticeFor, title=noticeTitle, uploaded_by=user, noticeType=noticeType, content=content, file=file)
+                return Response({'msg': 'Add Notice'}, status=status.HTTP_200_OK)
+            except:
+                return Response({'msg': 'Could not add notice. Check details and try again.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'msg': 'Class or Department not found.'}, status=status.HTTP_404_NOT_FOUND)
