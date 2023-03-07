@@ -3,11 +3,23 @@ import { DashboardLayout } from '../../../components/layout/dashboard';
 import { BsFillCaretDownFill } from 'react-icons/bs'
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { GET_lECTURES_BEGIN, GET_lECTURES_ERROR, GET_lECTURES_SUCCESS } from '../../../redux/constant';
+import CenteredLoading from '../../../common/Loader';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../redux';
+import ViewAttendance from '../../../common/lectures/StudentAttendance';
 
 function Attendance({ cookies }) {
 
+  const dispatch = useDispatch()
+  const { setAttendanceType } = bindActionCreators(actionCreators, dispatch)
+  const { attendanceType } = useSelector(state => state.attendance)
+  const { theoryLectures, lectures_loading, lectures_error, practicalLectures } = useSelector(state => state.teachersData)
+
   useEffect(() => {
     const getData = async () => {
+      dispatch({ type: GET_lECTURES_BEGIN })
       try {
         const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${6}/`, {
           withCredentials: true,
@@ -16,9 +28,10 @@ function Attendance({ cookies }) {
           }
         })
         if (data) {
-          console.log(data)
+          dispatch({ type: GET_lECTURES_SUCCESS, payload: data })
         }
       } catch (error) {
+        dispatch({ type: GET_lECTURES_ERROR })
         if (error.response?.data.msg) {
           toast.error(error.response.data.msg)
         }
@@ -47,10 +60,10 @@ function Attendance({ cookies }) {
         </div>
         <div className='grid grid-cols-2 gap-16 py-5'>
           <div className='grid grid-cols-2 gap-8'>
-            <button className={`bg-white rounded-lg py-2 items-center shadow-md shadow-green-500 text-start flex px-5`} >
+            <button className={`bg-white rounded-lg py-2 items-center ${attendanceType === "th" ? "shadow-md shadow-green-500" : ""} text-start flex px-5`} onClick={() => { setAttendanceType("th") }}>
               <p className='text-primary-text font-bold text-[1rem] my-auto '>Theory Lectures</p>
             </button>
-            <button className={`bg-white rounded-lg py-2 text-start items-center px-5 $`} >
+            <button className={`bg-white rounded-lg py-2 text-start ${attendanceType === "pr" ? "shadow-md shadow-green-500" : ""} items-center px-5 $`} onClick={() => { setAttendanceType("pr") }}>
               <p className='text-primary-text my-auto font-bold text-[1rem]'>Practical Labs</p>
             </button>
           </div>
@@ -61,6 +74,28 @@ function Attendance({ cookies }) {
             </button>
           </div>
 
+        </div>
+        <div className='py-5'>
+          {
+            lectures_loading ?
+              (<div className='py-6 bg-white rounded-md'>
+                <p className='text-secondary-text text-center text-lg font-medium'>Loading Lectures list ...</p>
+                <CenteredLoading />
+              </div>) :
+              lectures_error ?
+                (<div>
+                  <div className='py-6'>
+                    <p className='text-[#ff0000] text-center text-xl font-medium'>
+                      Failed to load the Lectures ...</p>
+
+                  </div>
+                </div>) :
+                attendanceType === "th" ?
+                  (<ViewAttendance lectures={theoryLectures} />)
+                  : (
+                    <ViewAttendance lectures={practicalLectures} />
+                  )
+          }
         </div>
       </div>
     </>
