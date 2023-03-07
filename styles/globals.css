@@ -132,3 +132,8 @@ input:checked~.block {
   display: none;
   visibility: hidden;
 }
+
+#test {
+  background-color: #0096C7 !important;
+  width: 100%;
+}
