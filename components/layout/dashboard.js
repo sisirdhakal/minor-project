@@ -13,18 +13,19 @@ export function DashboardLayout({ children }) {
     const { sidebarUser, setUserName } = bindActionCreators(actionCreators, dispatch)
     const [role, setRole] = useState(null);
 
-    useEffect(() => {
-        sidebarUser(localStorage.getItem('user'))
-    }, [sidebarUser])
 
     useEffect(() => {
         const cookieValue = document.cookie
             .split('; ')
             .find(row => row.startsWith('role='))
             ?.split('=')[1];
-        setRole(cookieValue.toLowerCase())
+        setRole(cookieValue ? cookieValue.toLowerCase() : null)
+
     }, [])
 
+    useEffect(() => {
+        sidebarUser(role)
+    }, [role])
 
     useEffect(() => {
         const userName = localStorage.getItem("userName")
@@ -32,6 +33,7 @@ export function DashboardLayout({ children }) {
             setUserName(userName)
         }
     }, [])
+
 
     if (!role) {
         // Wait until the role cookie is loaded
@@ -48,11 +50,13 @@ export function DashboardLayout({ children }) {
     // Check if the current route is allowed for the user's role
     const isRouteAllowed = allowedRoutes[role].some(route => router.pathname.startsWith(route));
 
+
     if (!isRouteAllowed) {
         // If the route is not allowed, redirect to the appropriate page
         router.push(`/${role}`);
         return null;
     }
+
 
     return (
         <>

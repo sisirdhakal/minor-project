@@ -50,7 +50,7 @@ export default function Topbar() {
                         <AiFillCaretDown className='text-secondary-text' />
 
                         {visible && <div className='absolute flex  items-center justify-center rounded-xl mt-[78px] z-20 bg-teal-400 w-full right-0 h-8 hover:bg-teal-700 transition-all duration-500 ease-in-out'>
-                            <button disabled={process === "logout" ? false : true} className='text-white capitalize' onClick={logout}>{process}</button>
+                            <button disabled={process === "logout" ? false : true} className='text-white capitalize disabled:cursor-not-allowed' onClick={logout}>{process}</button>
                         </div>}
                     </div>
                 </div>

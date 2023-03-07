@@ -1,27 +1,25 @@
 import { NextResponse } from "next/server"
 
 export const middleware = async (req) => {
-    const role = req.cookies.get("role")?.value?.toLowerCase()
+    const sessionid = req.cookies.get('sessionid')?.value
+    if (!sessionid) {
+        if (req.nextUrl.pathname.startsWith('/parent') || req.nextUrl.pathname.startsWith('/student') || req.nextUrl.pathname.startsWith('/teacher')) {
+            const loginUrl = new URL("/", req.nextUrl)
+            return NextResponse.redirect(loginUrl)
+        }
+    }
     if (req.nextUrl.pathname === "/" || req.nextUrl.pathname === "/signup") {
+        // const token = req.cookies.get('sessionid')?.value
+        // const role = req.cookies.get('role')?.value
+        // if (token) {
+        //     const dashboard = new URL(`/${role}`, req.nextUrl)
+        //     return NextResponse.redirect(dashboard)
+        // }
         return NextResponse.next();
     }
-    // if (!req.url.startsWith(`/${role}`)) {
-    //     const userDashboard = new URL(`/${role}`, req.nextUrl)
-    //     return NextResponse.redirect(userDashboard)
-    // }
-    // if (req.nextUrl.pathname.startsWith(`/${role}`)) {
-    //     return NextResponse.next();
-    //     // const token = req.cookies.get('csrftoken')?.value
-    //     // console.log(token)
-
-    //     // if (token) {
-
-    //     //     return NextResponse.next();
-
-    //     // }
-    //     // const loginUrl = new URL("/", req.nextUrl)
-    //     // return NextResponse.redirect(loginUrl)
-    // }
 
 }
 
+export const config = {
+    matcher: ['/teacher/:path*', '/student/:path*', '/parent/:path*'],
+}
