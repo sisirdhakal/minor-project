@@ -2,15 +2,16 @@ import React, { useState, useRef } from 'react'
 import DropButtons from '../../common/DropButtons'
 import { BsCameraFill } from 'react-icons/bs'
 
-function AddNotice() {
+function AddNotice({ cookie }) {
 
     const [noticeType, setnoticeType] = useState('')
     const [noticeFor, setnoticeFor] = useState('')
     const [process, setprocess] = useState("Add Notice")
     const filePicker = useRef(null)
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(noticeFor, noticeType)
     }
 
     return (
@@ -19,14 +20,14 @@ function AddNotice() {
                 <div className='grid grid-cols-2 w-[340px] mb-3 items-center'>
                     <p htmlFor="noticeType" className='text-lg font-semibold capitalize'>Notice Type :</p>
                     <div className="flex items-center h-full">
-                        <DropButtons type={"Notice Type"} options={['college', 'class']} />
+                        <DropButtons setnoticeType={setnoticeType} type={"Notice Type"} options={['college', 'class']} />
                     </div>
 
                 </div>
                 <div className='grid grid-cols-2 w-[340px] items-center'>
                     <p htmlFor="noticeFor" className='text-lg font-semibold capitalize'>Notice For :</p>
                     <div className="relative text-left">
-                        <DropButtons type={"Notice For"} options={['BCT076']} />
+                        <DropButtons setnoticeFor={setnoticeFor} type={"Notice For"} options={['BCT076']} />
                     </div>
                 </div>
                 <form action="" className='w-full mt-6' onSubmit={handleSubmit}>

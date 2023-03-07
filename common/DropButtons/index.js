@@ -6,10 +6,20 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function DropButtons({ type, options }) {
+export default function DropButtons({ type, options, setnoticeType, setnoticeFor }) {
 
     const [value, setValue] = useState(type)
-    // const [noticeFor, setnoticeFor] = useState('')
+
+    const handleClick = (item) => {
+        if (type === "Notice Type") {
+            setnoticeType(item)
+            setValue(item)
+        }
+        if (type === "Notice For") {
+            setnoticeFor(item)
+            setValue(item)
+        }
+    }
 
     return (
         <div className=' bg-white rounded-sm w-full'>
@@ -41,7 +51,7 @@ export default function DropButtons({ type, options }) {
                                                         active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                         'block px-4 w-full text-start py-2 capitalize text-sm'
                                                     )}
-                                                    onClick={() => setValue(item)}
+                                                    onClick={() => handleClick(item)}
                                                 >
                                                     {item}
                                                 </button>
