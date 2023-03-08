@@ -41,7 +41,10 @@ module.exports = {
         clrredlight: "#e66b6b",
         clrgreendark: "#25bb32",
         clrgreenlight: "#6be675",
-        clrblack: "#222"
+        clrblack: "#222",
+
+        /* notice buttons */
+        notice: "#0096C7"
 
       },
       gridTemplateRows: {
@@ -49,7 +52,8 @@ module.exports = {
         "rowauto": "auto 1fr"
       },
       gridTemplateColumns: {
-        "auto": "1fr auto"
+        "auto": "1fr auto",
+        "autofirst":"auto 1fr"
       }
     },
   },

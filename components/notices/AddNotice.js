@@ -1,96 +1,63 @@
-import { Fragment } from 'react'
-import { Menu, Transition } from '@headlessui/react'
-// import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import React, { useState, useRef } from 'react'
+import DropButtons from '../../common/DropButtons'
+import { BsCameraFill } from 'react-icons/bs'
 
-function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+function AddNotice({ cookie }) {
 
-export default function Example() {
+    const [noticeType, setnoticeType] = useState('')
+    const [noticeFor, setnoticeFor] = useState('')
+    const [process, setprocess] = useState("Add Notice")
+    const filePicker = useRef(null)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log(noticeFor, noticeType)
+    }
+
     return (
-        <div className='h-full bg-white rounded-sm w-full px-8 py-8'>
-            <div className='grid grid-cols-2 w-96 mb-3'>
-                <Menu as="div" className="relative inline-block text-left">
-                    <div>
-                        <Menu.Button className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-0 focus:ring-indigo-500 focus:ring-offset-0 focus:ring-offset-gray-100">
-                            Options
-                        </Menu.Button>
+        <>
+            <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
+                <div className='grid grid-cols-2 w-[340px] mb-3 items-center'>
+                    <p htmlFor="noticeType" className='text-lg font-semibold capitalize'>Notice Type :</p>
+                    <div className="flex items-center h-full">
+                        <DropButtons setnoticeType={setnoticeType} type={"Notice Type"} options={['college', 'class']} />
                     </div>
 
-                    <Transition
-                        as={Fragment}
-                        enter="transition ease-out duration-100"
-                        enterFrom="transform opacity-0 scale-95"
-                        enterTo="transform opacity-100 scale-100"
-                        leave="transition ease-in duration-75"
-                        leaveFrom="transform opacity-100 scale-100"
-                        leaveTo="transform opacity-0 scale-95"
-                    >
-                        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                            <div className="py-1">
-                                <Menu.Item>
-                                    {({ active }) => (
-                                        <a
-                                            href="#"
-                                            className={classNames(
-                                                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                'block px-4 py-2 text-sm'
-                                            )}
-                                        >
-                                            Account settings
-                                        </a>
-                                    )}
-                                </Menu.Item>
+                </div>
+                <div className='grid grid-cols-2 w-[340px] items-center'>
+                    <p htmlFor="noticeFor" className='text-lg font-semibold capitalize'>Notice For :</p>
+                    <div className="relative text-left">
+                        <DropButtons setnoticeFor={setnoticeFor} type={"Notice For"} options={['BCT076']} />
+                    </div>
+                </div>
+                <form action="" className='w-full mt-6' onSubmit={handleSubmit}>
+                    <div className='mb-4'>
+                        <input type="text" placeholder='Title of notice' className='rounded text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[360px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                    </div>
+                    <div className='mb-3'>
+                        <textarea type="text" placeholder='Title of notice' className='rounded text-gray-700 h-28 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[460px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                    </div>
+                    <div className='grid grid-cols-autofirst w-[300px] mb-3 items-center'>
+                        <p htmlFor="noticeType" className='text-lg bg-background py-1 px-3 rounded-md textce font-medium capitalize'>Choose File :</p>
+                        <div className="flex items-center h-full">
+                            <div className=" mx-auto flex items-center justify-center cursor-pointer rounded-full bg-[#0096C7] h-10 w-10"
+                                onClick={() => { filePicker.current.click() }}>
+                                <BsCameraFill className='text-white text-xl' />
                             </div>
-                        </Menu.Items>
-                    </Transition>
-                </Menu>
+                            <input ref={filePicker} type="file" hidden />
+                        </div>
+                    </div>
+                    <div className='mt-12 mb-3 flex items-center justify-center'>
+                        <button disabled={process === "Add Notice" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed'>
+                            {process}
+                        </button>
+                    </div>
+                </form>
+
             </div>
-        </div>
+        </>
     )
 }
 
-
-
-
-
-
-
-
-// import React, { useState } from 'react'
-
-// function AddNotice() {
-
-//     const [noticeType, setnoticeType] = useState('')
-//     const [noticeFor, setnoticeFor] = useState('')
-
-//     return (
-//         <>
-//             <div className='h-full bg-white rounded-sm w-full px-8 py-8'>
-//                 <div className='grid grid-cols-2 w-96 mb-3'>
-//                     <label htmlFor="noticeType" className='text-lg font-medium capitalize'>Notice Type</label>
-//                     <div className="relative inline-block text-left">
-//                         <div>
-//                             <button type="button" className="inline-flex w-full justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" id="menu-button" aria-expanded="true" aria-haspopup="true">
-//                                 Options
-//                             </button>
-//                         </div>
-//                         <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
-//                             <div className="py-1" role="none">
-//                                 <p href="#" className="text-gray-700 cursor-pointer block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Account settings</p>
-//                             </div>
-//                         </div>
-//                     </div>
-
-//                 </div>
-//                 <div className='grid grid-cols-2 w-96'>
-//                     <label htmlFor="noticeFor" className='text-lg font-medium capitalize'>Notice For</label>
-
-//                 </div>
-//             </div>
-//         </>
-//     )
-// }
-
-// export default AddNotice
+export default AddNotice
 

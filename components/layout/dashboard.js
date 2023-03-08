@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
@@ -8,11 +9,23 @@ import Topbar from '../topbar'
 export function DashboardLayout({ children }) {
 
     const dispatch = useDispatch()
+    const router = useRouter()
     const { sidebarUser, setUserName } = bindActionCreators(actionCreators, dispatch)
+    const [role, setRole] = useState(null);
+
 
     useEffect(() => {
-        sidebarUser(localStorage.getItem('user'))
-    }, [sidebarUser])
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('role='))
+            ?.split('=')[1];
+        setRole(cookieValue ? cookieValue.toLowerCase() : null)
+
+    }, [])
+
+    useEffect(() => {
+        sidebarUser(role)
+    }, [role])
 
     useEffect(() => {
         const userName = localStorage.getItem("userName")
@@ -20,6 +33,29 @@ export function DashboardLayout({ children }) {
             setUserName(userName)
         }
     }, [])
+
+
+    if (!role) {
+        // Wait until the role cookie is loaded
+        return null;
+    }
+
+    // Define the allowed routes for each role
+    const allowedRoutes = {
+        teacher: ['/teacher', '/teacher/*'],
+        student: ['/student', '/student/*'],
+        parent: ['/parent', '/parent/*']
+    };
+
+    // Check if the current route is allowed for the user's role
+    const isRouteAllowed = allowedRoutes[role].some(route => router.pathname.startsWith(route));
+
+
+    if (!isRouteAllowed) {
+        // If the route is not allowed, redirect to the appropriate page
+        router.push(`/${role}`);
+        return null;
+    }
 
 
     return (

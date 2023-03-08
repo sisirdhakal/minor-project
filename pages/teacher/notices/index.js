@@ -3,14 +3,13 @@ import { DashboardLayout } from '../../../components/layout/dashboard'
 import AddNotice from '../../../components/notices/AddNotice'
 import NoticeHero from '../../../components/notices/noticeHero'
 
-function Notice() {
+function Notice({ cookie }) {
     return (
         <>
             <div className='grid grid-rows-rowauto h-full'>
                 <NoticeHero />
                 <div className='pb-10'>
-
-                    <AddNotice />
+                    <AddNotice cookie={cookie} />
                 </div>
             </div>
         </>
