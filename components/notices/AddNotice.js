@@ -12,6 +12,7 @@ function AddNotice({ cookie }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log(noticeFor, noticeType)
+        
     }
 
     return (
