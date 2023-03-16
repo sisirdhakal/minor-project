@@ -48,7 +48,7 @@ function Attendance({ cookies }) {
         <div className="h-44 grid grid-cols-2 bg-white rounded w-[360px] border-b-2 border-green-500 mx-auto items-center px-4" >
           <div className='relative w-[114px]  h-[140px] flex justify-center items-center rounded-sm'>
             <div className='border-[12px] rounded-full w-[114px] h-[114px] border-t-[#6DC9F7] rotate-[24deg] border-blue-400 bg-red-400 flex justify-center items-center'>
-              <p className='text-xl font-bold -rotate-[24deg] text-white'>72 / 80</p>
+              <p className='text-xl font-bold -rotate-[24deg] text-white'>9 / 14</p>
             </div>
           </div>
           <div >
