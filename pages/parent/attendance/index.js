@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
 
 function Attendance() {
   return (
-    <div>Attendance</div>
+    <div>
+
+    </div>
   )
 }
 Attendance.getLayout = function getLayout(page) {
