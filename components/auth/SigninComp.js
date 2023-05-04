@@ -16,8 +16,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 
 
-function SigninComp() {
-
+function SigninComp({ csrf }) {
 
   const dispatch = useDispatch()
   const { setSignUpToggle, clearSignup, sidebarUser } = bindActionCreators(actionCreators, dispatch)
@@ -45,7 +44,14 @@ function SigninComp() {
 
     try {
       setProcess("logging in ...")
-      const { data: { msg, role, username, name } } = await axios.post("http://localhost:8000/api/login/", values, { withCredentials: true })
+      const { data: { msg, role, username, name } } = await axios.post("http://localhost:8000/api/login/",
+        values,
+        {
+          withCredentials: true,
+          headers: {
+            "X-CSRFTOKEN": csrf
+          }
+        })
 
       if (msg) {
         localStorage.setItem("userName", name)
