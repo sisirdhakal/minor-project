@@ -1,11 +1,9 @@
 import axios from 'axios';
 import Head from 'next/head'
-import Image from 'next/image'
 import SigninComp from '../components/auth/SigninComp'
 import SignupModal from '../components/auth/SignupModal'
 
 export default function Home({ csrf }) {
-  axios.defaults.headers.common['X-CSRFToken'] = csrf;
   return (
     <div className='h-full'>
       <Head>
@@ -15,7 +13,7 @@ export default function Home({ csrf }) {
       </Head>
       <div className=''>
         <SignupModal />
-        <SigninComp />
+        <SigninComp csrf={csrf} />
       </div>
     </div>
   )
