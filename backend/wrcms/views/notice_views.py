@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from django.db.models import Q
 from django.db import transaction
-from ..serializers.notice_serializers import ClassSerializer, DepartmentSerializer
+from ..serializers.notice_serializers import ClassSerializer, DepartmentSerializer, NoticeSerializer
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -61,3 +61,44 @@ class AddNotice(APIView):
                 return Response({'msg': 'Could not add notice. Check details and try again.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'msg': 'Class or Department not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class ViewNotice(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        user = request.user
+        try:
+            userProfile = UserProfile.objects.get(user=user)
+            if userProfile.role.type == "Student":
+                student = Student.objects.get(user=user, userProfile=userProfile)
+                collegeNotices = Notice.objects.filter(noticeType="College")
+                departmentNotices = Notice.objects.filter(noticeType="Department", noticeFor=student.department.name)
+                classNotices = Notice.objects.filter(noticeType="Class", noticeFor=student.cLass.name)
+                collegeNoticeSerializer = NoticeSerializer(collegeNotices, many=True)
+                departmentNoticeSerializer = NoticeSerializer(departmentNotices, many=True)
+                classNoticeSerializer = NoticeSerializer(classNotices, many=True)
+                content = {
+                    'collegeNotices': collegeNoticeSerializer.data,
+                    'departmentNotices': departmentNoticeSerializer.data,
+                    'classNotices': classNoticeSerializer.data
+                }
+                return Response(content, status=status.HTTP_200_OK)
+            if userProfile.role.type == "Teacher":
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                collegeNotices = Notice.objects.filter(noticeType="College")
+                departmentNotices = Notice.objects.filter(noticeType="Department", noticeFor=teacher.department.name)
+                classNotices = Notice.objects.filter(noticeType="Class", uploaded_by=user)
+                collegeNoticeSerializer = NoticeSerializer(collegeNotices, many=True)
+                departmentNoticeSerializer = NoticeSerializer(departmentNotices, many=True)
+                classNoticeSerializer = NoticeSerializer(classNotices, many=True)
+                content = {
+                    'collegeNotices': collegeNoticeSerializer.data,
+                    'departmentNotices': departmentNoticeSerializer.data,
+                    'classNotices': classNoticeSerializer.data
+                }
+                return Response(content, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Error while fetching data.'}, status=status.HTTP_404_NOT_FOUND)
