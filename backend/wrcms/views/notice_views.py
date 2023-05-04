@@ -56,7 +56,7 @@ class AddNotice(APIView):
         if Class.objects.filter(name=noticeFor).exists or Department.objects.filter(name=noticeFor).exists:
             try:
                 Notice.objects.create(noticeFor=noticeFor, title=noticeTitle, uploaded_by=user, noticeType=noticeType, content=content, file=file)
-                return Response({'msg': 'Add Notice'}, status=status.HTTP_200_OK)
+                return Response({'msg': 'Notice added successfully!'}, status=status.HTTP_200_OK)
             except:
                 return Response({'msg': 'Could not add notice. Check details and try again.'}, status=status.HTTP_400_BAD_REQUEST)
         else:
