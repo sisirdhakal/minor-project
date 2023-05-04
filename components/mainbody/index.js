@@ -1,18 +1,42 @@
-import React, { useState } from 'react'
-import { BsPersonCircle, BsPersonFill, BsFillPersonFill, BsPerson } from 'react-icons/bs'
-import { AiFillCaretDown } from 'react-icons/ai'
-import { MdMessage } from 'react-icons/md'
+import React, { useEffect, useState } from 'react'
+
 import { statsOptions } from '../../utils/constants'
 import Image from 'next/image'
-import { books, collegeNotice, noticeOptions } from '../../utils/mockdata'
+import { books, noticeOptions } from '../../utils/mockdata'
+import ViewNotice from '../notices/viewNotice'
+import axios from 'axios'
+import { toast } from 'react-hot-toast';
 // import PieChart from './PieChart'
 
 
-function MainBody() {
+function MainBody({cookie}) {
 
     const [visible, setvisible] = useState(false)
 
     const [active, setactive] = useState("college")
+
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:8000/api/view-notice/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    console.log(data)
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        getData()
+    }, [])
+    
 
     return (
         <>
@@ -138,20 +162,8 @@ function MainBody() {
 
                             </div>
                             <div className='py-4 '>
-                                {
-                                    collegeNotice.map(item => {
-                                        const { id, notice } = item
-                                        return <div key={id} className=" px-5 py-3 ">
-                                            <div className='flex items-center'>
 
-                                                <MdMessage className='text-secondary-text mr-2 w-[40px] h-[40px]' />
-                                                <p className='font-bold flex-1 text-primary-text'>{notice}</p>
-                                            </div>
-                                        </div>
-                                    })
-                                }
-
-
+                                <ViewNotice />
                             </div>
                             <div className='absolute bottom-4 w-full'>
 
