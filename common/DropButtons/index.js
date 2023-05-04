@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 // import { ChevronDownIcon } from '@heroicons/react/20/solid'
 
@@ -20,14 +20,24 @@ export default function DropButtons({ type, options, setnoticeType, setnoticeFor
             setValue(item)
         }
     }
+    useEffect(() => {
+        if (type === "Notice For") {
+            setnoticeFor('')
+            setValue(type)
+        }
+
+    }, [options])
+
 
     return (
         <div className=' bg-white rounded-sm w-full'>
             <div className=' w-40'>
                 <Menu as="div" className="relative  text-left">
                     <div className='w-full '>
-                        <Menu.Button id='test' className="inline-flex w-full justify-center rounded-md border border-gray-300 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-0 focus:ring-indigo-500 focus:ring-offset-0 capitalize focus:ring-offset-gray-100">
-                            {value}
+                        <Menu.Button id='test' className="inline-flex w-full justify-center rounded-md border border-gray-300 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-0 focus:ring-indigo-500 focus:ring-offset-0 capitalize focus:ring-offset-gray-100 px-2">
+                            <p className=' text-ellipsis whitespace-nowrap overflow-hidden'>
+                                {value}
+                            </p>
                         </Menu.Button>
                     </div>
 
