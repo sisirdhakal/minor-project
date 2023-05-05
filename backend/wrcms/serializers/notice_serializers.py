@@ -14,7 +14,13 @@ class ClassSerializer(serializers.ModelSerializer):
         model = Class
         fields = ['name']
 
-class NoticeSerializer(serializers.ModelSerializer):
+class NoticeFullDetailsSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Notice
+        fields = '__all__'        
+
+class NoticeSerializer(NoticeFullDetailsSerializer):
     postedBy = serializers.SerializerMethodField(read_only=True)
     postedDateTime = serializers.SerializerMethodField(read_only=True)
 

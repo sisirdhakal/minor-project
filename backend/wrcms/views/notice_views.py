@@ -7,7 +7,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from django.db.models import Q
 from django.db import transaction
-from ..serializers.notice_serializers import ClassSerializer, DepartmentSerializer, NoticeSerializer
+from ..serializers.notice_serializers import ClassSerializer, DepartmentSerializer, NoticeSerializer, NoticeFullDetailsSerializer
 
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -102,3 +102,38 @@ class ViewNotice(APIView):
                 return Response(content, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Error while fetching data.'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class EditNotice(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, id, format=None):
+        user = request.user
+        try:
+            notice = Notice.objects.get(id=id)
+            if notice.uploaded_by == user:
+                noticeSerializer = NoticeFullDetailsSerializer(notice, many=False)
+                return Response(noticeSerializer.data)
+            else:
+                return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    def post(self, request, id, format=None):
+        user = request.user
+        data = self.request.data
+        try:
+            notice = Notice.objects.get(id=id)
+            if notice.uploaded_by == user:
+                notice.noticeType = data['noticeType']
+                notice.noticeFor = data['noticeFor']
+                notice.title = data['title']
+                notice.content = data['content']
+                notice.file = request.FILES.get('noticeFile')
+                notice.save()
+                return Response({'msg': 'Notice edited successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
