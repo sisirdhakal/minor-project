@@ -25,4 +25,5 @@ urlpatterns = [
     path('add-notice/', AddNotice.as_view()),
     path('view-notice/', ViewNotice.as_view()),
     path('edit-notice/<str:id>/', EditNotice.as_view()),
+    path('delete-notice/<str:id>/', DeleteNotice.as_view()),
 ]

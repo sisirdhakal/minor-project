@@ -120,19 +120,40 @@ class EditNotice(APIView):
         except:
             return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    def post(self, request, id, format=None):
+    def put(self, request, id, format=None):
         user = request.user
         data = self.request.data
         try:
             notice = Notice.objects.get(id=id)
             if notice.uploaded_by == user:
-                notice.noticeType = data['noticeType']
-                notice.noticeFor = data['noticeFor']
-                notice.title = data['title']
-                notice.content = data['content']
-                notice.file = request.FILES.get('noticeFile')
-                notice.save()
-                return Response({'msg': 'Notice edited successfully!'}, status=status.HTTP_200_OK)
+                serializer = NoticeFullDetailsSerializer(notice, data=data, partial=True)
+                # notice.noticeType = data['noticeType']
+                # notice.noticeFor = data['noticeFor']
+                # notice.title = data['title']
+                # notice.content = data['content']
+                # notice.file = request.FILES.get('noticeFile')
+                # notice.save()
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({'msg': 'Notice edited successfully!'}, status=status.HTTP_200_OK)
+                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class DeleteNotice(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def delete(self, request, id, format=None):
+        user = request.user
+        try:
+            notice = Notice.objects.get(id=id)
+            if notice.uploaded_by == user:
+                notice.delete()
+                return Response({'msg': 'The notice is deleted!'}, status=status.HTTP_200_OK)
             else:
                 return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
