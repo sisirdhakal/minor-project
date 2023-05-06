@@ -15,7 +15,7 @@ const ViewNotice = ({ notices }) => {
                         <div className='flex items-center'>
 
                             <MdMessage className='text-secondary-text mr-2 w-[40px] h-[40px]' />
-                            <p className='font-bold flex-1 text-primary-text'>{title}</p>
+                            <p className='font-bold flex-1 text-primary-text capitalize'>{title}</p>
                         </div>
                     </div>
                 })

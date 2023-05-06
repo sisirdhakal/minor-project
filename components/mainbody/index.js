@@ -9,11 +9,13 @@ import { toast } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
+import Link from 'next/link'
 
 
 function MainBody({ cookie }) {
 
     const { allNotices, activeNotice, activeNoticesDatas } = useSelector(state => state.notices)
+    const { sidebarUser } = useSelector(state => state.dashboard)
     const dispatch = useDispatch()
     const { setAllNotices, setActiveNotice, setActiveNoticeDatas } = bindActionCreators(actionCreators, dispatch)
 
@@ -45,12 +47,12 @@ function MainBody({ cookie }) {
 
     useEffect(() => {
         let noticeDatas = `${activeNotice}Notices`
-        if (noticeDatas) {
+        if (noticeDatas && allNotices) {
             const values = allNotices[noticeDatas];
-            setActiveNoticeDatas(values)
+            setActiveNoticeDatas(values ?? [])
 
         }
-    }, [activeNotice])
+    }, [activeNotice, allNotices])
 
 
 
@@ -181,11 +183,13 @@ function MainBody({ cookie }) {
 
                                 <ViewNotice notices={activeNoticesDatas} />
                             </div>
-                            <div className='absolute bottom-4 w-full'>
 
-                                <button className='bg-[#2091F9] mx-auto block rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                    All Notices
-                                </button>
+                            <div className='absolute bottom-4 w-full'>
+                                <Link href={`student/notices`}>
+                                    <button className='bg-[#2091F9] mx-auto block rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                        All Notices
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
