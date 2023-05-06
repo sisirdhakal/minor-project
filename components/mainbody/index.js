@@ -6,16 +6,22 @@ import { books, noticeOptions } from '../../utils/mockdata'
 import ViewNotice from '../notices/viewNotice'
 import axios from 'axios'
 import { toast } from 'react-hot-toast';
-// import PieChart from './PieChart'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../../redux'
 
 
-function MainBody({cookie}) {
+function MainBody({ cookie }) {
+
+    const { allNotices, activeNotice, activeNoticesDatas } = useSelector(state => state.notices)
+    const dispatch = useDispatch()
+    const { setAllNotices, setActiveNotice, setActiveNoticeDatas } = bindActionCreators(actionCreators, dispatch)
 
     const [visible, setvisible] = useState(false)
+    const [notices, setnotices] = useState([])
 
-    const [active, setactive] = useState("college")
 
-
+    // console.log(allNotices)
     useEffect(() => {
         const getData = async () => {
             try {
@@ -26,7 +32,7 @@ function MainBody({cookie}) {
                     }
                 })
                 if (data) {
-                    console.log(data)
+                    setAllNotices(data)
                 }
 
             } catch (error) {
@@ -36,7 +42,17 @@ function MainBody({cookie}) {
         }
         getData()
     }, [])
-    
+
+    useEffect(() => {
+        let noticeDatas = `${activeNotice}Notices`
+        if (noticeDatas) {
+            const values = allNotices[noticeDatas];
+            setActiveNoticeDatas(values)
+
+        }
+    }, [activeNotice])
+
+
 
     return (
         <>
@@ -154,7 +170,7 @@ function MainBody({cookie}) {
 
                                 {
                                     noticeOptions.map(({ id, name }) => {
-                                        return <button key={id} className={`font-bold transition-all ease-in-out duration-300  text-lg py-2 font-sans ${active.toLocaleLowerCase() === name.toLocaleLowerCase() ? ("border-b-[3px] text-primary-text border-secondary-text") : ("text-[#0096C7] border-b-[3px] border-white")}`} onClick={() => { setactive(name) }}>
+                                        return <button key={id} className={`font-bold transition-all ease-in-out duration-300  text-lg py-2 font-sans ${activeNotice.toLocaleLowerCase() === name.toLocaleLowerCase() ? ("border-b-[3px] text-primary-text border-secondary-text") : ("text-[#0096C7] border-b-[3px] border-white")}`} onClick={() => { setActiveNotice(name.toLowerCase()) }}>
                                             {name}
                                         </button>
                                     })
@@ -163,7 +179,7 @@ function MainBody({cookie}) {
                             </div>
                             <div className='py-4 '>
 
-                                <ViewNotice />
+                                <ViewNotice notices={activeNoticesDatas} />
                             </div>
                             <div className='absolute bottom-4 w-full'>
 
