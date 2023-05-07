@@ -158,3 +158,33 @@ class DeleteNotice(APIView):
                 return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class GetNoticeDetails(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+    
+    def get(self, request, id, format=None):
+        user = request.user
+        try:
+            userProfile = UserProfile.objects.get(user=user)
+            notice = Notice.objects.get(id=id)
+            if userProfile.role.type == "Student":
+                student = Student.objects.get(user=user, userProfile=userProfile)
+                if notice.noticeType == 'College' or notice.noticeFor == student.cLass.name or notice.noticeFor == student.department.name:
+                    serializer = NoticeSerializer(notice, many=False)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response({'msg': 'Not allowed to view this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
+            elif userProfile.role.type == "Teacher":
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                if notice.noticeType == 'College' or notice.noticeFor == teacher.department.name or notice.uploaded_by == user:
+                    serializer = NoticeSerializer(notice, many=False)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response({'msg': 'Not allowed to view this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
+            else:
+                serializer = NoticeSerializer(notice, many=False)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Notice not found.'}, status=status.HTTP_404_NOT_FOUND)
