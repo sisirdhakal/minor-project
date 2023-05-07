@@ -10,13 +10,13 @@ class LectureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_name', 'class_name', 'teacher_name', 'totalLectureDays', 'department_name']
+        fields = ['id', 'subject_name', 'type', 'class_name', 'teacher_name', 'totalLectureDays', 'department_name']
 
     def get_class_name(self, obj):
         return obj.cLass.name
 
     def get_subject_name(self, obj):
-        return obj.subject.subjectName
+        return obj.subject.name
 
     def get_teacher_name(self, obj):
         return obj.teacher.userProfile.getFullName()
@@ -38,7 +38,7 @@ class PracticalClassSerializer(serializers.ModelSerializer):
         return obj.cLass.name
 
     def get_subject_name(self, obj):
-        return obj.subject.subjectName
+        return obj.subject.name
 
     def get_department_name(self, obj):
         return obj.cLass.department.name        
@@ -69,7 +69,7 @@ class StudentSerializer(serializers.ModelSerializer):
 #         return obj.cLass.name
 
 #     def get_subject_name(self, obj):
-#         return obj.subject.subjectName
+#         return obj.subject.name
 
 #     def get_department_name(self, obj):
 #         return obj.cLass.department.name
@@ -84,7 +84,7 @@ class LectureDetailSerializer(LectureSerializer):
     
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_name', 'class_name', 'totalLectureDays', 'department_name', 'students']
+        fields = ['id', 'type', 'subject_name', 'class_name', 'totalLectureDays', 'department_name', 'students']
 
     def get_students(self, obj):
         students = sorted(Student.objects.filter(cLass=obj.cLass), key=lambda x:x.rollNumber[-3:])
@@ -137,7 +137,7 @@ class LectureAttendanceSerializer(LectureSerializer):
     
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_name', 'class_name', 'totalLectureDays', 'department_name', 'students']
+        fields = ['id', 'type', 'subject_name', 'class_name', 'totalLectureDays', 'department_name', 'students']
 
     def get_students(self, obj):
         context = {"lecture_id": obj.id}
@@ -170,7 +170,7 @@ class ViewStudentAttendanceSerializer(LectureSerializer):
 
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_name', 'teacher_name', 'totalLectureDays', 'presentDays', 'presentPercentage', 'attendance']
+        fields = ['id', 'type', 'subject_name', 'teacher_name', 'totalLectureDays', 'presentDays', 'presentPercentage', 'attendance']
 
     def get_attendance(self, obj):
         student_id = self.context.get("student_id")
