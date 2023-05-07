@@ -82,6 +82,7 @@ class Batch(models.Model):
 class Class(models.Model):
     name = models.CharField(max_length=10)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    program = models.ForeignKey('wrcms.Program', on_delete=models.SET_NULL, null=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
     semester = models.IntegerField(default=1)
     classRepresentative = models.ForeignKey('wrcms.Student', on_delete=models.SET_NULL, null=True, blank=True, related_name="Class_Representative")

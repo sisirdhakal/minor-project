@@ -2,7 +2,7 @@ from django.urls import path
 from .views.auth_views import *
 from .views.attendance_views import *
 from .views.notice_views import *
-from .views.routine_views import *
+from .views.routine_syllabus_views import *
 
 
 urlpatterns = [
@@ -31,4 +31,7 @@ urlpatterns = [
 
     # routines
     path('get-routine/', GetRoutine.as_view()),
+
+    # syllabus
+    path('get-syllabus/', GetSyllabus.as_view()),
 ]
