@@ -2,6 +2,7 @@ from django.urls import path
 from .views.auth_views import *
 from .views.attendance_views import *
 from .views.notice_views import *
+from .views.routine_views import *
 
 
 urlpatterns = [
@@ -26,4 +27,7 @@ urlpatterns = [
     path('view-notice/', ViewNotice.as_view()),
     path('edit-notice/<str:id>/', EditNotice.as_view()),
     path('delete-notice/<str:id>/', DeleteNotice.as_view()),
+
+    # routines
+    path('get-routine/', GetRoutine.as_view()),
 ]

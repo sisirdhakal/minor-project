@@ -68,3 +68,8 @@ class PracticalAttendanceAdmin(admin.ModelAdmin):
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Routine)
+class RoutineAdmin(admin.ModelAdmin):
+    list_display = ('routineFor', 'routineType',)

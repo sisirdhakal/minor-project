@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import random
+from cloudinary_storage.storage import MediaCloudinaryStorage
 
 # Create your models here.
 class UserRole(models.Model):
@@ -227,3 +228,17 @@ class Notice(models.Model):
 
     def __str__(self):
         return self.title+'-'+str(self.noticeFor)
+
+
+class Routine(models.Model):
+    ROUTINE_TYPE_CHOICES = (
+        ("ClassRoutine", "ClassRoutine"),
+        ("TeacherRoutine", "TeacherRoutine")
+    )
+    routineType = models.CharField(max_length=14, choices=ROUTINE_TYPE_CHOICES, null=True, blank=True)
+    routineFor = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    routineImage =  models.ImageField(upload_to='routines/', null=True, blank=True, storage=MediaCloudinaryStorage())
+    information = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.routineFor+'-'+self.routineType
