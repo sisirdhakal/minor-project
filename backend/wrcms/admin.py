@@ -49,6 +49,10 @@ class ProgramAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(ProgramSubject)
+class ProgramSubjectAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(Lecture)
 class LectureAdmin(admin.ModelAdmin):
     pass
