@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'wrcms',
+    'leaveApplication',
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',
