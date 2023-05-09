@@ -182,7 +182,7 @@ class Lecture(models.Model):
 
     def getLectureName(self):
         teacher = self.teacher.userProfile.getFullName()
-        return self.cLass.name+'-'+self.subject.name+'-sem'+str(self.semester)
+        return self.cLass.name+' - '+self.subject.name+' - '+str(self.semester)+' semester'
 
     def __str__(self):
         return self.getLectureName()
