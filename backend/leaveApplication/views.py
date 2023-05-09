@@ -17,8 +17,8 @@ class RequestLeave(APIView):
     def post(self, request, format=None):
         user = request.user
         data = self.request.data
-        leaveFrom = data['leaveFrom']
-        leaveTo = data['leaveTo']
+        leaveFrom = data['leaveStartDate']
+        leaveTo = data['leaveEndDate']
         lectureId = data['lecture']
         reason = data['reason']
         userProfile = UserProfile.objects.get(user=user)
@@ -109,3 +109,26 @@ class DeleteLeaveRequest(APIView):
                 return Response({'msg': 'Leave request not found.'}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({'msg': 'Not allowed to perform this action.'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class EditLeaveRequest(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def put(self, request, id, format=None):
+        user = request.user
+        data = self.request.data
+        try:
+            leaveRequest = LeaveRequest.objects.get(id=id)
+            student = Student.objects.get(user = user)
+            if leaveRequest.student == student and leaveRequest.is_approved == False:
+                leaveRequest.leaveStartDate = data['leaveStartDate']
+                leaveRequest.leaveEndDate = data['leaveEndDate']
+                leaveRequest.lecture = Lecture.objects.get(id=data['lecture'])
+                leaveRequest.reason = data['reason']
+                leaveRequest.save()
+                return Response({'msg': 'Leave request edited successfully!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Not allowed to edit this leave request.'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)
