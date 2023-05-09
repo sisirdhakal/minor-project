@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 import random
+from cloudinary_storage.storage import MediaCloudinaryStorage
 
 # Create your models here.
 class UserRole(models.Model):
@@ -81,6 +82,7 @@ class Batch(models.Model):
 class Class(models.Model):
     name = models.CharField(max_length=10)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
+    program = models.ForeignKey('wrcms.Program', on_delete=models.SET_NULL, null=True)
     batch = models.ForeignKey(Batch, on_delete=models.SET_NULL, null=True)
     semester = models.IntegerField(default=1)
     classRepresentative = models.ForeignKey('wrcms.Student', on_delete=models.SET_NULL, null=True, blank=True, related_name="Class_Representative")
@@ -130,6 +132,7 @@ class Program(models.Model):
     name = models.CharField(max_length=1024)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, related_name='Program_belongs_to_department')
     syllabus = models.FileField(upload_to='syllabus/', null=True, blank=True)
+    subjects = models.ManyToManyField('wrcms.Subject', through='wrcms.ProgramSubject')
 
     def __str__(self):
         return self.name
@@ -139,30 +142,47 @@ class Subject(models.Model):
     SUBJECT_TYPE_CHOICES = (
         ("Theory", "Theory"),
         ("Practical", "Practical"),
+        ("Both", "Both")
     )
-    subjectName = models.CharField(max_length=1024)
-    subjectCode = models.CharField(max_length=12, null=True, blank=True)
-    program = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
-    subjectType = models.CharField(max_length=10, choices=SUBJECT_TYPE_CHOICES, null=True, blank=True)
-    semester = models.IntegerField()
-    fullMarks = models.IntegerField(null=True, blank=True)
-    passMarks = models.IntegerField(null=True, blank=True)
+    name = models.CharField(max_length=1024)
+    code = models.CharField(max_length=12, null=True, blank=True)
+    # program = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
+    type = models.CharField(max_length=10, choices=SUBJECT_TYPE_CHOICES, null=True, blank=True)
+    # semester = models.IntegerField()
+    theoryAssessment = models.IntegerField(null=True, blank=True)
+    theoryFinal = models.IntegerField(null=True, blank=True)
+    practicalAssessment = models.IntegerField(null=True, blank=True)
+    practicalFinal = models.IntegerField(null=True, blank=True)
+    programs = models.ManyToManyField('wrcms.Program', through='wrcms.ProgramSubject')
 
     def __str__(self):
-        return self.program.name+'-'+self.subjectName
+        return self.name
 
+class ProgramSubject(models.Model):
+    program = models.ForeignKey('wrcms.Program', on_delete=models.CASCADE)
+    subject = models.ForeignKey('wrcms.Subject', on_delete=models.CASCADE)
+    semester = models.IntegerField()
 
+    def __str__(self):
+        return self.program.name+'-'+self.subject.name
+    
 class Lecture(models.Model):
+    LECTURE_TYPE_CHOICES = (
+        ("Theory", "Theory"),
+        ("Practical", "Practical"),
+    )
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    type = models.CharField(max_length=10, choices=LECTURE_TYPE_CHOICES, null=True, blank=True)
     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
     semester = models.IntegerField(default=1)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='Teacher_one')
+    teacher2 = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True, related_name='Teacher_two')
     isArchived = models.BooleanField(default=False)
     totalLectureDays = models.IntegerField(default=0)
 
     def getLectureName(self):
         teacher = self.teacher.userProfile.getFullName()
-        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacher
+        return self.cLass.name+' - '+self.subject.name+' - '+str(self.semester)+' semester'
 
     def __str__(self):
         return self.getLectureName()
@@ -179,7 +199,7 @@ class PracticalClass(models.Model):
 
     def getPracticalClassName(self):
         teacher = self.teacherOne.userProfile.getFullName()
-        return self.cLass.name+'-'+self.subject.subjectName+'-'+teacher
+        return self.cLass.name+'-'+self.subject.name+'-'+teacher
 
     def __str__(self):
         return self.getPracticalClassName()
@@ -227,3 +247,17 @@ class Notice(models.Model):
 
     def __str__(self):
         return self.title+'-'+str(self.noticeFor)
+
+
+class Routine(models.Model):
+    ROUTINE_TYPE_CHOICES = (
+        ("ClassRoutine", "ClassRoutine"),
+        ("TeacherRoutine", "TeacherRoutine")
+    )
+    routineType = models.CharField(max_length=14, choices=ROUTINE_TYPE_CHOICES, null=True, blank=True)
+    routineFor = models.CharField(max_length=255, null=True, blank=True, unique=True)
+    routineImage =  models.ImageField(upload_to='routines/', null=True, blank=True, storage=MediaCloudinaryStorage())
+    information = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.routineFor+'-'+self.routineType

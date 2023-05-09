@@ -20,7 +20,7 @@ class GetLectures(APIView):
         if userProfile.role.type == "Teacher":
             try:
                 teacher = Teacher.objects.get(user=user, userProfile=userProfile)
-                lectures = Lecture.objects.filter(teacher=teacher, isArchived=False)
+                lectures = Lecture.objects.filter(Q(teacher=teacher, isArchived=False) | Q(teacher2=teacher, isArchived=False))
                 serializer = LectureSerializer(lectures, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except:
@@ -59,7 +59,7 @@ class AddAttendance(APIView):
             userProfile = UserProfile.objects.get(user=user)
             requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
             lecture = Lecture.objects.get(id=id)
-            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+            if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                 serializer = LectureDetailSerializer(lecture, many=False)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
@@ -83,7 +83,7 @@ class AddAttendance(APIView):
                 else:
                     userProfile = UserProfile.objects.get(user=user)
                     requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
-                    if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+                    if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                         presentStudents = Student.objects.filter(id__in=attendances)
                         allStudents = Student.objects.filter(cLass=lecture.cLass)
                         absentStudents = allStudents.exclude(id__in=presentStudents)
@@ -127,7 +127,7 @@ class ViewLectureAttendance(APIView):
             userProfile = UserProfile.objects.get(user=user)
             requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
             lecture = Lecture.objects.get(id=id)
-            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+            if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                 serializer = LectureAttendanceSerializer(lecture, many=False)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             else:
@@ -150,7 +150,7 @@ class EditLectureAttendance(APIView):
             requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
             lecture = Lecture.objects.get(id=lectureId)
             students = sorted(Student.objects.filter(cLass=lecture.cLass), key=lambda x:x.rollNumber[-3:])
-            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+            if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                 try:
                     context = {"lecture_id": lectureId, "attendanceDate": attendanceDate}
                     serializer = EditAttendanceStudentSerializer(students, many=True, context=context)
@@ -174,7 +174,7 @@ class EditLectureAttendance(APIView):
             userProfile = UserProfile.objects.get(user=user)
             requestedTeacher = Teacher.objects.get(user=user, userProfile=userProfile)
             lecture = Lecture.objects.get(id=lectureId)
-            if userProfile.role.type == "Teacher" and lecture.teacher==requestedTeacher:
+            if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                 try:
                     presentStudents = Student.objects.filter(id__in=attendances)
                     allStudents = Student.objects.filter(cLass=lecture.cLass)
@@ -216,7 +216,7 @@ class ViewStudentAttendance(APIView):
                 lectures = Lecture.objects.filter(cLass=student.cLass, semester=sem)
                 serializer = ViewStudentAttendanceSerializer(lectures, many=True, context=context)
                 return Response(serializer.data, status=status.HTTP_200_OK)
-            if userProfile.role.type == "Parent":
+            elif userProfile.role.type == "Parent":
                 parent = Parent.objects.get(user=user, userProfile=userProfile)
                 student = parent.parentOf
                 context = {"student_id": student.id}

@@ -49,6 +49,10 @@ class ProgramAdmin(admin.ModelAdmin):
 class SubjectAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(ProgramSubject)
+class ProgramSubjectAdmin(admin.ModelAdmin):
+    pass
+
 @admin.register(Lecture)
 class LectureAdmin(admin.ModelAdmin):
     pass
@@ -68,3 +72,8 @@ class PracticalAttendanceAdmin(admin.ModelAdmin):
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(Routine)
+class RoutineAdmin(admin.ModelAdmin):
+    list_display = ('routineFor', 'routineType',)
