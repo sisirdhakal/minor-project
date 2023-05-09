@@ -87,3 +87,25 @@ class ApproveLeaveRequest(APIView):
                 return Response({'msg': 'Leave request not found.'}, status=status.HTTP_404_NOT_FOUND)
         else:
             return Response({'msg': 'Not allowed to perform this action.'}, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class DeleteLeaveRequest(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def delete(self, request, id, format=None):
+        user = request.user
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == 'Student':
+            student = Student.objects.get(user=user, userProfile=userProfile)
+            try:
+                leaveRequest = LeaveRequest.objects.get(id=id)
+                if leaveRequest.is_approved == False and leaveRequest.student == student:
+                    leaveRequest.delete()
+                    return Response({'msg': 'Leave request is deleted.'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'msg': "Not allowed to perform this action."}, status=status.HTTP_401_UNAUTHORIZED)
+            except:
+                return Response({'msg': 'Leave request not found.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'msg': 'Not allowed to perform this action.'}, status=status.HTTP_401_UNAUTHORIZED)
