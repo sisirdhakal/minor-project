@@ -4,4 +4,5 @@ from .views import *
 urlpatterns = [
     path('add/', RequestLeave.as_view()),
     path('my/', GetLeaveRequests.as_view()),
+    path('approve/<str:id>/', ApproveLeaveRequest.as_view()),
 ]

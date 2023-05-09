@@ -8,6 +8,7 @@ from wrcms.models import UserProfile, Student, Lecture, Teacher
 from .models import LeaveRequest
 from .serializers import LeaveRequestSerializer
 from django.db.models import Q
+import datetime
 
 @method_decorator(csrf_protect, name='dispatch')
 class RequestLeave(APIView):
@@ -61,3 +62,28 @@ class GetLeaveRequests(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response({'msg': 'Not allowed to access'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@method_decorator(csrf_protect, name='dispatch')
+class ApproveLeaveRequest(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, id, format=None):
+        user = request.user
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == 'Teacher':
+            teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+            try:
+                leaveRequest = LeaveRequest.objects.get(id=id)
+                if leaveRequest.lecture.teacher == teacher or leaveRequest.lecture.teacher2==teacher:
+                    leaveRequest.is_approved = True
+                    leaveRequest.approvedBy = teacher
+                    leaveRequest.approved_at = datetime.datetime.now()
+                    leaveRequest.save()
+                    return Response({'msg': 'Leave request approved successfully'}, status=status.HTTP_200_OK)
+                else:
+                    return Response({'msg': 'Not allowed to perform this action.'}, status=status.HTTP_401_UNAUTHORIZED)
+            except:
+                return Response({'msg': 'Leave request not found.'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'msg': 'Not allowed to perform this action.'}, status=status.HTTP_401_UNAUTHORIZED)
