@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('wrcms.urls')),
     path('api/leave-request/', include('leaveApplication.urls')),
+    path('api/admin/', include('wrcms_admin.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

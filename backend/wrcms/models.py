@@ -74,6 +74,7 @@ class Department(models.Model):
 class Batch(models.Model):
     year = models.CharField(max_length=4)
     startedFrom = models.CharField(max_length=255, null=True, blank=True)
+    graduated = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):

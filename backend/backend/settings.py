@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'wrcms',
     'leaveApplication',
+    'wrcms_admin',
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',
