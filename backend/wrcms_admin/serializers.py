@@ -36,10 +36,20 @@ class ClassSerializer(serializers.ModelSerializer):
             return obj.viceClassRepresentative.userProfile.getFullName()
     
 class DepartmentSerializer(serializers.ModelSerializer):
+    hod_name = serializers.SerializerMethodField(read_only=True)
+    dhod_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Department
-        fields = '__all__'
+        fields = build_fields(model, ['hod_name', 'dhod_name'])
+
+    def get_hod_name(self, obj):
+        if obj.headOfDepartment:
+            return obj.headOfDepartment.userProfile.getFullName()
+    
+    def get_dhod_name(self, obj):
+        if obj.deputyHeadOfDepartment:
+            return obj.deputyHeadOfDepartment.userProfile.getFullName()
 
 class BatchSerializer(serializers.ModelSerializer):
 

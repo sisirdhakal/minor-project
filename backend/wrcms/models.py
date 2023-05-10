@@ -67,12 +67,13 @@ class Department(models.Model):
     headOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Head_of_Department')
     deputyHeadOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Deputy_Head_of_Department')
     contact = models.CharField(max_length=10, null=True, blank=True)
+    mail = models.EmailField(null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
 
 class Batch(models.Model):
-    year = models.CharField(max_length=4)
+    year = models.CharField(max_length=4, unique=True)
     startedFrom = models.CharField(max_length=255, null=True, blank=True)
     graduated = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
