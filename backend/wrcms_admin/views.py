@@ -124,6 +124,66 @@ class DepartmentDelete(APIView):
         except:
             return Response({'msg': 'Department not found.'}, status=status.HTTP_404_NOT_FOUND)
 
+
+# Class based views for CRUD operations of """Program""" model
+
+@method_decorator(csrf_protect, name='dispatch')
+class ProgramList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        programs = Program.objects.all()
+        serializer = ProgamSerializer(programs, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+@method_decorator(csrf_protect, name='dispatch')
+class ProgramAdd(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def post(self, request, format=None):
+        data = self.request.data
+        file = request.FILES.get('syllabus')
+        try:
+            Program.objects.create(
+                name = data['name'],
+                department = Department.objects.get(id=data['department']),
+                syllabus = file
+            )
+            return Response({'msg': 'Program added successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Error while adding new program.'}, status=status.HTTP_409_CONFLICT)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class ProgramEdit(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def put(self, request, id, format=None):
+        data = self.request.data
+        file = request.FILES.get('syllabus')
+        try:
+            program = Program.objects.get(id=id)
+            program.name = data['name']
+            program.department = Department.objects.get(id=data['department'])
+            if (file):
+                program.syllabus = file
+            program.save()
+            return Response({'msg': 'Program edited successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Program not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class ProgramDelete(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def delete(self, request, id, format=None):
+        try:
+            program = Program.objects.get(id=id)
+            program.delete()
+            return Response({'msg': 'Program deleted successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Program not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
 # Class based views for CRUD operations of """Class""" model
 
 @method_decorator(csrf_protect, name='dispatch')

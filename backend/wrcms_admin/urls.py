@@ -16,4 +16,9 @@ urlpatterns = [
     path('department/add/', DepartmentAdd.as_view()),
     path('department/<str:id>/edit/', DepartmentEdit.as_view()),
     path('department/<str:id>/delete/', DepartmentDelete.as_view()),
+
+    path('program/', ProgramList.as_view()),
+    path('program/add/', ProgramAdd.as_view()),
+    path('program/<str:id>/edit/', ProgramEdit.as_view()),
+    path('program/<str:id>/delete/', ProgramDelete.as_view()),
 ]

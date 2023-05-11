@@ -59,7 +59,12 @@ class BatchSerializer(serializers.ModelSerializer):
 
 
 class ProgamSerializer(serializers.ModelSerializer):
+    department_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Program
-        fields = '__all__'
+        fields = build_fields(model, ['department_name'])
+
+    def get_department_name(self, obj):
+        if obj.department:
+            return obj.department.name
