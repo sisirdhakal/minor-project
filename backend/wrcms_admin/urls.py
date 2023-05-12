@@ -21,4 +21,9 @@ urlpatterns = [
     path('program/add/', ProgramAdd.as_view()),
     path('program/<str:id>/edit/', ProgramEdit.as_view()),
     path('program/<str:id>/delete/', ProgramDelete.as_view()),
+
+    path('lecture/', LectureList.as_view()),
+    path('lecture/add/', LectureAdd.as_view()),
+    path('lecture/<str:id>/edit/', LectureEdit.as_view()),
+    path('lecture/<str:id>/delete/', LectureDelete.as_view()),
 ]

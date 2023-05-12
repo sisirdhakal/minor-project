@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from django.db.models import Q
 import datetime
-from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher
+from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject
 from .serializers import *
 
 # Class based views for CRUD operations of """Batch""" model
@@ -247,3 +247,74 @@ class ClassDelete(APIView):
             return Response({'msg': 'Class deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Class not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Class based views for CRUD operations of """Class""" model
+
+@method_decorator(csrf_protect, name='dispatch')
+class LectureList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        lectures = Lecture.objects.filter(isArchived=False)
+        serializer = LectureSerializer(lectures, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+@method_decorator(csrf_protect, name='dispatch')
+class LectureAdd(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def post(self, request, format=None):
+        data = self.request.data
+        try:
+            cLass = Class.objects.get(id=data['class'])
+            subject = Subject.objects.get(id=data['subject'])
+            programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
+            lecture = Lecture.objects.create(
+                subject = subject,
+                type = data['type'],
+                cLass = cLass,
+                teacher = Teacher.objects.get(id=data['teacher']),
+                semester = programSubject.semester,
+            )
+            if (data['teacher2']):
+                lecture.teacher2 = Teacher.objects.get(id=data['teacher2'])
+                lecture.save()
+            return Response({'msg': 'Lecture added successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Error while adding new lecture.'}, status=status.HTTP_409_CONFLICT)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class LectureEdit(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def put(self, request, id, format=None):
+        data = self.request.data
+        cLass = Class.objects.get(id=data['class'])
+        subject = Subject.objects.get(id=data['subject'])
+        programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
+        try:
+            lecture = Lecture.objects.get(id=id)
+            lecture.subject = subject
+            lecture.cLass = cLass
+            lecture.type = data['type']
+            lecture.semester = programSubject.semester
+            lecture.teacher = Teacher.objects.get(id=data['teacher'])
+            if (data['teacher2']):
+                lecture.teacher2 = Teacher.objects.get(id=data['teacher2'])
+            lecture.save()
+            return Response({'msg': 'Lecture edited successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class LectureDelete(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def delete(self, request, id, format=None):
+        try:
+            lecture = Lecture.objects.get(id=id)
+            lecture.delete()
+            return Response({'msg': 'Lecture deleted successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)

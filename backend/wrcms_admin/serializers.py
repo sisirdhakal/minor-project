@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from wrcms.models import Class, Department, Batch, Program
+from wrcms.models import Class, Department, Batch, Program, Lecture
 
 def build_fields(mdl,extra=[],exclude=[]):
     fields = [field.name for field in mdl._meta.fields if field.name not in exclude]
@@ -68,3 +68,27 @@ class ProgamSerializer(serializers.ModelSerializer):
     def get_department_name(self, obj):
         if obj.department:
             return obj.department.name
+        
+
+class LectureSerializer(serializers.ModelSerializer):
+    class_name = serializers.SerializerMethodField(read_only=True)
+    subject_name = serializers.SerializerMethodField(read_only=True)
+    teacher_name = serializers.SerializerMethodField(read_only=True)
+    teacher2_name = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Lecture
+        fields = build_fields(model, ['class_name', 'subject_name', 'teacher_name', 'teacher2_name'])
+
+    def get_class_name(self, obj):
+        return obj.cLass.name
+    
+    def get_subject_name(self, obj):
+        return obj.subject.name
+    
+    def get_teacher_name(self, obj):
+        return obj.teacher.userProfile.getFullName()
+    
+    def get_teacher2_name(self, obj):
+        if obj.teacher2:
+            return obj.teacher2.userProfile.getFullName()
