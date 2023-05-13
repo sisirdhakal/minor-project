@@ -1,11 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Lecture, PracticalClass, Attendance, Student, Parent
+from wrcms.models import UserProfile, Teacher, Lecture, Attendance, Student, Parent
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
-from ..serializers.attendance_serializers import LectureSerializer, PracticalClassSerializer, LectureDetailSerializer, LectureAttendanceSerializer, EditAttendanceStudentSerializer, ViewStudentAttendanceSerializer
+from ..serializers.attendance_serializers import LectureSerializer, LectureDetailSerializer, LectureAttendanceSerializer, EditAttendanceStudentSerializer, ViewStudentAttendanceSerializer
 from django.db.models import Q
 import datetime
 from django.db import transaction
@@ -20,7 +20,7 @@ class GetLectures(APIView):
         if userProfile.role.type == "Teacher":
             try:
                 teacher = Teacher.objects.get(user=user, userProfile=userProfile)
-                lectures = Lecture.objects.filter(Q(teacher=teacher, isArchived=False) | Q(teacher2=teacher, isArchived=False))
+                lectures = Lecture.objects.filter(Q(teacher=teacher, isArchived=False, type="Theory") | Q(teacher2=teacher, isArchived=False, type="Theory"))
                 serializer = LectureSerializer(lectures, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except:
@@ -39,8 +39,8 @@ class GetPracticalClass(APIView):
         if userProfile.role.type == "Teacher":
             try:
                 teacher = Teacher.objects.get(user=user, userProfile=userProfile)
-                practicals = PracticalClass.objects.filter(Q(teacherOne=teacher, isArchived=False) | Q(teacherTwo=teacher, isArchived=False))
-                serializer = PracticalClassSerializer(practicals, many=True)
+                lectures = Lecture.objects.filter(Q(teacher=teacher, isArchived=False, type="Practical") | Q(teacher2=teacher, isArchived=False, type="Practical"))
+                serializer = LectureSerializer(lectures, many=True)
                 return Response(serializer.data, status=status.HTTP_200_OK)
             except:
                 return Response({'msg': 'No records found!'}, status=status.HTTP_404_NOT_FOUND)

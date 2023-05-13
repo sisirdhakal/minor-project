@@ -61,14 +61,6 @@ class LectureAdmin(admin.ModelAdmin):
 class AttendanceAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(PracticalClass)
-class PracticalClassAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(PracticalAttendance)
-class PracticalAttendanceAdmin(admin.ModelAdmin):
-    pass
-
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
     pass

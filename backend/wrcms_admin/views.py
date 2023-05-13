@@ -318,3 +318,28 @@ class LectureDelete(APIView):
             return Response({'msg': 'Lecture deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+# Class based views for CRUD operations of """Student""" model
+
+@method_decorator(csrf_protect, name='dispatch')
+class StudentList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        students = Student.objects.filter()
+        serializer = StudentSerializer(students, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+@method_decorator(csrf_protect, name='dispatch')
+class StudentAdd(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def post(self, request, format=None):
+        data = self.request.data
+        #
+        #
+        #
+        #
+        return Response({'msg': 'New student added successfully!'}, status=status.HTTP_200_OK)
+        
