@@ -326,11 +326,10 @@ class StudentList(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
     def get(self, request, format=None):
-        students = Student.objects.filter()
+        students = Student.objects.all()
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-
 @method_decorator(csrf_protect, name='dispatch')
 class StudentAdd(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
@@ -383,37 +382,36 @@ class StudentEdit(APIView):
 
     def put(self, request, id, format=None):
         data = self.request.data
-        # try:
-        student = Student.objects.get(id=id)
-        userProfile = student.userProfile
-        
-        userProfile.courtesyTitle = data['courtesyTitle']
-        userProfile.firstName = data['firstName']
-        userProfile.middleName = data['middleName']
-        userProfile.lastName = data['lastName']
-        userProfile.email = data['email']
-        userProfile.address = data['address']
-        userProfile.contact = data['contact']
-        userProfile.fathersName= data['fathersName']
-        userProfile.mothersName = data['mothersName']
-        userProfile.role = UserRole.objects.get(type="Student")
-        userProfile.nationality = data['nationality']
-        userProfile.identificationDocumentType = data['idType']
-        userProfile.identificationDocumentNumber = data['idNumber']
-        userProfile.dateOfBirth = data['dateOfBirth']
-        
-        userProfile.save()
-        
-        student.userProfile = userProfile
-        student.department = Department.objects.get(id=data['department'])
-        student.batch = Batch.objects.get(id=data['batch'])
-        student.cLass = Class.objects.get(id=data['cLass'])
-        student.rollNumber = data['rollNumber']
+        try:
+            student = Student.objects.get(id=id)
+            userProfile = student.userProfile
+            
+            userProfile.courtesyTitle = data['courtesyTitle']
+            userProfile.firstName = data['firstName']
+            userProfile.middleName = data['middleName']
+            userProfile.lastName = data['lastName']
+            userProfile.email = data['email']
+            userProfile.address = data['address']
+            userProfile.contact = data['contact']
+            userProfile.fathersName= data['fathersName']
+            userProfile.mothersName = data['mothersName']
+            userProfile.nationality = data['nationality']
+            userProfile.identificationDocumentType = data['idType']
+            userProfile.identificationDocumentNumber = data['idNumber']
+            userProfile.dateOfBirth = data['dateOfBirth']
+            
+            userProfile.save()
+            
+            student.userProfile = userProfile
+            student.department = Department.objects.get(id=data['department'])
+            student.batch = Batch.objects.get(id=data['batch'])
+            student.cLass = Class.objects.get(id=data['cLass'])
+            student.rollNumber = data['rollNumber']
 
-        student.save()
-        return Response({'msg': 'Student details edited successfully!'}, status=status.HTTP_200_OK)
-        # except:
-        #     return Response({'msg': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
+            student.save()
+            return Response({'msg': 'Student details edited successfully!'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
         
 @method_decorator(csrf_protect, name='dispatch')
 class StudentDelete(APIView):
@@ -428,3 +426,109 @@ class StudentDelete(APIView):
             return Response({'msg': 'Student deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Student not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Class based views for CRUD operations of """Teacher""" model
+
+class TeacherList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        teachers = Teacher.objects.all()
+        serializer = TeacherSerializer(teachers, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherAdd(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def post(self, request, format=None):
+        data = self.request.data
+        try:
+            newUser = UserProfile.objects.create(
+                courtesyTitle = data['courtesyTitle'],
+                firstName = data['firstName'],
+                middleName = data['middleName'],
+                lastName = data['lastName'],
+                email = data['email'],
+                address = data['address'],
+                contact = data['contact'],
+                fathersName= data['fathersName'],
+                mothersName = data['mothersName'],
+                role = UserRole.objects.get(type="Teacher"),
+                nationality = data['nationality'],
+                identificationDocumentType = data['idType'],
+                identificationDocumentNumber = data['idNumber'],
+                dateOfBirth = data['dateOfBirth']
+            )
+            Teacher.objects.create(
+                userProfile = newUser,
+                department = Department.objects.get(id=data['department']),
+                academicDetails = data['academicDetails'],
+                experiences = data['experiences'],
+            )
+            return Response({'msg': 'New teacher added successfully!'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Error while adding new teacher. Make sure details are correct.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            teacher = Teacher.objects.get(id=id)
+            serializer = TeacherSerializer(teacher, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherEdit(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def put(self, request, id, format=None):
+        data = self.request.data
+        try:
+            teacher = Teacher.objects.get(id=id)
+            userProfile = teacher.userProfile
+            
+            userProfile.courtesyTitle = data['courtesyTitle']
+            userProfile.firstName = data['firstName']
+            userProfile.middleName = data['middleName']
+            userProfile.lastName = data['lastName']
+            userProfile.email = data['email']
+            userProfile.address = data['address']
+            userProfile.contact = data['contact']
+            userProfile.fathersName= data['fathersName']
+            userProfile.mothersName = data['mothersName']
+            userProfile.nationality = data['nationality']
+            userProfile.identificationDocumentType = data['idType']
+            userProfile.identificationDocumentNumber = data['idNumber']
+            userProfile.dateOfBirth = data['dateOfBirth']
+            
+            userProfile.save()
+            
+            teacher.userProfile = userProfile
+            teacher.department = Department.objects.get(id=data['department'])
+            teacher.academicDetails = data['academicDetails']
+            teacher.experiences = data['experiences']
+
+            teacher.save()
+            return Response({'msg': 'Teacher details edited successfully!'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherDelete(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def delete(self, request, id, format=None):
+        try:
+            teacher = Teacher.objects.get(id=id)
+            userProfile = teacher.userProfile
+            userProfile.delete()
+            teacher.delete()
+            return Response({'msg': 'Teacher deleted successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
