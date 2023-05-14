@@ -26,4 +26,10 @@ urlpatterns = [
     path('lecture/add/', LectureAdd.as_view()),
     path('lecture/<str:id>/edit/', LectureEdit.as_view()),
     path('lecture/<str:id>/delete/', LectureDelete.as_view()),
+
+    path('student/', StudentList.as_view()),
+    path('student/add/', StudentAdd.as_view()),
+    path('student/<str:id>/', StudentDetail.as_view()),
+    path('student/<str:id>/edit/', StudentEdit.as_view()),
+    path('student/<str:id>/delete/', StudentDelete.as_view()),
 ]
