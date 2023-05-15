@@ -32,4 +32,13 @@ urlpatterns = [
     path('student/<str:id>/', StudentDetail.as_view()),
     path('student/<str:id>/edit/', StudentEdit.as_view()),
     path('student/<str:id>/delete/', StudentDelete.as_view()),
+
+    path('teacher/', TeacherList.as_view()),
+    path('teacher/add/', TeacherAdd.as_view()),
+    path('teacher/<str:id>/', TeacherDetail.as_view()),
+    path('teacher/<str:id>/edit/', TeacherEdit.as_view()),
+    path('teacher/<str:id>/delete/', TeacherDelete.as_view()),
+
+    path('parent/', ParentList.as_view()),
+    path('parent/<str:id>/', ParentDetail.as_view()),
 ]

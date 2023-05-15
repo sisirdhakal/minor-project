@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from wrcms.models import Class, Department, Batch, Program, Lecture, Student, UserProfile, Teacher
+from wrcms.models import Class, Department, Batch, Program, Lecture, Student, UserProfile, Teacher, Parent
 
 def build_fields(mdl,extra=[],exclude=[]):
     fields = [field.name for field in mdl._meta.fields if field.name not in exclude]
@@ -119,6 +119,17 @@ class TeacherSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Teacher
+        fields = build_fields(model, ['user_profile'], [])
+
+    def get_user_profile(self, obj):
+        serializer = UserProfileSerializer(obj.userProfile, many=False)
+        return serializer.data
+    
+class ParentSerializer(serializers.ModelSerializer):
+    user_profile = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Parent
         fields = build_fields(model, ['user_profile'], [])
 
     def get_user_profile(self, obj):

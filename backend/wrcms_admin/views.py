@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from django.db.models import Q
 import datetime
-from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole
+from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole, Parent
 from .serializers import *
 
 # Class based views for CRUD operations of """Batch""" model
@@ -326,7 +326,17 @@ class StudentList(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
     def get(self, request, format=None):
-        students = Student.objects.all()
+        search = self.request.query_params.get('search')
+        if (search):
+            search = search.split(' ')
+            students = Student.objects.filter(
+                Q(userProfile__firstName__in=search) |
+                Q(userProfile__middleName__in=search) |
+                Q(userProfile__lastName__in=search) |
+                Q(rollNumber__in=search)
+            )
+        else:
+            students = Student.objects.all()
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -434,7 +444,16 @@ class TeacherList(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
 
     def get(self, request, format=None):
-        teachers = Teacher.objects.all()
+        search = self.request.query_params.get('search')
+        if (search):
+            search = search.split(' ')
+            teachers = Teacher.objects.filter(
+                Q(userProfile__firstName__in=search) |
+                Q(userProfile__middleName__in=search) |
+                Q(userProfile__lastName__in=search)
+            )
+        else:
+            teachers = Teacher.objects.all()
         serializer = TeacherSerializer(teachers, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
@@ -532,3 +551,39 @@ class TeacherDelete(APIView):
             return Response({'msg': 'Teacher deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+# Class based views for CRUD operations of """Parent""" model
+
+class ParentList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        search = self.request.query_params.get('search')
+        if (search):
+            search = search.split(' ')
+            parents = Parent.objects.filter(
+                Q(userProfile__firstName__in=search) |
+                Q(userProfile__middleName__in=search) |
+                Q(userProfile__lastName__in=search) |
+                Q(parentOf__rollNumber__in=search) |
+                Q(parentOf__userProfile__firstName__in=search) |
+                Q(parentOf__userProfile__middleName__in=search) |
+                Q(parentOf__userProfile__lastName__in=search)
+            ).distinct()
+        else:
+            parents = Parent.objects.all()
+        serializer = ParentSerializer(parents, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+@method_decorator(csrf_protect, name='dispatch')
+class ParentDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            parent = Parent.objects.get(id=id)
+            serializer = ParentSerializer(parent, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Parent not found.'}, status=status.HTTP_404_NOT_FOUND)
