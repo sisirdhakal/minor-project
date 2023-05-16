@@ -14,4 +14,4 @@ class LeaveRequest(models.Model):
     reason = models.TextField()
 
     def __str__(self):
-        return self.student.rollNumber
+        return self.student.rollNumber+'-'+self.leaveStartDate+'-'+self.leaveEndDate

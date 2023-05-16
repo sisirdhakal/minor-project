@@ -67,13 +67,15 @@ class Department(models.Model):
     headOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Head_of_Department')
     deputyHeadOfDepartment = models.ForeignKey('wrcms.Teacher', on_delete=models.SET_NULL, null=True, blank=True, related_name='Deputy_Head_of_Department')
     contact = models.CharField(max_length=10, null=True, blank=True)
+    mail = models.EmailField(null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
 
 class Batch(models.Model):
-    year = models.CharField(max_length=4)
+    year = models.CharField(max_length=4, unique=True)
     startedFrom = models.CharField(max_length=255, null=True, blank=True)
+    graduated = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
 
     def __str__(self):
@@ -100,6 +102,7 @@ class Student(models.Model):
     isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
     rollNumber = models.CharField(max_length=12, unique=True, null=True)
+    is_graduated = models.BooleanField(default=False)
 
     def __str__(self):
         cLass = self.cLass.name
@@ -112,6 +115,7 @@ class Teacher(models.Model):
     academicDetails = models.TextField(null=True, blank=True)
     experiences = models.TextField(null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+    is_working = models.BooleanField(default=True)
 
     def __str__(self):
         department = self.department.name
@@ -172,7 +176,7 @@ class Lecture(models.Model):
         ("Practical", "Practical"),
     )
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    type = models.CharField(max_length=10, choices=LECTURE_TYPE_CHOICES, null=True, blank=True)
+    type = models.CharField(max_length=10, choices=LECTURE_TYPE_CHOICES)
     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
     semester = models.IntegerField(default=1)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='Teacher_one')
@@ -188,21 +192,21 @@ class Lecture(models.Model):
         return self.getLectureName()
 
 
-class PracticalClass(models.Model):
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
-    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
-    semester = models.IntegerField(default=1)
-    teacherOne = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, related_name='Teacher_One')
-    teacherTwo = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True, related_name='Teacher_Two')
-    isArchived = models.BooleanField(default=False)
-    totalLabDays = models.IntegerField(default=0)
+# class PracticalClass(models.Model):
+#     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+#     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+#     semester = models.IntegerField(default=1)
+#     teacherOne = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, related_name='Teacher_One')
+#     teacherTwo = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True, related_name='Teacher_Two')
+#     isArchived = models.BooleanField(default=False)
+#     totalLabDays = models.IntegerField(default=0)
 
-    def getPracticalClassName(self):
-        teacher = self.teacherOne.userProfile.getFullName()
-        return self.cLass.name+'-'+self.subject.name+'-'+teacher
+#     def getPracticalClassName(self):
+#         teacher = self.teacherOne.userProfile.getFullName()
+#         return self.cLass.name+'-'+self.subject.name+'-'+teacher
 
-    def __str__(self):
-        return self.getPracticalClassName()
+#     def __str__(self):
+#         return self.getPracticalClassName()
 
 
 
@@ -219,16 +223,16 @@ class Attendance(models.Model):
 
 
 
-class PracticalAttendance(models.Model):
-    practicalClass = models.ForeignKey(PracticalClass, on_delete=models.CASCADE)
-    cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    status = models.BooleanField(default=True)
-    date = models.DateField(null=True, blank=True)
+# class PracticalAttendance(models.Model):
+#     practicalClass = models.ForeignKey(PracticalClass, on_delete=models.CASCADE)
+#     cLass = models.ForeignKey(Class, on_delete=models.CASCADE)
+#     student = models.ForeignKey(Student, on_delete=models.CASCADE)
+#     status = models.BooleanField(default=True)
+#     date = models.DateField(null=True, blank=True)
 
-    def __str__(self):
-        practical = self.practicalClass.getPracticalClassName()
-        return self.student.userProfile.getFullName()+'-'+practical+'-'+str(self.date)
+#     def __str__(self):
+#         practical = self.practicalClass.getPracticalClassName()
+#         return self.student.userProfile.getFullName()+'-'+practical+'-'+str(self.date)
 
 
 class Notice(models.Model):
@@ -261,3 +265,15 @@ class Routine(models.Model):
 
     def __str__(self):
         return self.routineFor+'-'+self.routineType
+
+
+
+class TeacherAdvice(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    advice = models.TextField()
+    posted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.student.userProfile.getFullName()+'-'+self.lecture.getLectureName()

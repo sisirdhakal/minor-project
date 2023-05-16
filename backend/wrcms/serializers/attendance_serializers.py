@@ -25,23 +25,23 @@ class LectureSerializer(serializers.ModelSerializer):
         return obj.cLass.department.name
 
 
-class PracticalClassSerializer(serializers.ModelSerializer):
-    class_name = serializers.SerializerMethodField(read_only=True)
-    subject_name = serializers.SerializerMethodField(read_only=True)
-    department_name = serializers.SerializerMethodField(read_only=True)
+# class PracticalClassSerializer(serializers.ModelSerializer):
+#     class_name = serializers.SerializerMethodField(read_only=True)
+#     subject_name = serializers.SerializerMethodField(read_only=True)
+#     department_name = serializers.SerializerMethodField(read_only=True)
 
-    class Meta:
-        model = PracticalClass
-        fields = ['id', 'subject_name', 'class_name', 'totalLabDays', 'department_name']
+#     class Meta:
+#         model = PracticalClass
+#         fields = ['id', 'subject_name', 'class_name', 'totalLabDays', 'department_name']
 
-    def get_class_name(self, obj):
-        return obj.cLass.name
+#     def get_class_name(self, obj):
+#         return obj.cLass.name
 
-    def get_subject_name(self, obj):
-        return obj.subject.name
+#     def get_subject_name(self, obj):
+#         return obj.subject.name
 
-    def get_department_name(self, obj):
-        return obj.cLass.department.name        
+#     def get_department_name(self, obj):
+#         return obj.cLass.department.name        
 
 
 class StudentSerializer(serializers.ModelSerializer):
