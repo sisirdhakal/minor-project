@@ -29,5 +29,9 @@ urlpatterns = [
     path('edit-notice/<str:id>/', EditNotice.as_view()),
     path('delete-notice/<str:id>/', DeleteNotice.as_view()),
 
-    
+    # teacher advice
+    path('get-advice/', AdviceList.as_view()),
+    path('add-advice/', AdviceAdd.as_view()),
+    path('edit-advice/<str:id>/', AdviceEdit.as_view()),
+    path('delete-advice/<str:id>/', AdviceDelete.as_view()),
 ]
