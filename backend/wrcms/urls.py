@@ -2,7 +2,7 @@ from django.urls import path
 from .views.auth_views import *
 from .views.attendance_views import *
 from .views.notice_views import *
-from .views.routine_syllabus_views import *
+from .views.teacher_advice_views import *
 
 
 urlpatterns = [
@@ -29,9 +29,9 @@ urlpatterns = [
     path('edit-notice/<str:id>/', EditNotice.as_view()),
     path('delete-notice/<str:id>/', DeleteNotice.as_view()),
 
-    # routines
-    path('get-routine/', GetRoutine.as_view()),
-
-    # syllabus
-    path('get-syllabus/', GetSyllabus.as_view()),
+    # teacher advice
+    path('get-advice/', AdviceList.as_view()),
+    path('add-advice/', AdviceAdd.as_view()),
+    path('edit-advice/<str:id>/', AdviceEdit.as_view()),
+    path('delete-advice/<str:id>/', AdviceDelete.as_view()),
 ]

@@ -102,6 +102,7 @@ class Student(models.Model):
     isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
     rollNumber = models.CharField(max_length=12, unique=True, null=True)
+    is_graduated = models.BooleanField(default=False)
 
     def __str__(self):
         cLass = self.cLass.name
@@ -114,6 +115,7 @@ class Teacher(models.Model):
     academicDetails = models.TextField(null=True, blank=True)
     experiences = models.TextField(null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+    is_working = models.BooleanField(default=True)
 
     def __str__(self):
         department = self.department.name
@@ -263,3 +265,15 @@ class Routine(models.Model):
 
     def __str__(self):
         return self.routineFor+'-'+self.routineType
+
+
+
+class TeacherAdvice(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    advice = models.TextField()
+    posted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.student.userProfile.getFullName()+'-'+self.lecture.getLectureName()
