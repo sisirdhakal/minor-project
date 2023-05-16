@@ -677,3 +677,36 @@ class RoutineDelete(APIView):
             return Response({'msg': 'Routine deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    
+# Class based views for CRUD operations of """Syllabus""" model
+
+class SyllabusList(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        user = request.user
+        if user.is_staff == True:
+            allSyllabus = Program.objects.all()
+            serializer = ProgamSerializer(allSyllabus, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            userProfile = UserProfile.objects.get(user=user)
+            if userProfile.role.type == "Student":
+                student = Student.objects.get(user=user, userProfile=userProfile)
+                try:
+                    syllabus = student.cLass.program
+                    serializer = ProgamSerializer(syllabus, many=False)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                except:
+                    return Response({'msg': 'Syllabus not found!'}, status=status.HTTP_404_NOT_FOUND)
+            elif userProfile.role.type == "Teacher":
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                try:
+                    allSyllabus = Program.objects.all()
+                    serializer = ProgamSerializer(allSyllabus, many=True)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                except:
+                    return Response({'msg': 'Syllabus not found!'}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response({'msg': 'Not authorized to access.'}, status=status.HTTP_401_UNAUTHORIZED)

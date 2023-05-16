@@ -46,4 +46,7 @@ urlpatterns = [
     path('routine/add/', RoutineAdd.as_view()),
     path('routine/<str:id>/edit/', RoutineEdit.as_view()),
     path('routine/<str:id>/delete/', RoutineDelete.as_view()),
+
+    path('syllabus/', SyllabusList.as_view()),
+    
 ]
