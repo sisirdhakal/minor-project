@@ -263,3 +263,15 @@ class Routine(models.Model):
 
     def __str__(self):
         return self.routineFor+'-'+self.routineType
+
+
+
+class TeacherAdvice(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    advice = models.TextField()
+    posted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.student.userProfile.getFullName()+'-'+self.lecture.getLectureName()

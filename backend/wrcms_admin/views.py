@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from django.db.models import Q
 import datetime
-from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole, Parent
+from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole, Parent, Routine
 from .serializers import *
 
 # Class based views for CRUD operations of """Batch""" model
@@ -587,3 +587,93 @@ class ParentDetail(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Parent not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# Class based views for CRUD operations of """Routine""" model
+
+class RoutineList(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get(self, request, format=None):
+        user = request.user
+        if user.is_staff == True:
+            allRoutines = Routine.objects.all()
+            serializer = RoutineSerializer(allRoutines, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            userProfile = UserProfile.objects.get(user=user)
+            if userProfile.role.type == "Student":
+                student = Student.objects.get(user=user, userProfile=userProfile)
+                try:
+                    routine = Routine.objects.get(routineType="ClassRoutine", routineFor=student.cLass.name)
+                    serializer = RoutineSerializer(routine, many=False)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                except:
+                    return Response({'msg': 'Routine not found!'}, status=status.HTTP_404_NOT_FOUND)
+            elif userProfile.role.type == "Teacher":
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                try:
+                    routine = Routine.objects.get(routineType="TeacherRoutine", routineFor=teacher.userProfile.getFullName())
+                    serializer = RoutineSerializer(routine, many=False)
+                    return Response(serializer.data, status=status.HTTP_200_OK)
+                except:
+                    return Response({'msg': 'Routine not found!'}, status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response({'msg': 'Not authorized to access.'}, status=status.HTTP_401_UNAUTHORIZED)
+            
+@method_decorator(csrf_protect, name='dispatch')
+class RoutineAdd(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def post(self, request, format=None):
+        data = self.request.data
+        file = request.FILES.get('routine')
+        try:
+            if data['routineType'] == 'ClassRoutine':
+                routineFor = Class.objects.get(id=data['routineFor']).name
+            else:
+                routineFor = Teacher.objects.get(id=data['routineFor']).userProfile.getFullName()
+            Routine.objects.create(
+                routineType = data['routineType'],
+                routineFor = routineFor,
+                information = data['information'],
+                routineImage = file
+            )
+            return Response({'msg': 'New routine added successfully!'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Error while adding new routine. Make sure details are correct.'}, status=status.HTTP_400_BAD_REQUEST)
+
+@method_decorator(csrf_protect, name='dispatch')
+class RoutineEdit(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def put(self, request, id, format=None):
+        data = self.request.data
+        file = request.FILES.get('routine')
+        try:
+            routine = Routine.objects.get(id=id)
+            if data['routineType'] == 'ClassRoutine':
+                routineFor = Class.objects.get(id=data['routineFor']).name
+            else:
+                routineFor = Teacher.objects.get(id=data['routineFor']).userProfile.getFullName()
+            routine.routineType = data['routineType']
+            routine.routineFor = routineFor
+            routine.information = data['information']
+            if (file):
+                routine.routineImage = file
+            routine.save()
+            return Response({'msg': 'Routine details edited successfully!'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class RoutineDelete(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+    
+    def delete(self, request, id, format=None):
+        try:
+            routine = Routine.objects.get(id=id)
+            routine.delete()
+            return Response({'msg': 'Routine deleted successfully.'}, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)

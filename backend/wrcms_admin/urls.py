@@ -41,4 +41,9 @@ urlpatterns = [
 
     path('parent/', ParentList.as_view()),
     path('parent/<str:id>/', ParentDetail.as_view()),
+
+    path('routine/', RoutineList.as_view()),
+    path('routine/add/', RoutineAdd.as_view()),
+    path('routine/<str:id>/edit/', RoutineEdit.as_view()),
+    path('routine/<str:id>/delete/', RoutineDelete.as_view()),
 ]
