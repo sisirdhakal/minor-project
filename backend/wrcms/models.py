@@ -102,6 +102,7 @@ class Student(models.Model):
     isParentRegistered = models.BooleanField(default=False)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
     rollNumber = models.CharField(max_length=12, unique=True, null=True)
+    is_graduated = models.BooleanField(default=False)
 
     def __str__(self):
         cLass = self.cLass.name
@@ -114,6 +115,7 @@ class Teacher(models.Model):
     academicDetails = models.TextField(null=True, blank=True)
     experiences = models.TextField(null=True, blank=True)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
+    is_working = models.BooleanField(default=True)
 
     def __str__(self):
         department = self.department.name
