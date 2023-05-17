@@ -7,12 +7,24 @@ from rest_framework import status
 from wrcms.models import UserProfile, Student, Lecture, Teacher
 from .models import LeaveRequest
 from .serializers import LeaveRequestSerializer
+from wrcms.serializers.attendance_serializers import LectureSerializer
 from django.db.models import Q
 import datetime
 
 @method_decorator(csrf_protect, name='dispatch')
 class RequestLeave(APIView):
     permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, format=None):
+        user = request.user
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == 'Student':
+            student = Student.objects.get(user=user, userProfile=userProfile)
+            lectures = Lecture.objects.filter(is_archived=False, cLass=student.cLass)
+            serializer = LectureSerializer(lectures, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({'msg': 'Not authorized to access.'}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request, format=None):
         user = request.user

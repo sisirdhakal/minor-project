@@ -22,6 +22,11 @@ class Dashboard(APIView):
         teachers_count = Teacher.objects.filter(is_working=True).count()
         departments_count = Department.objects.all().count()
         programs_count = Program.objects.all().count()
+        male=Student.objects.filter(is_graduated=False, userProfile__courtesyTitle='Mr.').count()
+        female=Student.objects.filter(
+            Q(is_graduated=False, userProfile__courtesyTitle='Ms.') |
+            Q(is_graduated=False, userProfile__courtesyTitle='Mrs.')
+        ).count()
         context = {
             "students": students_count,
             "teachers": teachers_count,
@@ -29,7 +34,9 @@ class Dashboard(APIView):
             "graduated_batches": graduated_batch_count,
             "programs": programs_count,
             "alumni": alumni_count,
-            "parents": parents_count
+            "parents": parents_count,
+            "femaleStudents": female,
+            "maleStudents": male
         }
         return Response(context, status=status.HTTP_200_OK)
 
