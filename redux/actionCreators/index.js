@@ -13,7 +13,7 @@ import {
 } from './notices'
 
 import {
-    setAllBatches, setAllDepartments, setUserDetails
+    setAllBatches, setAllDepartments, setUserDetails, setAllClasses
 } from './collegeAdmin'
 
 
@@ -43,5 +43,6 @@ export {
     setActiveNoticeDatas,
     setAllBatches,
     setAllDepartments,
+    setAllClasses,
     setUserDetails
 }
