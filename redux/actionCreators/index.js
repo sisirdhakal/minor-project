@@ -13,8 +13,9 @@ import {
 } from './notices'
 
 import {
-    setAllBatches
+    setAllBatches, setAllDepartments
 } from './collegeAdmin'
+
 
 
 export {
@@ -40,5 +41,6 @@ export {
     setActiveNotice,
     setAllNotices,
     setActiveNoticeDatas,
-    setAllBatches
+    setAllBatches,
+    setAllDepartments,
 }
