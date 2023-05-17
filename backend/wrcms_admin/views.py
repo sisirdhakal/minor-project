@@ -9,6 +9,30 @@ import datetime
 from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole, Parent, Routine
 from .serializers import *
 
+@method_decorator(csrf_protect, name='dispatch')
+class Dashboard(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        students = Student.objects.filter(is_graduated=False)
+        alumni_count = Student.objects.filter(is_graduated=True).count()
+        parents_count = Parent.objects.filter(parentOf__in = students).count()
+        students_count = students.count()
+        graduated_batch_count = Batch.objects.filter(graduated=True).count()
+        teachers_count = Teacher.objects.filter(is_working=True).count()
+        departments_count = Department.objects.all().count()
+        programs_count = Program.objects.all().count()
+        context = {
+            "students": students_count,
+            "teachers": teachers_count,
+            "departments": departments_count,
+            "graduated_batches": graduated_batch_count,
+            "programs": programs_count,
+            "alumni": alumni_count,
+            "parents": parents_count
+        }
+        return Response(context, status=status.HTTP_200_OK)
+
 # Class based views for CRUD operations of """Batch""" model
 
 @method_decorator(csrf_protect, name='dispatch')
