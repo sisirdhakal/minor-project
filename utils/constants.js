@@ -112,13 +112,13 @@ export const sidebarOptions = {
             name: "teacher feedback",
 
         },
-        // {
-        //     id: 9,
-        //     icon: "/assets/images/routine.svg",
-        //     url: "/dashboard/routine",
-        //     name: "routine",
+        {
+            id: 9,
+            icon: "/assets/images/routine.svg",
+            url: "/student/leaveapplication",
+            name: "Leave Application",
 
-        // },
+        },
         // {
         //     id: 10,
         //     icon: "/assets/images/syllabus.svg",
@@ -313,7 +313,7 @@ export const statsOptions = [
     },
     {
         title: 'Feedback',
-        icon: "/assets/images/feedbackimage.svg",
+        icon: "/assets/images/feedbackImage.svg",
         id: 3,
         body: "See feedback from your teachers."
     },

@@ -12,7 +12,7 @@ export default function CollegeAdminHero({ title, button, image, url, parent }) 
             <div>
                 <div className='bg-white w-full h-10 flex items-center justify-between px-2 rounded-sm py-1 lg:px-8 mb-8'>
                     <div className='flex items-center'>
-                        <div className='relative w-[28px] h-[36px] mr-2 rounded-sm'>
+                        <div className='relative w-[28px] h-[36px] mr-4 rounded-sm'>
                             <Image
                                 alt=''
                                 priority
