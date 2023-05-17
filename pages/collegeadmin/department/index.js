@@ -53,9 +53,11 @@ const Department = ({ cookie }) => {
                                     {item.name}
                                 </div>
                                 <div className='col-span-1 flex justify-end'>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
-                                        Edit
-                                    </button>
+                                    <Link href={`/collegeadmin/department/${item.id}`}>
+                                        <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
+                                            Edit
+                                        </button>
+                                    </Link>
                                     <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
                                         Delete
                                     </button>

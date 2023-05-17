@@ -1,14 +1,19 @@
 import React from 'react'
 import { DashboardLayout } from '../../../../components/layout/dashboard'
 import CollegeAdminHero from '../../../../components/collgeadmin/collegeAdminHero'
+import { useRouter } from 'next/router'
+import AddDepartmentComp from '../../../../components/collgeadmin/department/addDepartment'
+import EditDepartment from '../../../../components/collgeadmin/department/editDepartment'
 
-const AddDepartment = () => {
+const AddDepartment = ({ cookie }) => {
+
+    const { query: { id } } = useRouter()
+
     return (
         <div>
-            <CollegeAdminHero parent={"department"} title={"Add Department"} image={"/assets/images/exam.svg"} />
-
-
-
+            {
+                id === "add" ? <AddDepartmentComp cookie={cookie} /> : <EditDepartment cookie={cookie} id={id} />
+            }
         </div>
     )
 }
