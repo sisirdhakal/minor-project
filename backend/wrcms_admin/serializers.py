@@ -102,10 +102,22 @@ class UserProfileSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     program = serializers.SerializerMethodField(read_only=True)
     user_profile = serializers.SerializerMethodField(read_only=True)
+    class_name = serializers.SerializerMethodField(read_only=True)
+    department_name = serializers.SerializerMethodField(read_only=True)
+    batch_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Student
-        fields = build_fields(model, ['program', 'user_profile'], [])
+        fields = build_fields(model, ['program', 'class_name', 'department_name', 'batch_name', 'user_profile'], [])
+
+    def get_class_name(self, obj):
+        return obj.cLass.name
+    
+    def get_department_name(self, obj):
+        return obj.department.name
+    
+    def get_batch_name(self, obj):
+        return obj.batch.year
 
     def get_program(self, obj):
         return obj.cLass.program.name
