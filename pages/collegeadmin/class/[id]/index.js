@@ -1,11 +1,18 @@
 import React from 'react'
 import { DashboardLayout } from '../../../../components/layout/dashboard'
-import CollegeAdminHero from '../../../../components/collgeadmin/collegeAdminHero'
+import { useRouter } from 'next/router'
+import AddClassComp from '../../../../components/collgeadmin/class/addClass'
+import EditClassComp from '../../../../components/collgeadmin/class/editClass'
 
-const AddClass = () => {
+const AddClass = ({ cookie }) => {
+
+    const { query: { id } } = useRouter()
+
     return (
         <div>
-            <CollegeAdminHero parent={"class"} title={"Add Class"} image={"/assets/images/class.svg"} />
+            {
+                id === "add" ? <AddClassComp cookie={cookie} /> : <EditClassComp cookie={cookie} id={id} />
+            }
         </div>
     )
 }
