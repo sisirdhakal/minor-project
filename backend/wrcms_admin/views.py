@@ -129,6 +129,18 @@ class DepartmentAdd(APIView):
             return Response({'msg': 'Error while adding new department.'}, status=status.HTTP_409_CONFLICT)
 
 @method_decorator(csrf_protect, name='dispatch')
+class DepartmentDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            department = Department.objects.get(id=id)
+            serializer = DepartmentSerializer(department, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Department not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@method_decorator(csrf_protect, name='dispatch')
 class DepartmentEdit(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
     

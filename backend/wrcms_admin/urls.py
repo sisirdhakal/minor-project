@@ -17,6 +17,7 @@ urlpatterns = [
 
     path('department/', DepartmentList.as_view()),
     path('department/add/', DepartmentAdd.as_view()),
+    path('department/<str:id>/', DepartmentDetail.as_view()),
     path('department/<str:id>/edit/', DepartmentEdit.as_view()),
     path('department/<str:id>/delete/', DepartmentDelete.as_view()),
 

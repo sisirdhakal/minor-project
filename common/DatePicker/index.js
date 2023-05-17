@@ -25,13 +25,13 @@ function DateComp(props) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <div className='flex justify-center items-center text-secondary-text'>
                 <div>
-                    <p className='font-semibold'>Select Date :</p>
                     <DatePicker
                         label=""
                         inputFormat="YYYY/MM/DD"
-                        className=''
+                        className='bg-[#caf0f8] border-none outline-none h-8'
                         value={attendanceDate}
                         onChange={handleChange}
+                        style={{ height: "32px"}}
                         PopperProps={{
                             sx: {
                                 '& .MuiPaper-root': {
