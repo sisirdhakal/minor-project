@@ -215,6 +215,92 @@ export const sidebarOptions = {
             name: "results",
 
         },
+    ],
+    collegeadmin: [
+        {
+            id: 1,
+            icon: "/assets/images/home.svg",
+            url: "/collegeadmin",
+            name: "dashboard",
+
+        },
+        {
+            id: 2,
+            icon: "/assets/images/attendance.svg",
+            url: "/collegeadmin/batch",
+            name: "batch",
+
+        },
+        {
+            id: 3,
+            icon: "/assets/images/exam.svg",
+            url: "/collegeadmin/department",
+            name: "department",
+
+        },
+        {
+            id: 4,
+            icon: "/assets/images/program.svg",
+            url: "/collegeadmin/program",
+            name: "program",
+
+        },
+        {
+            id: 5,
+            icon: "/assets/images/class.svg",
+            url: "/collegeadmin/class",
+            name: "class",
+
+        },
+        {
+            id: 6,
+            icon: "/assets/images/lecture.svg",
+            url: "/collegeadmin/lecture",
+            name: "lecture",
+
+        },
+        {
+            id: 7,
+            icon: "/assets/images/student.svg",
+            url: "/collegeadmin/student",
+            name: "student",
+
+        },
+        {
+            id: 8,
+            icon: "/assets/images/teacher.svg",
+            url: "/collegeadmin/teacher",
+            name: "teacher",
+
+        },
+        {
+            id: 9,
+            icon: "/assets/images/parent.svg",
+            url: "/collegeadmin/parent",
+            name: "parent",
+
+        },
+        {
+            id: 10,
+            icon: "/assets/images/routine.svg",
+            url: "/collegeadmin/routine",
+            name: "routine",
+
+        },
+        {
+            id: 11,
+            icon: "/assets/images/notice.svg",
+            url: "/collegeadmin/notice",
+            name: "notice",
+
+        },
+        {
+            id: 12,
+            icon: "/assets/images/syllabus.svg",
+            url: "/collegeadmin/syllabus",
+            name: "syllabus",
+
+        },
     ]
 }
 
