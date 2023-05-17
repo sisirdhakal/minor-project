@@ -1,9 +1,13 @@
-import { SET_ALL_BATCHES } from "../constant"
+import { SET_ALL_BATCHES, SET_ALL_DEPARTMENTS } from "../constant"
 
 
 
 export const setAllBatches = (value) => async dispatch => {
     dispatch({ type: SET_ALL_BATCHES, payload: value })
+}
+
+export const setAllDepartments = (value) => async dispatch => {
+    dispatch({ type: SET_ALL_DEPARTMENTS, payload: value })
 }
 
 

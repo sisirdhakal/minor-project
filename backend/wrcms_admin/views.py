@@ -69,6 +69,7 @@ class BatchEdit(APIView):
             batch = Batch.objects.get(id=id)
             batch.year = data['year']
             batch.startedFrom = data['startedFrom']
+            batch.graduated = data['graduated']
             batch.save()
             return Response({'msg': 'Batch edited successfully.'}, status=status.HTTP_200_OK)
         except:
