@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { DashboardLayout } from '../../../../components/layout/dashboard'
-import CollegeAdminHero from '../../../../components/collgeadmin/collegeAdminHero'
 import { useRouter } from 'next/router'
 
-const AddBatch = () => {
+const EditBatch = () => {
 
-    const [process, setprocess] = useState("Add Batch")
+    const [process, setprocess] = useState("Edit Batch")
     const { query } = useRouter()
     console.log(query)
 
@@ -29,14 +27,11 @@ const AddBatch = () => {
     return (
         <div>
             <div>
-                <CollegeAdminHero parent={"batch"} title={"Add Batch"} image={"/assets/images/attendance.svg"} />
-            </div>
-            <div>
                 <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
 
                     <div>
                         <h1 className='text-[#023E8A] mb-10 text-2xl font-medium'>
-                            Add Batch
+                            Edit Batch
                         </h1>
                     </div>
 
@@ -61,10 +56,22 @@ const AddBatch = () => {
                                 placeholder=''
                                 className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
+                        <div className='mb-4 flex justify-start items-center'>
+                            <div className='mr-8 cursor-pointer'>
+                                <input
+                                    value={values.title}
+                                    onChange={handleChange}
+                                    type="checkbox"
+                                    name='title'
+                                    placeholder=''
+                                    className='rounded text-gray-700 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] w-8 bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium cursor-pointer placeholder:tracking-wide' />
+                            </div>
+                            <p className='text-[#023E8A] text-xl w-32 font-medium mr-5'>Graduated</p>
+                        </div>
 
 
                         <div className='mt-12 mb-3 flex items-center justify-center'>
-                            <button disabled={process === "Add Batch" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed'>
+                            <button disabled={process === "Edit Batch" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed'>
                                 {process}
                             </button>
                         </div>
@@ -76,16 +83,4 @@ const AddBatch = () => {
     )
 }
 
-export default AddBatch
-
-export const getServerSideProps = async ({ req }) => {
-    return {
-        props: {
-            cookie: req.cookies
-        }
-    };
-}
-
-AddBatch.getLayout = function getLayout(page) {
-    return <DashboardLayout>{page}</DashboardLayout>;
-};
+export default EditBatch
