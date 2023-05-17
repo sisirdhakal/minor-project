@@ -7,8 +7,6 @@ export default function CollegeAdminHero({ title, button, image, url, parent }) 
 
     const [active, setactive] = useState("college")
 
-    console.log(image, button, title)
-
     return (
         <>
             <div>
