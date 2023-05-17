@@ -29,12 +29,12 @@ const Batch = ({ cookie }) => {
                     }
                 })
                 if (data) {
-                    console.log("success")
                     setAllBatches(data)
                 }
 
             } catch (error) {
                 if (error.response?.data.msg) {
+                    console.log(error)
                     toast.error(error.response.data.msg)
                 }
             }

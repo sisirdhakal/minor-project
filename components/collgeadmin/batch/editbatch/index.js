@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import CollegeAdminHero from '../../collegeAdminHero'
+import { toast } from 'react-hot-toast'
+import axios from 'axios'
 
 const EditBatch = ({ cookie, id }) => {
 
@@ -8,15 +10,46 @@ const EditBatch = ({ cookie, id }) => {
     const router = useRouter()
     const initialValue = {
         year: "",
-        startFrom: ""
+        startedFrom: "",
+        graduated: false
     }
 
 
     const [values, setvalues] = useState(initialValue)
 
     const handleChange = (e) => {
-        setvalues({ ...values, [e.target.name]: e.target.value })
+        if (e.target.name === "graduated") {
+            setvalues({ ...values, [e.target.name]: e.target.checked })
+        }
+        else {
+            setvalues({ ...values, [e.target.name]: e.target.value })
+        }
     }
+
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/batch/${id}/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    setvalues(data)
+                }
+
+            } catch (error) {
+                if (error) {
+                    console.log(error)
+                }
+            }
+
+        }
+        getData()
+    }, [])
+    console.log(values)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -28,8 +61,8 @@ const EditBatch = ({ cookie, id }) => {
         }
 
         try {
-            setprocess("Adding ...")
-            const { data } = await axios.get(`http://localhost:8000/api/admin/batch/${id}/`, {
+            setprocess("Editing ...")
+            const { data } = await axios.put(`http://localhost:8000/api/admin/batch/${id}/edit/`, values, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookie.csrftoken
@@ -37,19 +70,19 @@ const EditBatch = ({ cookie, id }) => {
             })
             if (data) {
                 toast.success(data.msg)
-                setprocess("Add Batch")
+                setprocess("Edit Batch")
                 router.push("/collegeadmin/batch")
-                setvalues(initialValue)
             }
 
         } catch (error) {
-            setprocess("Add Batch")
+            setprocess("Edit Batch")
             console.log(error)
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
         }
     }
+
 
 
     return (
@@ -70,31 +103,33 @@ const EditBatch = ({ cookie, id }) => {
                         <div className='mb-4 flex justify-start items-center'>
                             <p className='text-[#023E8A] text-xl w-32 font-medium mr-5'>Year</p>
                             <input
-                                value={values.title}
+                                value={values.year}
                                 onChange={handleChange}
                                 type="text"
                                 name='year'
                                 placeholder=''
+
                                 className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
                         <div className='mb-4 flex justify-start items-center'>
                             <p className='text-[#023E8A] text-xl w-32 font-medium mr-5'>Started From</p>
                             <input
-                                value={values.title}
+                                value={values.startedFrom}
                                 onChange={handleChange}
                                 type="text"
-                                name='startFrom'
+                                name='startedFrom'
                                 placeholder=''
                                 className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
                         <div className='mb-4 flex justify-start items-center'>
                             <div className='mr-8 cursor-pointer'>
                                 <input
-                                    value={values.title}
                                     onChange={handleChange}
                                     type="checkbox"
-                                    name='isGraduated'
+                                    value={values.graduated}
+                                    name='graduated'
                                     placeholder=''
+                                    checked={values.graduated}
                                     className='rounded text-gray-700 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] w-8 bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium cursor-pointer placeholder:tracking-wide' />
                             </div>
                             <p className='text-[#023E8A] text-xl w-32 font-medium mr-5'>Graduated</p>
