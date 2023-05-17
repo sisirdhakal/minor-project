@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useState } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard'
 import CollegeAdminHero from '../../../components/collgeadmin/collegeAdminHero'
 import { useDispatch, useSelector } from 'react-redux'
@@ -7,11 +7,21 @@ import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../../redux'
 import Link from 'next/link'
 import { GrUserExpert } from 'react-icons/gr';
+import DeleteClassModal from '../../../components/collgeadmin/class/deleteModal'
 
 const ClassComp = ({ cookie }) => {
     const { allClasses } = useSelector(state => state.collegeadmin)
     const dispatch = useDispatch()
     const { setAllClasses } = bindActionCreators(actionCreators, dispatch)
+
+    const [showModal, setShowModal] = useState(false)
+    const [activeId, setactiveId] = useState(null)
+
+    const handleClick = (id) => {
+        setactiveId(id)
+        setShowModal(true)
+
+    }
 
     useEffect(() => {
         const getData = async () => {
@@ -34,6 +44,8 @@ const ClassComp = ({ cookie }) => {
         }
         getData()
     }, [])
+
+
 
     return (
         <div>
@@ -66,20 +78,23 @@ const ClassComp = ({ cookie }) => {
                                 <p className='text-md my-2 flex items-center space-x-3 hover:text-[#023E8A]'>
                                     <GrUserExpert /> <span className='text-sm'>VCR: <span className='font-medium'>{item.vcr_name}</span></span>
                                 </p>
-                            </Link>  
+                            </Link>
                             <div className='flex justify-center items-center gap-x-3'>
                                 <Link href={`/collegeadmin/class/${item.id}`}>
                                     <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block'>
                                         Edit
                                     </button>
                                 </Link>
-                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block'>
+                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block' onClick={() => { handleClick(item.id) }}>
                                     Delete
                                 </button>
-                            </div> 
+                            </div>
                         </div>
                     })
                 }
+            </div>
+            <div>
+                <DeleteClassModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
             </div>
         </div>
     )
