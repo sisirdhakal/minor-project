@@ -8,6 +8,10 @@ import {
     clearSignup, clearSignupData, setSignUpSteps, setSignUpToggle, setSignupData, setSignupEmail, setSignupType, setVerified, setVerifyDetailsValue,
 } from './signUpAcions'
 
+import {
+    setActiveNotice, setAllNotices, setActiveNoticeDatas
+} from './notices'
+
 
 export {
     setAttendanceType,
@@ -28,5 +32,8 @@ export {
     fetchTheoryLectures,
     fetchPracticalLabs,
     fetchSingleLecture,
-    setAttendanceDate
+    setAttendanceDate,
+    setActiveNotice,
+    setAllNotices,
+    setActiveNoticeDatas
 }

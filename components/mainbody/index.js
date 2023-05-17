@@ -1,18 +1,60 @@
-import React, { useState } from 'react'
-import { BsPersonCircle, BsPersonFill, BsFillPersonFill, BsPerson } from 'react-icons/bs'
-import { AiFillCaretDown } from 'react-icons/ai'
-import { MdMessage } from 'react-icons/md'
+import React, { useEffect, useState } from 'react'
+
 import { statsOptions } from '../../utils/constants'
 import Image from 'next/image'
-import { books, collegeNotice, noticeOptions } from '../../utils/mockdata'
-// import PieChart from './PieChart'
+import { books, noticeOptions } from '../../utils/mockdata'
+import ViewNotice from '../notices/viewNotice'
+import axios from 'axios'
+import { toast } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../../redux'
+import Link from 'next/link'
 
 
-function MainBody() {
+function MainBody({ cookie }) {
+
+    const { allNotices, activeNotice, activeNoticesDatas } = useSelector(state => state.notices)
+    const { sidebarUser } = useSelector(state => state.dashboard)
+    const dispatch = useDispatch()
+    const { setAllNotices, setActiveNotice, setActiveNoticeDatas } = bindActionCreators(actionCreators, dispatch)
 
     const [visible, setvisible] = useState(false)
+    const [notices, setnotices] = useState([])
 
-    const [active, setactive] = useState("college")
+
+    // console.log(allNotices)
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:8000/api/view-notice/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    setAllNotices(data)
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+
+        }
+        getData()
+    }, [])
+
+    useEffect(() => {
+        let noticeDatas = `${activeNotice}Notices`
+        if (noticeDatas && allNotices) {
+            const values = allNotices[noticeDatas];
+            setActiveNoticeDatas(values ?? [])
+
+        }
+    }, [activeNotice, allNotices])
+
+
 
     return (
         <>
@@ -130,7 +172,7 @@ function MainBody() {
 
                                 {
                                     noticeOptions.map(({ id, name }) => {
-                                        return <button key={id} className={`font-bold transition-all ease-in-out duration-300  text-lg py-2 font-sans ${active.toLocaleLowerCase() === name.toLocaleLowerCase() ? ("border-b-[3px] text-primary-text border-secondary-text") : ("text-[#0096C7] border-b-[3px] border-white")}`} onClick={() => { setactive(name) }}>
+                                        return <button key={id} className={`font-bold transition-all ease-in-out duration-300  text-lg py-2 font-sans ${activeNotice.toLocaleLowerCase() === name.toLocaleLowerCase() ? ("border-b-[3px] text-primary-text border-secondary-text") : ("text-[#0096C7] border-b-[3px] border-white")}`} onClick={() => { setActiveNotice(name.toLowerCase()) }}>
                                             {name}
                                         </button>
                                     })
@@ -138,26 +180,16 @@ function MainBody() {
 
                             </div>
                             <div className='py-4 '>
-                                {
-                                    collegeNotice.map(item => {
-                                        const { id, notice } = item
-                                        return <div key={id} className=" px-5 py-3 ">
-                                            <div className='flex items-center'>
 
-                                                <MdMessage className='text-secondary-text mr-2 w-[40px] h-[40px]' />
-                                                <p className='font-bold flex-1 text-primary-text'>{notice}</p>
-                                            </div>
-                                        </div>
-                                    })
-                                }
-
-
+                                <ViewNotice notices={activeNoticesDatas} />
                             </div>
-                            <div className='absolute bottom-4 w-full'>
 
-                                <button className='bg-[#2091F9] mx-auto block rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                    All Notices
-                                </button>
+                            <div className='absolute bottom-4 w-full'>
+                                <Link href={`student/notices`}>
+                                    <button className='bg-[#2091F9] mx-auto block rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                        All Notices
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>

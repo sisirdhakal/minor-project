@@ -2,12 +2,20 @@ import React from 'react'
 import { DashboardLayout } from '../../components/layout/dashboard';
 import MainBody from '../../components/mainbody'
 
-export default function DashboardPage() {
+export default function DashboardPage({ cookie }) {
     return (
         <>
-            <MainBody />
+            <MainBody cookie={cookie} />
         </>
     )
+}
+
+export const getServerSideProps = async ({ req }) => {
+    return {
+        props: {
+            cookie: req.cookies
+        }
+    };
 }
 
 DashboardPage.getLayout = function getLayout(page) {

@@ -44,7 +44,8 @@ export function DashboardLayout({ children }) {
     const allowedRoutes = {
         teacher: ['/teacher', '/teacher/*'],
         student: ['/student', '/student/*'],
-        parent: ['/parent', '/parent/*']
+        parent: ['/parent', '/parent/*'],
+        collegeadmin: ['/collegeadmin', 'collegeadmin/*']
     };
 
     // Check if the current route is allowed for the user's role
