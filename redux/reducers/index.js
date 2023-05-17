@@ -5,6 +5,7 @@ import dashboard_reducer from "./dashboard";
 import signup_reducer from "./signup";
 import teachersData_reducer from "./teachersData";
 import notices_reducer from "./notices";
+import collegeadmin_reducer from './collegeadmin'
 
 const reducers = combineReducers({
     auth: auth_reducer,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
     signup: signup_reducer,
     attendance: attendance_reducer,
     teachersData: teachersData_reducer,
-    notices: notices_reducer
+    notices: notices_reducer,
+    collegeadmin: collegeadmin_reducer
 })
 
 export default reducers;

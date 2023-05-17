@@ -5,7 +5,7 @@ import CollegeAdminHero from '../../../../components/collgeadmin/collegeAdminHer
 const AddBatch = () => {
     return (
         <div>
-            <CollegeAdminHero parent={"batch"} title={"AddBatch"} image={"/assets/images/attendance.svg"} />
+            <CollegeAdminHero parent={"batch"} title={"Add Batch"} image={"/assets/images/attendance.svg"} />
         </div>
     )
 }

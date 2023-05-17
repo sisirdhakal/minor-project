@@ -31,7 +31,7 @@ export default function CollegeAdminHero({ title, button, image, url, parent }) 
                             {
                                 parent ?
                                     <Link href={`/collegeadmin/${parent}`}>
-                                        <span className='font-bold text-primary-text hover:text-red-600 transition-all ease-in-out duration-300 mr-4'>
+                                        <span className='font-bold text-primary-text hover:text-red-600 transition-all ease-in-out duration-300 mr-4 capitalize'>
                                             {parent} <span className='ml-3'>/</span>
                                         </span>
                                     </Link> : null

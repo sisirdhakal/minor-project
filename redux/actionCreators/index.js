@@ -12,6 +12,10 @@ import {
     setActiveNotice, setAllNotices, setActiveNoticeDatas
 } from './notices'
 
+import {
+    setAllBatches
+} from './collegeAdmin'
+
 
 export {
     setAttendanceType,
@@ -35,5 +39,6 @@ export {
     setAttendanceDate,
     setActiveNotice,
     setAllNotices,
-    setActiveNoticeDatas
+    setActiveNoticeDatas,
+    setAllBatches
 }
