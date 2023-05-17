@@ -13,28 +13,28 @@ function CollegeAdmin({ cookie }) {
     const { setAllBatches } = bindActionCreators(actionCreators, dispatch)
 
 
-    // useEffect(() => {
-    //     const getData = async () => {
-    //         try {
-    //             const { data } = await axios.get(`http://localhost:8000/api/admin/batch/`, {
-    //                 withCredentials: true,
-    //                 headers: {
-    //                     "X-CSRFTOKEN": cookie.csrftoken
-    //                 }
-    //             })
-    //             if (data) {
-    //                 setAllBatches(data)
-    //             }
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/batch/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    setAllBatches(data)
+                }
 
-    //         } catch (error) {
-    //             if (error.response?.data.msg) {
-    //                 toast.error(error.response.data.msg)
-    //             }
-    //         }
+            } catch (error) {
+                if (error.response?.data.msg) {
+                    toast.error(error.response.data.msg)
+                }
+            }
 
-    //     }
-    //     getData()
-    // }, [])
+        }
+        getData()
+    }, [])
 
 
     return (

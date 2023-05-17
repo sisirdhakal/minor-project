@@ -6,6 +6,7 @@ const initialState = {
 
 const collegeadmin_reducer = (state = initialState, action) => {
     if (action.type === SET_ALL_BATCHES) {
+        console.log(action.payload)
         return { ...state, allBatches: action.payload }
     }
     else {
