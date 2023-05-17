@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../../../redux'
 
-const StudentDetails = ({ cookie, id }) => {
+const TeacherDetails = ({ cookie, id }) => {
 
     const { userDetails } = useSelector(state => state.collegeadmin)
     const dispatch = useDispatch()
@@ -16,7 +16,7 @@ const StudentDetails = ({ cookie, id }) => {
     useEffect(() => {
         const getData = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/api/admin/student/${id}`, {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/teacher/${id}`, {
                     withCredentials: true,
                     headers: {
                         "X-CSRFTOKEN": cookie.csrftoken
@@ -38,13 +38,13 @@ const StudentDetails = ({ cookie, id }) => {
 
     return (
         <div>
-            <CollegeAdminHero parent={"student"} title={"Details"} image={"/assets/images/student.svg"} />
+            <CollegeAdminHero parent={"teacher"} title={"Details"} image={"/assets/images/teacher.svg"} />
 
             <div className='my-10'>
                 <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
                     <div className='uppercase mb-5'>
                         <p className='font-semibold text-2xl'>{userDetails?.user_profile.courtesyTitle} {userDetails?.user_profile.firstName} {userDetails?.user_profile.middleName} {userDetails?.user_profile.lastName}</p>
-                        <p className='font-medium text-lg text-slate-700'>{userDetails?.rollNumber}</p>
+                        <p className='font-medium text-lg text-slate-700'>{userDetails?.department_name}</p>
                     </div>
                     <div className='grid grid-cols-5'>
                         <div className='col-span-1'>
@@ -85,15 +85,8 @@ const StudentDetails = ({ cookie, id }) => {
                     </div>
                     <div className='w-full h-1 bg-gray-300 my-5'></div>
                     <div>
-                        <p className='my-3 font-medium'>College Information:</p>
-                        <p className='text-clrgrey4'>Roll Number: <span className='text-black font-medium'>{userDetails?.rollNumber}</span></p>
-                        <p className='text-clrgrey4'>Class: <span className='text-black font-medium'>{userDetails?.class_name}</span></p>
-                        <p className='text-clrgrey4'>Program: <span className='text-black font-medium'>{userDetails?.program}</span></p>
-                        <p className='text-clrgrey4'>Department: <span className='text-black font-medium'>{userDetails?.department_name}</span></p>
-                        <p className='text-clrgrey4'>Batch: <span className='text-black font-medium'>{userDetails?.batch_name}</span></p>
-                        <p className='text-clrgrey4'>
-                            Is Parent Registered: <span className='text-black font-medium'>{userDetails?.isParentRegistered ? `Yes` : `No`}</span>
-                        </p>
+                        <p className='text-clrgrey4'>Experiences: <span className='text-black font-medium'>{userDetails?.experiences}</span></p>
+                        <p className='text-clrgrey4'>Academic Details: <span className='text-black font-medium'>{userDetails?.academicDetails}</span></p>
                     </div>
                     <div className='flex mt-3'>
                         <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[100px] disabled:cursor-not-allowed block mr-3'>
@@ -110,4 +103,4 @@ const StudentDetails = ({ cookie, id }) => {
     )
 }
 
-export default StudentDetails
+export default TeacherDetails
