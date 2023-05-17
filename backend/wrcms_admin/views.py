@@ -153,9 +153,9 @@ class DepartmentEdit(APIView):
             department.contact = data['contact']
             department.mail = data['mail']
             if (data['hod']):
-                department.headOfDepartment = Teacher.objects.get(id=data['hod'])
+                department.headOfDepartment = Teacher.objects.get(id=int(data['hod']))
             if (data['dhod']):
-                department.deputyHeadOfDepartment = Teacher.objects.get(id=data['dhod'])
+                department.deputyHeadOfDepartment = Teacher.objects.get(id=int(data['dhod']))
             department.save()
             return Response({'msg': 'Department edited successfully.'}, status=status.HTTP_200_OK)
         except:
@@ -195,7 +195,7 @@ class ProgramAdd(APIView):
         try:
             Program.objects.create(
                 name = data['name'],
-                department = Department.objects.get(id=data['department']),
+                department = Department.objects.get(id=int(data['department'])),
                 syllabus = file
             )
             return Response({'msg': 'Program added successfully.'}, status=status.HTTP_200_OK)
@@ -212,7 +212,7 @@ class ProgramEdit(APIView):
         try:
             program = Program.objects.get(id=id)
             program.name = data['name']
-            program.department = Department.objects.get(id=data['department'])
+            program.department = Department.objects.get(id=int(data['department']))
             if (file):
                 program.syllabus = file
             program.save()
@@ -254,9 +254,9 @@ class ClassAdd(APIView):
         try:
             Class.objects.create(
                 name = data['name'],
-                department = Department.objects.get(id=data['department']),
-                batch = Batch.objects.get(id=data['batch']),
-                program = Program.objects.get(id=data['program']),
+                department = Department.objects.get(id=int(data['department'])),
+                batch = Batch.objects.get(id=int(data['batch'])),
+                program = Program.objects.get(id=int(data['program'])),
                 semester = data['semester']
             )
             return Response({'msg': 'Class added successfully.'}, status=status.HTTP_200_OK)
@@ -272,14 +272,14 @@ class ClassEdit(APIView):
         try:
             cLass = Class.objects.get(id=id)
             cLass.name = data['name']
-            cLass.department = Department.objects.get(id=data['department'])
-            cLass.batch = Batch.objects.get(id=data['batch'])
-            cLass.program = Program.objects.get(id=data['program'])
+            cLass.department = Department.objects.get(id=int(data['department']))
+            cLass.batch = Batch.objects.get(id=int(data['batch']))
+            cLass.program = Program.objects.get(id=int(data['program']))
             cLass.semester = data['semester']
             if (data['cr']):
-                cLass.classRepresentative = Student.objects.get(id=data['cr'])
+                cLass.classRepresentative = Student.objects.get(id=int(data['cr']))
             if (data['vcr']):
-                cLass.viceClassRepresentative = Student.objects.get(id=data['vcr'])
+                cLass.viceClassRepresentative = Student.objects.get(id=int(data['vcr']))
             cLass.save()
             return Response({'msg': 'Class edited successfully.'}, status=status.HTTP_200_OK)
         except:
@@ -316,18 +316,18 @@ class LectureAdd(APIView):
     def post(self, request, format=None):
         data = self.request.data
         try:
-            cLass = Class.objects.get(id=data['class'])
-            subject = Subject.objects.get(id=data['subject'])
+            cLass = Class.objects.get(id=int(data['class']))
+            subject = Subject.objects.get(id=int(data['subject']))
             programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
             lecture = Lecture.objects.create(
                 subject = subject,
                 type = data['type'],
                 cLass = cLass,
-                teacher = Teacher.objects.get(id=data['teacher']),
+                teacher = Teacher.objects.get(id=int(data['teacher'])),
                 semester = programSubject.semester,
             )
             if (data['teacher2']):
-                lecture.teacher2 = Teacher.objects.get(id=data['teacher2'])
+                lecture.teacher2 = Teacher.objects.get(id=int(data['teacher2']))
                 lecture.save()
             return Response({'msg': 'Lecture added successfully.'}, status=status.HTTP_200_OK)
         except:
@@ -339,8 +339,8 @@ class LectureEdit(APIView):
     
     def put(self, request, id, format=None):
         data = self.request.data
-        cLass = Class.objects.get(id=data['class'])
-        subject = Subject.objects.get(id=data['subject'])
+        cLass = Class.objects.get(id=int(data['class']))
+        subject = Subject.objects.get(id=int(data['subject']))
         programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
         try:
             lecture = Lecture.objects.get(id=id)
@@ -348,9 +348,9 @@ class LectureEdit(APIView):
             lecture.cLass = cLass
             lecture.type = data['type']
             lecture.semester = programSubject.semester
-            lecture.teacher = Teacher.objects.get(id=data['teacher'])
+            lecture.teacher = Teacher.objects.get(id=int(data['teacher']))
             if (data['teacher2']):
-                lecture.teacher2 = Teacher.objects.get(id=data['teacher2'])
+                lecture.teacher2 = Teacher.objects.get(id=int(data['teacher2']))
             lecture.save()
             return Response({'msg': 'Lecture edited successfully.'}, status=status.HTTP_200_OK)
         except:
@@ -414,9 +414,9 @@ class StudentAdd(APIView):
             )
             Student.objects.create(
                 userProfile = newUser,
-                department = Department.objects.get(id=data['department']),
-                batch = Batch.objects.get(id=data['batch']),
-                cLass = Class.objects.get(id=data['cLass']),
+                department = Department.objects.get(id=int(data['department'])),
+                batch = Batch.objects.get(id=int(data['batch'])),
+                cLass = Class.objects.get(id=int(data['cLass'])),
                 rollNumber = data['rollNumber']
             )
             return Response({'msg': 'New student added successfully!'}, status=status.HTTP_200_OK)
@@ -462,9 +462,9 @@ class StudentEdit(APIView):
             userProfile.save()
             
             student.userProfile = userProfile
-            student.department = Department.objects.get(id=data['department'])
-            student.batch = Batch.objects.get(id=data['batch'])
-            student.cLass = Class.objects.get(id=data['cLass'])
+            student.department = Department.objects.get(id=int(data['department']))
+            student.batch = Batch.objects.get(id=int(data['batch']))
+            student.cLass = Class.objects.get(id=int(data['cLass']))
             student.rollNumber = data['rollNumber']
 
             student.save()
@@ -531,7 +531,7 @@ class TeacherAdd(APIView):
             )
             Teacher.objects.create(
                 userProfile = newUser,
-                department = Department.objects.get(id=data['department']),
+                department = Department.objects.get(id=int(data['department'])),
                 academicDetails = data['academicDetails'],
                 experiences = data['experiences'],
             )
@@ -578,7 +578,7 @@ class TeacherEdit(APIView):
             userProfile.save()
             
             teacher.userProfile = userProfile
-            teacher.department = Department.objects.get(id=data['department'])
+            teacher.department = Department.objects.get(id=int(data['department']))
             teacher.academicDetails = data['academicDetails']
             teacher.experiences = data['experiences']
 
@@ -679,9 +679,9 @@ class RoutineAdd(APIView):
         file = request.FILES.get('routine')
         try:
             if data['routineType'] == 'ClassRoutine':
-                routineFor = Class.objects.get(id=data['routineFor']).name
+                routineFor = Class.objects.get(id=int(data['routineFor'])).name
             else:
-                routineFor = Teacher.objects.get(id=data['routineFor']).userProfile.getFullName()
+                routineFor = Teacher.objects.get(id=int(data['routineFor'])).userProfile.getFullName()
             Routine.objects.create(
                 routineType = data['routineType'],
                 routineFor = routineFor,
@@ -702,9 +702,9 @@ class RoutineEdit(APIView):
         try:
             routine = Routine.objects.get(id=id)
             if data['routineType'] == 'ClassRoutine':
-                routineFor = Class.objects.get(id=data['routineFor']).name
+                routineFor = Class.objects.get(id=int(data['routineFor'])).name
             else:
-                routineFor = Teacher.objects.get(id=data['routineFor']).userProfile.getFullName()
+                routineFor = Teacher.objects.get(id=int(data['routineFor'])).userProfile.getFullName()
             routine.routineType = data['routineType']
             routine.routineFor = routineFor
             routine.information = data['information']
