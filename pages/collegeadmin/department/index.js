@@ -9,11 +9,15 @@ import { setAllDepartments } from '../../../redux/actionCreators'
 import { GrMailOption, GrPhone, GrUserExpert } from 'react-icons/gr';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import DeleteDepartmentModal from '../../../components/collgeadmin/department/deleteModal'
 
 const Department = ({ cookie }) => {
     const { allDepartments } = useSelector(state => state.collegeadmin)
     const dispatch = useDispatch()
     const { setAllDepartments } = bindActionCreators(actionCreators, dispatch)
+
+    const [showModal, setShowModal] = useState(false)
+    const [activeId, setactiveId] = useState(null)
 
     useEffect(() => {
         const getData = async () => {
@@ -39,6 +43,12 @@ const Department = ({ cookie }) => {
         getData()
     }, [])
 
+    const handleClick = (id) => {
+        setactiveId(id)
+        setShowModal(true)
+
+    }
+
     return (
         <div>
             <CollegeAdminHero title={"Department"} image={"/assets/images/exam.svg"} button={"Add"} url={"/collegeadmin/department/add"} />
@@ -58,7 +68,7 @@ const Department = ({ cookie }) => {
                                             Edit
                                         </button>
                                     </Link>
-                                    <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
+                                    <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2' onClick={() => { handleClick(item.id) }}>
                                         Delete
                                     </button>
                                 </div>
@@ -98,6 +108,11 @@ const Department = ({ cookie }) => {
                     })
                 }
             </div>
+
+            <div>
+                <DeleteDepartmentModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
+            </div>
+
         </div>
     )
 }

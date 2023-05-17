@@ -4,6 +4,7 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import DateComp from '../../../../common/DatePicker'
 import axios from 'axios'
 import { internalMutate } from 'swr/_internal'
+import { toast } from 'react-hot-toast'
 
 const AddStudentComp = ({ cookie }) => {
 
@@ -191,7 +192,8 @@ const AddStudentComp = ({ cookie }) => {
                             </div>
                             <div className='col-span-2'>
                                 <label className='text-sm'>Date Of Birth <span className='text-red-800'>*</span></label>
-                                <DateComp/>
+                                {/* <DateComp/> */}
+                                <input value={values.dateOfBirth} onChange={handleChange} type='date' name='dateOfBirth' className='w-full bg-[#caf0f8] border-none outline-none h-8' required></input>
                             </div>
                         </div>
                         <div className='grid grid-cols-8 gap-5 mt-5'>

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../../redux'
 import Link from 'next/link'
+import DeleteBatchModal from '../../../components/collgeadmin/batch/deleteModal'
 
 const Batch = ({ cookie }) => {
     const { allBatches } = useSelector(state => state.collegeadmin)
@@ -15,9 +16,8 @@ const Batch = ({ cookie }) => {
     const [editBatch, seteditBatch] = useState(false)
     const [batchId, setbatchId] = useState(null)
 
-    const handleEdit = () => {
-
-    }
+    const [showModal, setShowModal] = useState(false)
+    const [activeId, setactiveId] = useState(null)
 
     useEffect(() => {
         const getData = async () => {
@@ -44,6 +44,11 @@ const Batch = ({ cookie }) => {
     }, [])
 
 
+    const handleClick = (id) => {
+        setactiveId(id)
+        setShowModal(true)
+
+    }
 
     return (
         <div>
@@ -74,7 +79,8 @@ const Batch = ({ cookie }) => {
                                         Edit
                                     </button>
                                 </Link>
-                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-auto'>
+
+                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-auto' onClick={() => { handleClick(item.id) }}>
                                     Delete
                                 </button>
                             </div>
@@ -82,7 +88,9 @@ const Batch = ({ cookie }) => {
                     })
                 }
             </div>
-
+            <div>
+                <DeleteBatchModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
+            </div>
         </div>
     )
 }
