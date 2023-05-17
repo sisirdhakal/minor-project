@@ -20,7 +20,7 @@ class RequestLeave(APIView):
         userProfile = UserProfile.objects.get(user=user)
         if userProfile.role.type == 'Student':
             student = Student.objects.get(user=user, userProfile=userProfile)
-            lectures = Lecture.objects.filter(is_archived=False, cLass=student.cLass)
+            lectures = Lecture.objects.filter(isArchived=False, cLass=student.cLass)
             serializer = LectureSerializer(lectures, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
