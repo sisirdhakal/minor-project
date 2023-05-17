@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
+import CollegeAdminHero from '../../collegeAdminHero'
 
-const EditBatch = () => {
+const EditBatch = ({ cookie, id }) => {
 
     const [process, setprocess] = useState("Edit Batch")
-    const { query } = useRouter()
-    console.log(query)
-
+    const router = useRouter()
     const initialValue = {
-        title: "",
-        content: ""
+        year: "",
+        startFrom: ""
     }
 
 
@@ -19,13 +18,45 @@ const EditBatch = () => {
         setvalues({ ...values, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (values.year > 2100) {
+            return toast.error("Maximum year date is 2100 B.S")
+        }
+        if (values.year < 2058) {
+            return toast.error("Minimum year date is 2058 B.S")
+        }
 
+        try {
+            setprocess("Adding ...")
+            const { data } = await axios.get(`http://localhost:8000/api/admin/batch/${id}/`, {
+                withCredentials: true,
+                headers: {
+                    "X-CSRFTOKEN": cookie.csrftoken
+                }
+            })
+            if (data) {
+                toast.success(data.msg)
+                setprocess("Add Batch")
+                router.push("/collegeadmin/batch")
+                setvalues(initialValue)
+            }
+
+        } catch (error) {
+            setprocess("Add Batch")
+            console.log(error)
+            if (error.response?.data.msg) {
+                toast.error(error.response.data.msg)
+            }
+        }
     }
 
 
     return (
         <div>
+            <div>
+                <CollegeAdminHero parent={"batch"} title={"Edit Batch"} image={"/assets/images/attendance.svg"} />
+            </div>
             <div>
                 <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
 
@@ -42,7 +73,7 @@ const EditBatch = () => {
                                 value={values.title}
                                 onChange={handleChange}
                                 type="text"
-                                name='title'
+                                name='year'
                                 placeholder=''
                                 className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
@@ -52,7 +83,7 @@ const EditBatch = () => {
                                 value={values.title}
                                 onChange={handleChange}
                                 type="text"
-                                name='title'
+                                name='startFrom'
                                 placeholder=''
                                 className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
@@ -62,7 +93,7 @@ const EditBatch = () => {
                                     value={values.title}
                                     onChange={handleChange}
                                     type="checkbox"
-                                    name='title'
+                                    name='isGraduated'
                                     placeholder=''
                                     className='rounded text-gray-700 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] w-8 bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium cursor-pointer placeholder:tracking-wide' />
                             </div>

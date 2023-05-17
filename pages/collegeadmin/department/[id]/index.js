@@ -6,6 +6,9 @@ const AddDepartment = () => {
     return (
         <div>
             <CollegeAdminHero parent={"department"} title={"Add Department"} image={"/assets/images/exam.svg"} />
+
+
+
         </div>
     )
 }
