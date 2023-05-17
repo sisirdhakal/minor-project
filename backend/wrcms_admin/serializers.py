@@ -128,10 +128,14 @@ class StudentSerializer(serializers.ModelSerializer):
 
 class TeacherSerializer(serializers.ModelSerializer):
     user_profile = serializers.SerializerMethodField(read_only=True)
+    department_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Teacher
-        fields = build_fields(model, ['user_profile'], [])
+        fields = build_fields(model, ['department_name', 'user_profile'], [])
+
+    def get_department_name(self, obj):
+        return obj.department.name
 
     def get_user_profile(self, obj):
         serializer = UserProfileSerializer(obj.userProfile, many=False)
