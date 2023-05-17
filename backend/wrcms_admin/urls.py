@@ -2,6 +2,8 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    path('dashboard/', Dashboard.as_view()),
+
     path('class/', ClassList.as_view()),
     path('class/add/', ClassAdd.as_view()),
     path('class/<str:id>/edit/', ClassEdit.as_view()),
