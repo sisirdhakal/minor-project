@@ -10,8 +10,8 @@ const AddBatch = () => {
     console.log(query)
 
     const initialValue = {
-        title: "",
-        content: ""
+        year: "",
+        startedFrom: ""
     }
 
 
@@ -47,9 +47,10 @@ const AddBatch = () => {
                                 value={values.title}
                                 onChange={handleChange}
                                 type="text"
-                                name='title'
-                                placeholder=''
-                                className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                                name='year'
+                                maxLength={4}
+                                placeholder='eg. 2080'
+                                className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[180px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
                         <div className='mb-4 flex justify-start items-center'>
                             <p className='text-[#023E8A] text-xl w-32 font-medium mr-5'>Started From</p>
@@ -57,9 +58,9 @@ const AddBatch = () => {
                                 value={values.title}
                                 onChange={handleChange}
                                 type="text"
-                                name='title'
-                                placeholder=''
-                                className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[140px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                                name='startedFrom'
+                                placeholder='eg. Baisakh-2080'
+                                className='rounded text-gray-700 h-9 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[180px] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
 
 
