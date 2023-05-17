@@ -58,6 +58,18 @@ class BatchAdd(APIView):
             return Response({'msg': 'Batch added successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Error while adding new batch.'}, status=status.HTTP_409_CONFLICT)
+
+@method_decorator(csrf_protect, name='dispatch')
+class BatchDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            batch = Batch.objects.get(id=id)
+            serializer = BatchSerializer(batch, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Batch not found.'}, status=status.HTTP_404_NOT_FOUND)
         
 @method_decorator(csrf_protect, name='dispatch')
 class BatchEdit(APIView):

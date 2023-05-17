@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('batch/', BatchList.as_view()),
     path('batch/add/', BatchAdd.as_view()),
+    path('batch/<str:id>/', BatchDetail.as_view()),
     path('batch/<str:id>/edit/', BatchEdit.as_view()),
     path('batch/<str:id>/delete/', BatchDelete.as_view()),
 
