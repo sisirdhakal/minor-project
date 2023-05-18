@@ -3,12 +3,16 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../../redux';
+import { useDispatch } from 'react-redux';
 
 const AddBatchComp = ({ cookie }) => {
 
+    const dispatch = useDispatch()
     const [process, setprocess] = useState("Add Batch")
     const router = useRouter()
-
+    const {setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
 
 
     const initialValue = {
@@ -46,6 +50,7 @@ const AddBatchComp = ({ cookie }) => {
             if (data) {
                 toast.success(data.msg)
                 setprocess("Add Batch")
+                setSuccessFalse("collegeadmin_allBatches")
                 router.push("/collegeadmin/batch")
                 setvalues(initialValue)
             }
