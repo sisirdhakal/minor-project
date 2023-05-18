@@ -3,6 +3,7 @@ import DropButtons from '../../common/DropButtons'
 import { BsCameraFill } from 'react-icons/bs'
 import axios from 'axios'
 import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 function AddNotice({ cookie }) {
 
@@ -14,10 +15,26 @@ function AddNotice({ cookie }) {
     const filePicker = useRef(null)
     const [noticeTypeOptions, setnoticeTypeOptions] = useState([])
     const [noticeForOptions, setnoticeForOptions] = useState([])
+    const [selectedFile, setselectedFile] = useState(null)
+    const [fileName, setfileName] = useState(null)
+
+    const router=useRouter()
 
     const initialValue = {
         title: "",
-        content: ""
+        content: "",
+    }
+
+    const addFile = (e) => {
+        const reader = new FileReader();
+        if (e.target.files[0]) {
+            setfileName(e.target.files[0].name)
+            reader.readAsDataURL(e.target.files[0])
+        }
+        reader.onload = (event) => {
+            setselectedFile(event.target.result)
+        }
+
     }
 
 
@@ -26,27 +43,28 @@ function AddNotice({ cookie }) {
     const handleChange = (e) => {
         setvalues({ ...values, [e.target.name]: e.target.value })
     }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            setprocess("Adding ...")
-            let details = {
-                noticeFor,
-                noticeType: noticeType.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase()),
-                title: values.title,
-                content: values.content
+        setprocess("Adding ...")
+        let details = {
+            noticeFor,
+            noticeType: noticeType.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase()),
+            title: values.title,
+            content: values.content,
+            noticeFile: selectedFile
+        }
+        const { data } = await axios.post(`http://localhost:8000/api/add-notice/`, details, {
+            withCredentials: true,
+            headers: {
+                "X-CSRFTOKEN": cookie.csrftoken
             }
-            const { data } = await axios.post(`http://localhost:8000/api/add-notice/`, details, {
-                withCredentials: true,
-                headers: {
-                    "X-CSRFTOKEN": cookie.csrftoken
-                }
-            })
-            if (data) {
-                toast.success(data.msg)
-                setprocess("Add Notice")
-            }
+        })
+        if (data) {
+            toast.success(data.msg)
+            setprocess("Add Notice")
+            router.push()
+        }
 
         } catch (error) {
             setprocess("Add Notice")
@@ -101,15 +119,15 @@ function AddNotice({ cookie }) {
     return (
         <>
             <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
-                <div className='grid grid-cols-2 w-[340px] mb-3 items-center'>
-                    <p htmlFor="noticeType" className='text-lg font-semibold capitalize'>Notice Type :</p>
-                    <div className="flex items-center h-full">
+                <div className='grid grid-cols-autofirst w-full mb-3 items-center'>
+                    <p htmlFor="noticeType" className='text-lg font-semibold capitalize w-40'>Notice Type :</p>
+                    <div className="flex items-center justify-start h-full">
                         <DropButtons setnoticeType={setnoticeType} type={"Notice Type"} options={noticeTypeOptions} />
                     </div>
 
                 </div>
-                <div className='grid grid-cols-2 w-[340px] items-center'>
-                    <p htmlFor="noticeFor" className='text-lg font-semibold capitalize'>Notice For :</p>
+                <div className='grid grid-cols-autofirst w-full items-center'>
+                    <p htmlFor="noticeFor" className='text-lg font-semibold capitalize w-40'>Notice For :</p>
                     <div className="relative text-left">
                         <DropButtons setnoticeFor={setnoticeFor} type={"Notice For"} options={noticeForOptions} />
                     </div>
@@ -122,7 +140,7 @@ function AddNotice({ cookie }) {
                             type="text"
                             name='title'
                             placeholder='Title of notice'
-                            className='rounded text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[360px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                            className='rounded text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                     </div>
                     <div className='mb-3'>
                         <textarea
@@ -131,16 +149,19 @@ function AddNotice({ cookie }) {
                             type="text"
                             name='content'
                             placeholder='Content of notice'
-                            className='rounded text-gray-700 h-28 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[460px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                            className='rounded text-gray-700 h-28 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                     </div>
-                    <div className='grid grid-cols-autofirst w-[300px] mb-3 items-center'>
+                    <div className='flex space-x-8 w-[560px] mb-3 items-center'>
                         <p htmlFor="noticeType" className='text-lg bg-background py-1 px-3 rounded-md textce font-medium capitalize'>Choose File :</p>
                         <div className="flex items-center h-full">
                             <div className=" mx-auto flex items-center justify-center cursor-pointer rounded-full bg-[#0096C7] h-10 w-10"
                                 onClick={() => { filePicker.current.click() }}>
                                 <BsCameraFill className='text-white text-xl' />
                             </div>
-                            <input ref={filePicker} type="file" hidden />
+                            <input ref={filePicker} onChange={addFile} name='noticeFile' type="file" hidden />
+                            <p className='ml-5 bg-clrgrey9 rounded px-4 py-2 min-w-[120px]'>
+                                {fileName ?? null}
+                            </p>
                         </div>
                     </div>
                     <div className='mt-12 mb-3 flex items-center justify-center'>
