@@ -54,6 +54,7 @@ function AddNotice({ cookie }) {
             content: values.content,
             noticeFile: selectedFile
         }
+        console.log(details)
         const { data } = await axios.post(`http://localhost:8000/api/add-notice/`, details, {
             withCredentials: true,
             headers: {
