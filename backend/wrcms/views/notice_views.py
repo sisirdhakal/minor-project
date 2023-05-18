@@ -53,6 +53,7 @@ class AddNotice(APIView):
         noticeTitle = data['title']
         content = data['content']
         file = request.FILES.get('noticeFile')
+        print(file)
         if Class.objects.filter(name=noticeFor).exists or Department.objects.filter(name=noticeFor).exists:
             try:
                 Notice.objects.create(noticeFor=noticeFor, title=noticeTitle, uploaded_by=user, noticeType=noticeType, content=content, file=file)

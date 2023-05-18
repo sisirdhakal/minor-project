@@ -10,7 +10,7 @@ import { GrUserExpert } from 'react-icons/gr';
 import DeleteClassModal from '../../../components/collgeadmin/class/deleteModal'
 
 const ClassComp = ({ cookie }) => {
-    const { allClasses } = useSelector(state => state.collegeadmin)
+    const { data, success } = useSelector(state => state.collegeadmin.allClasses)
     const dispatch = useDispatch()
     const { setAllClasses } = bindActionCreators(actionCreators, dispatch)
 
@@ -33,7 +33,6 @@ const ClassComp = ({ cookie }) => {
                     }
                 })
                 if (data) {
-                    console.log("success")
                     setAllClasses(data)
                 }
             } catch (error) {
@@ -42,7 +41,9 @@ const ClassComp = ({ cookie }) => {
                 }
             }
         }
-        getData()
+        if(!success){
+            getData()
+        }
     }, [])
 
 
@@ -52,7 +53,7 @@ const ClassComp = ({ cookie }) => {
             <CollegeAdminHero title={"Class"} image={"/assets/images/class.svg"} button={"Add"} url={"/collegeadmin/class/add"} />
             <div className='grid grid-cols-2 gap-y-6 gap-x-10 mb-10'>
                 {
-                    allClasses?.map(item => {
+                    data?.map(item => {
                         return <div key={item.id} className='w-full px-4 py-2 bg-white rounded'>
                             <div className='col-span-3 text-xl text-[#023E8A] text-medium'>
                                 {item.name} - Semester: {item.semester}
