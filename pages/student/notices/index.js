@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
-import { collegeNotice, noticeOptions } from '../../../utils/mockdata';
+import {  noticeOptions } from '../../../utils/mockdata';
 import { MdMessage } from 'react-icons/md'
 import Link from 'next/link';
 import NoticeHero from '../../../components/notices/noticeHero';

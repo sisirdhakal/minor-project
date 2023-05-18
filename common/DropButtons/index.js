@@ -31,7 +31,7 @@ export default function DropButtons({ type, options, setnoticeType, setnoticeFor
 
     return (
         <div className=' bg-white rounded-sm w-full'>
-            <div className=' w-[400px]'>
+            <div className='w-full'>
                 <Menu as="div" className="relative  text-left">
                     <div className='w-full '>
                         <Menu.Button id='test' className="inline-flex w-full justify-center rounded-md border border-gray-300 py-2 text-sm font-medium text-white shadow-sm  focus:outline-none focus:ring-0 focus:ring-indigo-500 focus:ring-offset-0 capitalize focus:ring-offset-gray-100 px-2">

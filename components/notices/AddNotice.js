@@ -120,59 +120,67 @@ function AddNotice({ cookie }) {
 
     return (
         <>
-            <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
-                <div className='grid grid-cols-autofirst w-full mb-3 items-center'>
-                    <p htmlFor="noticeType" className='text-lg font-semibold capitalize w-40'>Notice Type :</p>
-                    <div className="flex items-center justify-start h-full">
-                        <DropButtons setnoticeType={setnoticeType} type={"Notice Type"} options={noticeTypeOptions} />
-                    </div>
+            <div className='grid grid-rows-rowauto h-full'>
+                <NoticeHero />
+                <div className='pb-10'>
 
-                </div>
-                <div className='grid grid-cols-autofirst w-full items-center'>
-                    <p htmlFor="noticeFor" className='text-lg font-semibold capitalize w-40'>Notice For :</p>
-                    <div className="relative text-left">
-                        <DropButtons setnoticeFor={setnoticeFor} type={"Notice For"} options={noticeForOptions} />
-                    </div>
-                </div>
-                <form action="" className='w-full mt-6' onSubmit={handleSubmit}>
-                    <div className='mb-4'>
-                        <input
-                            value={values.title}
-                            onChange={handleChange}
-                            type="text"
-                            name='title'
-                            placeholder='Title of notice'
-                            className='rounded text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
-                    </div>
-                    <div className='mb-3'>
-                        <textarea
-                            value={values.content}
-                            onChange={handleChange}
-                            type="text"
-                            name='content'
-                            placeholder='Content of notice'
-                            className='rounded text-gray-700 h-28 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
-                    </div>
-                    <div className='flex space-x-8 w-[560px] mb-3 items-center'>
-                        <p htmlFor="noticeType" className='text-lg bg-background py-1 px-3 rounded-md textce font-medium capitalize'>Choose File :</p>
-                        <div className="flex items-center h-full">
-                            <div className=" mx-auto flex items-center justify-center cursor-pointer rounded-full bg-[#0096C7] h-10 w-10"
-                                onClick={() => { filePicker.current.click() }}>
-                                <BsCameraFill className='text-white text-xl' />
+
+
+                    <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
+                        <div className='grid grid-cols-autofirst w-[560px] mb-3 items-center'>
+                            <p htmlFor="noticeType" className='text-lg font-semibold capitalize w-40'>Notice Type :</p>
+                            <div className="flex items-center justify-start h-full">
+                                <DropButtons setnoticeType={setnoticeType} type={"Notice Type"} options={noticeTypeOptions} />
                             </div>
-                            <input ref={filePicker} onChange={addFile} name='noticeFile' type="file" hidden />
-                            {fileName && <p className='ml-5 bg-clrgrey9 rounded px-4 py-2 min-w-[120px]'>
-                                {fileName}
-                            </p>}
-                        </div>
-                    </div>
-                    <div className='mt-12 mb-3 flex items-center justify-center'>
-                        <button disabled={process === "Add Notice" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed'>
-                            {process}
-                        </button>
-                    </div>
-                </form>
 
+                        </div>
+                        <div className='grid grid-cols-autofirst w-[560px] items-center'>
+                            <p htmlFor="noticeFor" className='text-lg font-semibold capitalize w-40'>Notice For :</p>
+                            <div className={`relative text-left `}>
+                                <DropButtons setnoticeFor={setnoticeFor} type={"Notice For"} options={noticeForOptions} />
+                            </div>
+                        </div>
+                        <form action="" className='w-full mt-6' onSubmit={handleSubmit}>
+                            <div className='mb-4'>
+                                <input
+                                    value={values.title}
+                                    onChange={handleChange}
+                                    type="text"
+                                    name='title'
+                                    placeholder='Title of notice'
+                                    className='rounded text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                            </div>
+                            <div className='mb-3'>
+                                <textarea
+                                    value={values.content}
+                                    onChange={handleChange}
+                                    type="text"
+                                    name='content'
+                                    placeholder='Content of notice'
+                                    className='rounded text-gray-700 h-28 focus:ring-[#CAF0F8] border-[#CAF0F8] max-w-[560px] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                            </div>
+                            <div className='flex space-x-8 w-[560px] mb-3 items-center'>
+                                <p htmlFor="noticeType" className='text-lg bg-background py-1 px-3 rounded-md textce font-medium capitalize'>Choose File :</p>
+                                <div className="flex items-center h-full">
+                                    <div className=" mx-auto flex items-center justify-center cursor-pointer rounded-full bg-[#0096C7] h-10 w-10"
+                                        onClick={() => { filePicker.current.click() }}>
+                                        <BsCameraFill className='text-white text-xl' />
+                                    </div>
+                                    <input ref={filePicker} onChange={addFile} name='noticeFile' type="file" hidden />
+                                    {fileName && <p className='ml-5 bg-clrgrey9 rounded px-4 py-2 min-w-[120px]'>
+                                        {fileName}
+                                    </p>}
+                                </div>
+                            </div>
+                            <div className='mt-12 mb-3 flex items-center justify-center'>
+                                <button disabled={process === "Add Notice" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed'>
+                                    {process}
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
             </div>
         </>
     )

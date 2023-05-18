@@ -25,6 +25,7 @@ function SigninComp({ csrf }) {
     email: "",
     password: ""
   }
+  const router = useRouter()
 
 
   const [values, setvalues] = useState(initialValue)
@@ -36,7 +37,6 @@ function SigninComp({ csrf }) {
 
   const [process, setProcess] = useState("login")
 
-  const router = useRouter()
 
   const loginUser = async (e) => {
 

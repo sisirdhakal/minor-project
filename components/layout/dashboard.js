@@ -45,7 +45,7 @@ export function DashboardLayout({ children }) {
         teacher: ['/teacher', '/teacher/*'],
         student: ['/student', '/student/*'],
         parent: ['/parent', '/parent/*'],
-        collegeadmin: ['/collegeadmin', 'collegeadmin/*']
+        collegeadmin: ['/collegeadmin', '/collegeadmin/*']
     };
 
     // Check if the current route is allowed for the user's role

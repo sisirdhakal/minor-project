@@ -4,7 +4,8 @@ import MainBody from '../../components/mainbody';
 
 export default function Teacher() {
     return (
-        <div><MainBody /> </div>
+        <div>
+        </div>
     )
 }
 

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server"
 export const middleware = async (req) => {
     const sessionid = req.cookies.get('sessionid')?.value
     if (!sessionid) {
-        if (req.nextUrl.pathname.startsWith('/parent') || req.nextUrl.pathname.startsWith('/student') || req.nextUrl.pathname.startsWith('/teacher')) {
+        if (req.nextUrl.pathname.startsWith('/parent') || req.nextUrl.pathname.startsWith('/student') || req.nextUrl.pathname.startsWith('/teacher') || req.nextUrl.pathname.startsWith('/collegeadmin')) {
             const loginUrl = new URL("/", req.nextUrl)
             return NextResponse.redirect(loginUrl)
         }
@@ -21,5 +21,5 @@ export const middleware = async (req) => {
 }
 
 export const config = {
-    matcher: ['/teacher/:path*', '/student/:path*', '/parent/:path*'],
+    matcher: ['/teacher/:path*', '/student/:path*', '/parent/:path*', '/collegeadmin/:path*'],
 }

@@ -3,7 +3,7 @@ import { SET_ACTIVE_NOTICE, SET_ACTIVE_NOTICE_DATAS, SET_ALL_NOTICES } from "../
 const initialState = {
     allNotices: null,
     activeNotice: 'college',
-    activeNoticesDatas: []
+    activeNoticesDatas: [],
 }
 
 const notices_reducer = (state = initialState, action) => {
