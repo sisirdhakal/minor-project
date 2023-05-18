@@ -9,7 +9,7 @@ import Link from 'next/link'
 import DeleteBatchModal from '../../../components/collgeadmin/batch/deleteModal'
 
 const Batch = ({ cookie }) => {
-    const { allBatches } = useSelector(state => state.collegeadmin)
+    const { data, success } = useSelector(state => state.collegeadmin.allBatches)
     const dispatch = useDispatch()
     const { setAllBatches } = bindActionCreators(actionCreators, dispatch)
 
@@ -40,7 +40,9 @@ const Batch = ({ cookie }) => {
             }
 
         }
-        getData()
+        if(!success){
+            getData()
+        }
     }, [])
 
 
@@ -57,7 +59,7 @@ const Batch = ({ cookie }) => {
 
             <div className='grid grid-cols-4 gap-x-20 gap-y-6' >
                 {
-                    allBatches?.map(item => {
+                    data?.map(item => {
                         return <div key={item.id} className='w-full px-4 py-2 bg-white rounded h-24'>
                             <div className='text-center text-xl text-[#023E8A] text-medium mb-2'>
                                 <p>

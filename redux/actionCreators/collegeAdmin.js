@@ -1,4 +1,4 @@
-import { SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_USER_DETAILS } from "../constant"
+import { SET_ADMIN_DASHBOARD, SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_USER_DETAILS } from "../constant"
 
 
 
@@ -20,6 +20,10 @@ export const setAllClasses = (value) => async dispatch => {
 
 export const setUserDetails = (value) => async dispatch => {
     dispatch({ type: SET_USER_DETAILS, payload: value })
+}
+
+export const setAdminDashboard = (value) => async dispatch => {
+    dispatch({ type: SET_ADMIN_DASHBOARD, payload: value })
 }
 
 

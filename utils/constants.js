@@ -215,6 +215,13 @@ export const sidebarOptions = {
             name: "results",
 
         },
+        {
+            id: 8,
+            icon: "/assets/images/routine.svg",
+            url: "/teacher/leaveapplication",
+            name: "Leave Application",
+
+        },
     ],
     collegeadmin: [
         {

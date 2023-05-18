@@ -10,7 +10,7 @@ import Link from 'next/link'
 
 const Program = ({ cookie }) => {
     const dispatch = useDispatch()
-    const { allPrograms } = useSelector(state => state.collegeadmin)
+    const { data, success } = useSelector(state => state.collegeadmin.allPrograms)
     const { setAllPrograms } = bindActionCreators(actionCreators, dispatch)
     useEffect(() => {
         const getData = async () => {
@@ -31,7 +31,9 @@ const Program = ({ cookie }) => {
                 }
             }
         }
-        getData()
+        if(!success){
+            getData()
+        }
     }, [])
 
     
@@ -40,7 +42,7 @@ const Program = ({ cookie }) => {
             <CollegeAdminHero title={"Program"} image={"/assets/images/program.svg"} button={"Add"} url={"/collegeadmin/program/add"} />
             <div className='grid grid-cols-2 gap-y-6 gap-x-10 mb-10'>
                 {
-                    allPrograms?.map(item => {
+                    data?.map(item => {
                         return <div key={item.id} className='w-full px-4 py-2 bg-white rounded'>
                             <div className='col-span-3 text-xl text-[#023E8A] text-medium'>
                                 {item.name}

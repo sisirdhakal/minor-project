@@ -3,8 +3,7 @@ import { DashboardLayout } from '../../../components/layout/dashboard';
 import CollegeAdminHero from '../../../components/collgeadmin/collegeAdminHero';
 import axios from 'axios';
 import dayjs from 'dayjs'
-import Link from 'next/link';
-import DeleteApplicationModal from '../../../components/student/deleteModal';
+import ApproveApplicationModal from '../../../components/teacher/approvemodal';
 
 export default function LeaveApplication({ cookie }) {
 
@@ -50,23 +49,30 @@ export default function LeaveApplication({ cookie }) {
     return (
         <>
             <div>
-                <CollegeAdminHero title={"Leave Application"} image={"/assets/images/routine.svg"} button={"Add"} url={"/student/leaveapplication/add"} />
+                <CollegeAdminHero title={"Leave Application"} image={"/assets/images/routine.svg"} />
             </div>
 
             <div className='grid grid-cols-1 gap-y-6' >
                 {
                     applications?.map(item => {
-                        const { id, approver_name, lecture_name, is_approved, requested_datetime, approved_datetime, is_archived, leaveStartDate, leaveEndDate, reason } = item;
+                        const { id, approver_name, lecture_name, requested_datetime, approved_datetime, leaveStartDate, leaveEndDate, reason, student_name } = item;
+                        console.log(item)
                         return <div key={item.id} className='w-full px-12 py-2 bg-white rounded text-clrgrey1 font-medium'>
                             <div className='grid grid-cols-auto gap-x-10'>
                                 <div>
 
-                                    <div className=' flex items-center space-x-10 mb-3'>
+                                    <div className=' flex items-center space-x-10 mb-4'>
                                         <p>From : {dayjs(leaveStartDate).format("LL")} </p>
                                         <p>To : {dayjs(leaveEndDate).format("LL")} </p>
 
                                     </div>
-                                    <div className='grid grid-cols-autofirst mb-3 items-center'>
+                                    <div className='grid grid-cols-autofirst mb-4 items-center'>
+                                        <p className='w-24'>Student : </p>
+                                        <p className='bg-background text-start px-4 py-1 rounded'>
+                                            {student_name}
+                                        </p>
+                                    </div>
+                                    <div className='grid grid-cols-autofirst mb-4 items-center'>
                                         <p className='w-24'>Lecture : </p>
                                         <p className='bg-background text-start px-4 py-1 rounded'>
                                             {lecture_name}
@@ -80,8 +86,9 @@ export default function LeaveApplication({ cookie }) {
                                     </div>
                                 </div>
                                 <div className='w-44'>
-                                    <p className='mb-2'>Requested At : <br /> {dayjs(requested_datetime).format("LL")} at <span className='lowercase'>{dayjs(requested_datetime).format('hh A')}</span>  </p>
-                                    <p className='mb-2'>Approved At : <br />
+                                    <p className='mb-3'>Requested At : <br /> {dayjs(requested_datetime).format("LL")} at <span className='lowercase'>{dayjs(requested_datetime).format('hh A')}</span>  </p>
+
+                                    <p className='mb-3'>Approved At : <br />
                                         {
                                             approved_datetime.length > 1 ? <p>
                                                 {dayjs(approved_datetime).format("LL")
@@ -91,19 +98,12 @@ export default function LeaveApplication({ cookie }) {
                                                 : null
                                         }
                                     </p>
-                                    <p className='capitalize'>Approved By : <br />{approver_name}  </p>
-                                </div>
-                            </div>
-                            <div className='flex justify-center items-center space-x-16 mt-4'>
-                                <Link href={`/student/leaveapplication/${id}`}>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed' >
-                                        Edit
-                                    </button>
-                                </Link>
+                                    <p className='mb-3 capitalize'>Approved By : <br /> {approver_name}  </p>
 
-                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed' onClick={() => { handleClick(id) }}>
-                                    Delete
-                                </button>
+                                    <button className='bg-[#2091F9] rounded-lg py-2 tracking-wider font-medium capitalize text-white text-[14px] px-4 text-clrprimary10 transition-all ease-linear duration-300 w-full disabled:cursor-not-allowed' onClick={() => { handleClick(id) }}>
+                                        Approve
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     })
@@ -112,7 +112,7 @@ export default function LeaveApplication({ cookie }) {
             </div>
 
             <div>
-                <DeleteApplicationModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
+                <ApproveApplicationModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
             </div>
 
         </>

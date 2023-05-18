@@ -8,7 +8,8 @@ from rest_framework import status
 from django.db.models import Q
 from django.db import transaction
 from ..serializers.notice_serializers import ClassSerializer, DepartmentSerializer, NoticeSerializer, NoticeFullDetailsSerializer
-
+import base64
+from django.core.files.base import ContentFile
 
 @method_decorator(csrf_protect, name='dispatch')
 class AddNotice(APIView):
@@ -52,10 +53,21 @@ class AddNotice(APIView):
         noticeFor = data['noticeFor']
         noticeTitle = data['title']
         content = data['content']
-        file = request.FILES.get('noticeFile')
         if Class.objects.filter(name=noticeFor).exists or Department.objects.filter(name=noticeFor).exists:
             try:
-                Notice.objects.create(noticeFor=noticeFor, title=noticeTitle, uploaded_by=user, noticeType=noticeType, content=content, file=file)
+                notice = Notice.objects.create(
+                    noticeFor=noticeFor,
+                    title=noticeTitle,
+                    uploaded_by=user,
+                    noticeType=noticeType,
+                    content=content,
+                )
+                if(data['noticeFile']):
+                    format, filestr = data['noticeFile'].split(';base64,') 
+                    ext = format.split('/')[-1] 
+                    file = ContentFile(base64.b64decode(filestr), name='temp.' + ext)
+                    notice.file = file
+                notice.save()
                 return Response({'msg': 'Notice added successfully!'}, status=status.HTTP_200_OK)
             except:
                 return Response({'msg': 'Could not add notice. Check details and try again.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -126,7 +138,7 @@ class EditNotice(APIView):
         try:
             notice = Notice.objects.get(id=id)
             if notice.uploaded_by == user:
-                serializer = NoticeFullDetailsSerializer(notice, data=data, partial=True)
+                serializer = NoticeFullDetailsSerializer(notice, data=data, files=request.FILES, partial=True)
                 # notice.noticeType = data['noticeType']
                 # notice.noticeFor = data['noticeFor']
                 # notice.title = data['title']
