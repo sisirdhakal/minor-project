@@ -13,7 +13,7 @@ import DeleteDepartmentModal from '../../../components/collgeadmin/department/de
 import { toast } from 'react-hot-toast'
 
 const Department = ({ cookie }) => {
-    const { allDepartments } = useSelector(state => state.collegeadmin)
+    const { data, success } = useSelector(state => state.collegeadmin.allDepartments)
     const dispatch = useDispatch()
     const { setAllDepartments } = bindActionCreators(actionCreators, dispatch)
 
@@ -41,7 +41,9 @@ const Department = ({ cookie }) => {
             }
 
         }
-        getData()
+        if(!success){
+            getData()
+        }
     }, [])
 
     const handleClick = (id) => {
@@ -56,7 +58,7 @@ const Department = ({ cookie }) => {
 
             <div className='grid gap-y-6 mb-10'>
                 {
-                    allDepartments?.map(item => {
+                    data?.map(item => {
                         return <div key={item.id} className='w-full px-4 py-2 bg-white rounded'>
                             <div className='grid grid-cols-4'>
                                 <div className='col-span-3 text-xl text-[#023E8A] text-medium'>
