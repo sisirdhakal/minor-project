@@ -8,7 +8,7 @@ import { actionCreators } from '../../redux';
 
 
 function CollegeAdmin({ cookie }) {
-    const {adminDashboard} = useSelector(state => state.collegeadmin)
+    const {data, success} = useSelector(state => state.collegeadmin.adminDashboard)
     const dispatch = useDispatch()
     const { setAdminDashboard } = bindActionCreators(actionCreators, dispatch)
 
@@ -32,7 +32,9 @@ function CollegeAdmin({ cookie }) {
             }
 
         }
-        getData()
+        if(!success){
+            getData()
+        }
     }, [])
 
 
@@ -41,50 +43,50 @@ function CollegeAdmin({ cookie }) {
             <div className='bg-gradient-to-r from-[#26D0CE] to-[#1A2980] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/student.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.students}</h1>
-                    <p className='text-white'>STUDENTS</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.students}</h1>
+                    <p className='text-white font-medium'>STUDENTS</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#FF512F] to-[#DD2476] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/teacher.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.teachers}</h1>
-                    <p className='text-white'>TEACHERS</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.teachers}</h1>
+                    <p className='text-white font-medium'>TEACHERS</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#E7E9BB] to-[#403B4A] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/parent.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.parents}</h1>
-                    <p className='text-white'>PARENTS</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.parents}</h1>
+                    <p className='text-white font-medium'>PARENTS</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#DA22FF] to-[#9733EE] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/student.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.alumni}</h1>
-                    <p className='text-white'>ALUMNI</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.alumni}</h1>
+                    <p className='text-white font-medium'>ALUMNI</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#fc6767] to-[#ec008c] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/attendance.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.graduated_batches}</h1>
-                    <p className='text-white'>BATCH GRADUATED</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.graduated_batches}</h1>
+                    <p className='text-white font-medium'>BATCH GRADUATED</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#ACBB78] to-[#799F0C] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/exam.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.departments}</h1>
-                    <p className='text-white'>DEPARTMENTS</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.departments}</h1>
+                    <p className='text-white font-medium'>DEPARTMENTS</p>
                 </div>
             </div>
             <div className='bg-gradient-to-r from-[#159957] to-[#155799] h-[130px] rounded-md p-2'>
                 <img src='/assets/images/program.svg' className='w-[40px] h-[45px]'/>
                 <div className='text-end'>
-                    <h1 className='text-white font-bold text-5xl'>{adminDashboard?.programs}</h1>
-                    <p className='text-white'>PROGRAMS OFFERED</p>
+                    <h1 className='text-white font-bold text-5xl'>{data?.programs}</h1>
+                    <p className='text-white font-medium'>PROGRAMS OFFERED</p>
                 </div>
             </div>
         </div>

@@ -138,17 +138,17 @@ class EditNotice(APIView):
         try:
             notice = Notice.objects.get(id=id)
             if notice.uploaded_by == user:
-                serializer = NoticeFullDetailsSerializer(notice, data=data, files=request.FILES, partial=True)
-                # notice.noticeType = data['noticeType']
-                # notice.noticeFor = data['noticeFor']
-                # notice.title = data['title']
-                # notice.content = data['content']
-                # notice.file = request.FILES.get('noticeFile')
-                # notice.save()
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response({'msg': 'Notice edited successfully!'}, status=status.HTTP_200_OK)
-                return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+                notice.noticeType = data['noticeType']
+                notice.noticeFor = data['noticeFor']
+                notice.title = data['title']
+                notice.content = data['content']
+                if(data['noticeFile']):
+                    format, filestr = data['noticeFile'].split(';base64,') 
+                    ext = format.split('/')[-1] 
+                    file = ContentFile(base64.b64decode(filestr), name='temp.' + ext)
+                    notice.syllabus = file
+                notice.save()
+                return Response({'msg': 'Notice edited successfully!'}, status=status.HTTP_200_OK)
             else:
                 return Response({'msg': 'Not authorized to edit this notice.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:

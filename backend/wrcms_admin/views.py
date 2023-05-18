@@ -8,6 +8,8 @@ from django.db.models import Q
 import datetime
 from wrcms.models import Batch, Department, Program, Class, Lecture, Subject, Student, Teacher, ProgramSubject, UserProfile, UserRole, Parent, Routine
 from .serializers import *
+import base64
+from django.core.files.base import ContentFile
 
 @method_decorator(csrf_protect, name='dispatch')
 class Dashboard(APIView):
@@ -198,13 +200,17 @@ class ProgramAdd(APIView):
     
     def post(self, request, format=None):
         data = self.request.data
-        file = request.FILES.get('syllabus')
         try:
-            Program.objects.create(
+            program = Program.objects.create(
                 name = data['name'],
                 department = Department.objects.get(id=int(data['department'])),
-                syllabus = file
             )
+            if(data['syllabus']):
+                format, filestr = data['syllabus'].split(';base64,') 
+                ext = format.split('/')[-1] 
+                file = ContentFile(base64.b64decode(filestr), name='temp.' + ext)
+                program.syllabus = file
+            program.save()
             return Response({'msg': 'Program added successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Error while adding new program.'}, status=status.HTTP_409_CONFLICT)
@@ -215,12 +221,14 @@ class ProgramEdit(APIView):
     
     def put(self, request, id, format=None):
         data = self.request.data
-        file = request.FILES.get('syllabus')
         try:
             program = Program.objects.get(id=id)
             program.name = data['name']
             program.department = Department.objects.get(id=int(data['department']))
-            if (file):
+            if(data['syllabus']):
+                format, filestr = data['syllabus'].split(';base64,') 
+                ext = format.split('/')[-1] 
+                file = ContentFile(base64.b64decode(filestr), name='temp.' + ext)
                 program.syllabus = file
             program.save()
             return Response({'msg': 'Program edited successfully.'}, status=status.HTTP_200_OK)

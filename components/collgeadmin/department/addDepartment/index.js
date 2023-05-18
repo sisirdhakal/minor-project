@@ -3,12 +3,16 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter, useSearchParams } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../../redux';
 
 const AddDepartmentComp = ({ cookie }) => {
 
     const [process, setprocess] = useState("Add Department")
     const router = useRouter()
-
+    const dispatch = useDispatch()
+    const {setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
 
 
     const initialValue = {
@@ -46,6 +50,7 @@ const AddDepartmentComp = ({ cookie }) => {
             if (data) {
                 toast.success(data.msg)
                 setprocess("Add Department")
+                setSuccessFalse("collegeadmin_allDepartments")
                 router.push("/collegeadmin/department")
                 setvalues(initialValue)
             }

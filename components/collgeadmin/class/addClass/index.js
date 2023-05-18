@@ -3,6 +3,9 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { actionCreators } from '../../../../redux';
 
 const AddClassComp = ({ cookie }) => {
 
@@ -11,6 +14,8 @@ const AddClassComp = ({ cookie }) => {
     const [batches, setbatches] = useState([])
     const [programs, setprograms] = useState([])
     const router = useRouter()
+    const dispatch = useDispatch()
+    const {setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
 
 
 
@@ -43,6 +48,7 @@ const AddClassComp = ({ cookie }) => {
             if (data) {
                 toast.success(data.msg)
                 setprocess("Add Class")
+                setSuccessFalse("collegeadmin_allClasses")
                 router.push("/collegeadmin/class")
                 setvalues(initialValue)
             }

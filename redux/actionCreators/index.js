@@ -13,7 +13,7 @@ import {
 } from './notices'
 
 import {
-    setAdminDashboard, setAllBatches, setAllDepartments, setUserDetails, setAllClasses, setAllPrograms
+    setAdminDashboard, setAllBatches, setAllDepartments, setUserDetails, setAllClasses, setAllPrograms, setSuccessFalse
 } from './collegeAdmin'
 
 
@@ -47,4 +47,5 @@ export {
     setAllClasses,
     setUserDetails,
     setAdminDashboard,
+    setSuccessFalse,
 }
