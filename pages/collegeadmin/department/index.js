@@ -10,6 +10,7 @@ import { GrMailOption, GrPhone, GrUserExpert } from 'react-icons/gr';
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import DeleteDepartmentModal from '../../../components/collgeadmin/department/deleteModal'
+import { toast } from 'react-hot-toast'
 
 const Department = ({ cookie }) => {
     const { allDepartments } = useSelector(state => state.collegeadmin)
@@ -56,7 +57,6 @@ const Department = ({ cookie }) => {
             <div className='grid gap-y-6 mb-10'>
                 {
                     allDepartments?.map(item => {
-                        console.log(item)
                         return <div key={item.id} className='w-full px-4 py-2 bg-white rounded'>
                             <div className='grid grid-cols-4'>
                                 <div className='col-span-3 text-xl text-[#023E8A] text-medium'>
@@ -64,11 +64,11 @@ const Department = ({ cookie }) => {
                                 </div>
                                 <div className='col-span-1 flex justify-end'>
                                     <Link href={`/collegeadmin/department/${item.id}`}>
-                                        <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
+                                        <button className='bg-[#2091F9] rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2'>
                                             Edit
                                         </button>
                                     </Link>
-                                    <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2' onClick={() => { handleClick(item.id) }}>
+                                    <button className='bg-red-500 rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block mx-2' onClick={() => { handleClick(item.id) }}>
                                         Delete
                                     </button>
                                 </div>

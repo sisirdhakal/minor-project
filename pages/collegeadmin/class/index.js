@@ -58,15 +58,15 @@ const ClassComp = ({ cookie }) => {
                                 {item.name} - Semester: {item.semester}
                             </div>
                             <div className='my-2'>
-                                <p className='text-sm text-clrgrey5'>Batch</p>
+                                <p className='text-sm text-clrgrey5'>Batch :</p>
                                 <p className='text-md'>{item.batch_name}</p>
                             </div>
                             <div className='my-2'>
-                                <p className='text-sm text-clrgrey5'>Department</p>
+                                <p className='text-sm text-clrgrey5'>Department :</p>
                                 <p className='text-md'>{item.department_name}</p>
                             </div>
                             <div className='my-2'>
-                                <p className='text-sm text-clrgrey5'>Program</p>
+                                <p className='text-sm text-clrgrey5'>Program :</p>
                                 <p className='text-md'>{item.program_name}</p>
                             </div>
                             <Link href={`/collegeadmin/student/${item.classRepresentative}`}>
@@ -79,13 +79,13 @@ const ClassComp = ({ cookie }) => {
                                     <GrUserExpert /> <span className='text-sm'>VCR: <span className='font-medium'>{item.vcr_name}</span></span>
                                 </p>
                             </Link>
-                            <div className='flex justify-center items-center gap-x-3'>
+                            <div className='flex justify-center items-center gap-x-3 mt-5'>
                                 <Link href={`/collegeadmin/class/${item.id}`}>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block'>
+                                    <button className='bg-[#2091F9] rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block'>
                                         Edit
                                     </button>
                                 </Link>
-                                <button className='bg-red-500 rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block' onClick={() => { handleClick(item.id) }}>
+                                <button className='bg-red-500 rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block' onClick={() => { handleClick(item.id) }}>
                                     Delete
                                 </button>
                             </div>
