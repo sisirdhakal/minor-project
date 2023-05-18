@@ -98,7 +98,7 @@ class ViewNotice(APIView):
                     'classNotices': classNoticeSerializer.data
                 }
                 return Response(content, status=status.HTTP_200_OK)
-            if userProfile.role.type == "Teacher":
+            elif userProfile.role.type == "Teacher":
                 teacher = Teacher.objects.get(user=user, userProfile=userProfile)
                 collegeNotices = Notice.objects.filter(noticeType="College").order_by("-postedOn")
                 departmentNotices = Notice.objects.filter(noticeType="Department", noticeFor=teacher.department.name).order_by("-postedOn")
@@ -112,6 +112,8 @@ class ViewNotice(APIView):
                     'classNotices': classNoticeSerializer.data
                 }
                 return Response(content, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Error while fetching data.'}, status=status.HTTP_404_NOT_FOUND)
         except:
             return Response({'msg': 'Error while fetching data.'}, status=status.HTTP_404_NOT_FOUND)
         

@@ -1,11 +1,12 @@
 import { setUserDetails } from "../actionCreators";
-import { SET_ADMIN_DASHBOARD, SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_SUCCESS_FALSE, SET_USER_DETAILS } from "../constant";
+import { SET_ADMIN_DASHBOARD, SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_ALL_TEACHERS, SET_SUCCESS_FALSE, SET_USER_DETAILS } from "../constant";
 
 const initialState = {
     allBatches: {data:[], success:false},
     allDepartments: {data:[], success:false},
     allPrograms: {data:[], success:false},
     allClasses: {data:[], success:false},
+    allTeachers: {data:[], success:false},
     userDetails: null,
     adminDashboard: {data:{}, success:false},
 }
@@ -25,6 +26,9 @@ const collegeadmin_reducer = (state = initialState, action) => {
     }
     if (action.type === SET_ALL_CLASSES) {
         return { ...state, allClasses: {data: action.payload, success:true} }
+    }
+    if (action.type === SET_ALL_TEACHERS) {
+        return { ...state, allTeachers: {data: action.payload, success:true} }
     }
     if (action.type === SET_USER_DETAILS) {
         return { ...state, userDetails: action.payload }

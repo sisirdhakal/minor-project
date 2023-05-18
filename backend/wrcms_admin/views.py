@@ -325,6 +325,52 @@ class LectureList(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 @method_decorator(csrf_protect, name='dispatch')
+class ClassLectureList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            cLass = Class.objects.get(id=id)
+            theoryLectures = Lecture.objects.filter(isArchived=False, cLass=cLass, type="Theory")
+            practicalLectures = Lecture.objects.filter(isArchived=False, cLass=cLass, type="Practical")
+            theoryLectureSerializer = LectureSerializer(theoryLectures, many=True)
+            practicalLectureSerializer = LectureSerializer(practicalLectures, many=True)
+            context = {
+                "class_name": cLass.name,
+                "theoryLectures": theoryLectureSerializer.data,
+                "practicalLectures": practicalLectureSerializer.data
+            }
+            return Response(context, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Class not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherLectureList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            teacher = Teacher.objects.get(id=id)
+            theoryLectures = Lecture.objects.filter(
+                Q(isArchived=False, type="Theory", teacher=teacher)|
+                Q(isArchived=False, type="Theory", teacher2=teacher)
+            )
+            practicalLectures = Lecture.objects.filter(
+                Q(isArchived=False, type="Practical", teacher=teacher)|
+                Q(isArchived=False, type="Practical", teacher2=teacher)
+            )
+            theoryLectureSerializer = LectureSerializer(theoryLectures, many=True)
+            practicalLectureSerializer = LectureSerializer(practicalLectures, many=True)
+            context = {
+                "teacher_name": teacher.userProfile.getFullName(),
+                "theoryLectures": theoryLectureSerializer.data,
+                "practicalLectures": practicalLectureSerializer.data
+            }
+            return Response(context, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+@method_decorator(csrf_protect, name='dispatch')
 class LectureAdd(APIView):
     permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
     
@@ -382,7 +428,29 @@ class LectureDelete(APIView):
             return Response({'msg': 'Lecture deleted successfully.'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)
-        
+
+# Class based views for CRUD operations of """Subject""" model
+
+@method_decorator(csrf_protect, name='dispatch')
+class SubjectList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        subjects = Subject.objects.all()
+        serializer = SubjectSerializer(subjects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+# Class based views for CRUD operations of """ProgramSubject""" model
+
+@method_decorator(csrf_protect, name='dispatch')
+class ProgramSubjectList(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, format=None):
+        programSubjects = ProgramSubject.objects.all()
+        serializer = ProgramSubjectSerializer(programSubjects, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
 # Class based views for CRUD operations of """Student""" model
 
 @method_decorator(csrf_protect, name='dispatch')
