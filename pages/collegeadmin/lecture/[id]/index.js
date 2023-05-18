@@ -1,11 +1,23 @@
 import React from 'react'
 import { DashboardLayout } from '../../../../components/layout/dashboard'
 import CollegeAdminHero from '../../../../components/collgeadmin/collegeAdminHero'
+import AddLectureComp from '../../../../components/collgeadmin/lecture/addLecture'
+import EditLectureComp from '../../../../components/collgeadmin/lecture/editLecture'
+import ClassLectureComp from '../../../../components/collgeadmin/lecture/classLecture'
+import TeacherLectureComp from '../../../../components/collgeadmin/lecture/teacherLecture'
+import { useRouter } from 'next/router'
 
-const AddLecture = () => {
+const AddLecture = ({cookie}) => {
+    const { query: { id } } = useRouter()
+
     return (
         <div>
-            <CollegeAdminHero parent={"lecture"} title={"Add Lecture"} image={"/assets/images/lecture.svg"} />
+            {
+                id.startsWith("teacher") ? <TeacherLectureComp cookie={cookie} id={id} /> :
+                id.startsWith("class") ? <ClassLectureComp cookie={cookie} id={id} /> :
+                id === "add" ? <AddLectureComp cookie={cookie} />:
+                <EditLectureComp cookie={cookie} id={id} /> 
+            }
         </div>
     )
 }

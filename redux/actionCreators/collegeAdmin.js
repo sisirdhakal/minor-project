@@ -1,4 +1,4 @@
-import { SET_ADMIN_DASHBOARD, SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_SUCCESS_FALSE, SET_USER_DETAILS } from "../constant"
+import { SET_ADMIN_DASHBOARD, SET_ALL_BATCHES, SET_ALL_CLASSES, SET_ALL_DEPARTMENTS, SET_ALL_PROGRAMS, SET_ALL_TEACHERS, SET_SUCCESS_FALSE, SET_USER_DETAILS } from "../constant"
 
 
 
@@ -24,6 +24,10 @@ export const setUserDetails = (value) => async dispatch => {
 
 export const setAdminDashboard = (value) => async dispatch => {
     dispatch({ type: SET_ADMIN_DASHBOARD, payload: value })
+}
+
+export const setAllTeachers = (value) => async dispatch => {
+    dispatch({ type: SET_ALL_TEACHERS, payload: value })
 }
 
 export const setSuccessFalse = (value) => async dispatch => {

@@ -3,8 +3,14 @@ import { useRouter } from 'next/navigation'
 import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
+import { useDispatch, useSelector } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../../../../redux'
 
 const EditDepartment = ({ cookie, id }) => {
+    const dispatch = useDispatch()
+    const {data:allTeachers, success} = useSelector(state=>state.collegeadmin.allTeachers)
+    const {setAllTeachers} = bindActionCreators(actionCreators, dispatch)
 
     const [process, setprocess] = useState("Edit Department")
     const [teachers, setTeachers] = useState([])
@@ -68,7 +74,8 @@ const EditDepartment = ({ cookie, id }) => {
                     }
                 })
                 if (data) {
-                    const filteredTeachers = data.filter(item => Number(item.department) === Number(id))
+                    setAllTeachers(data)
+                    const filteredTeachers = allTeachers.filter(item => Number(item.department) === Number(id))
                     setTeachers(filteredTeachers)
                 }
 
@@ -79,7 +86,12 @@ const EditDepartment = ({ cookie, id }) => {
             }
 
         }
-        getData()
+        if (!success){
+            getData()
+        } else {
+            const filteredTeachers = allTeachers.filter(item => Number(item.department) === Number(id))
+            setTeachers(filteredTeachers)
+        }
     }, [])
 
     const handleSubmit = async (e) => {
