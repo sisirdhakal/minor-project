@@ -18,18 +18,20 @@ function AddNotice({ cookie }) {
     const [selectedFile, setselectedFile] = useState(null)
     const [fileName, setfileName] = useState(null)
 
-    const router=useRouter()
+    const router = useRouter()
 
     const initialValue = {
         title: "",
         content: "",
     }
+    const formData = new FormData();
 
     const addFile = (e) => {
         const reader = new FileReader();
         if (e.target.files[0]) {
             setfileName(e.target.files[0].name)
-            reader.readAsDataURL(e.target.files[0])
+            // reader.readAsDataURL(e.target.files[0])
+            formData.append('file', fileInput.files[0]);
         }
         reader.onload = (event) => {
             setselectedFile(event.target.result)
@@ -46,25 +48,25 @@ function AddNotice({ cookie }) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-        setprocess("Adding ...")
-        let details = {
-            noticeFor,
-            noticeType: noticeType.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase()),
-            title: values.title,
-            content: values.content,
-            noticeFile: selectedFile
-        }
-        const { data } = await axios.post(`http://localhost:8000/api/add-notice/`, details, {
-            withCredentials: true,
-            headers: {
-                "X-CSRFTOKEN": cookie.csrftoken
+            setprocess("Adding ...")
+            let details = {
+                noticeFor,
+                noticeType: noticeType.toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase()),
+                title: values.title,
+                content: values.content,
+                noticeFile: formData
             }
-        })
-        if (data) {
-            toast.success(data.msg)
-            setprocess("Add Notice")
-            router.push()
-        }
+            const { data } = await axios.post(`http://localhost:8000/api/add-notice/`, details, {
+                withCredentials: true,
+                headers: {
+                    "X-CSRFTOKEN": cookie.csrftoken
+                }
+            })
+            if (data) {
+                toast.success(data.msg)
+                setprocess("Add Notice")
+                router.push()
+            }
 
         } catch (error) {
             setprocess("Add Notice")
@@ -159,9 +161,9 @@ function AddNotice({ cookie }) {
                                 <BsCameraFill className='text-white text-xl' />
                             </div>
                             <input ref={filePicker} onChange={addFile} name='noticeFile' type="file" hidden />
-                            <p className='ml-5 bg-clrgrey9 rounded px-4 py-2 min-w-[120px]'>
-                                {fileName ?? null}
-                            </p>
+                            {fileName && <p className='ml-5 bg-clrgrey9 rounded px-4 py-2 min-w-[120px]'>
+                                {fileName}
+                            </p>}
                         </div>
                     </div>
                     <div className='mt-12 mb-3 flex items-center justify-center'>
