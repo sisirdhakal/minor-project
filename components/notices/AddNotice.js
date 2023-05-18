@@ -4,6 +4,8 @@ import { BsCameraFill } from 'react-icons/bs'
 import axios from 'axios'
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import NoticeHero from './noticeHero';
+import CollegeAdminHero from '../collgeadmin/collegeAdminHero';
 
 function AddNotice({ cookie }) {
 
@@ -121,7 +123,7 @@ function AddNotice({ cookie }) {
     return (
         <>
             <div className='grid grid-rows-rowauto h-full'>
-                <NoticeHero />
+            <CollegeAdminHero title={"Add Notice"} image={"/assets/images/notes.svg"}  />
                 <div className='pb-10'>
 
 

@@ -40,9 +40,11 @@ export default function NoticeHero({ title }) {
                             )
                         }
                     </div>
-                    <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[18px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[140px] disabled:cursor-not-allowed'>
-                        Add Notice
-                    </button>
+                    <Link href={"/teacher/notices/add"}>
+                        <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[18px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[140px] disabled:cursor-not-allowed'>
+                            Add Notice
+                        </button>
+                    </Link>
                 </div>
             </div>
         </>
