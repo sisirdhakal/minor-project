@@ -3,10 +3,20 @@ import CollegeAdminHero from "../../collegeAdminHero"
 import Link from "next/link"
 import { toast } from "react-hot-toast"
 import axios from "axios"
+import DeleteLectureModal from "../deleteLecture"
 
 const ClassLectureComp = ({cookie, id}) => {
     const classId = id.split('_')[1]
     const [lectures, setlectures] = useState(null)
+
+    const [showModal, setShowModal] = useState(false)
+    const [activeId, setactiveId] = useState(null)
+
+    const handleClick = (id) => {
+        setactiveId(id)
+        setShowModal(true)
+    }
+
     useEffect(() => {
         const getData = async () => {
             try {
@@ -106,6 +116,9 @@ const ClassLectureComp = ({cookie, id}) => {
                         </div>
                     })
                 }
+            </div>
+            <div>
+                <DeleteLectureModal showModal={showModal} setShowModal={setShowModal} cookie={cookie} id={activeId} />
             </div>
         </div>
     )

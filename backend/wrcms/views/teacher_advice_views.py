@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Student, Lecture, TeacherAdvice
+from wrcms.models import UserProfile, Teacher, Student, Lecture, TeacherAdvice, Parent
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
@@ -22,6 +22,11 @@ class AdviceList(APIView):
         elif userProfile.role.type == 'Student':
             student = Student.objects.get(user=user, userProfile=userProfile)
             allAdvices = TeacherAdvice.objects.filter(student=student)
+            serializer = TeacherAdviceSerializer(allAdvices, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        elif userProfile.role.type == 'Parent':
+            parent = Parent.objects.get(user=user, userProfile=userProfile)
+            allAdvices = TeacherAdvice.objects.filter(student=parent.parentOf)
             serializer = TeacherAdviceSerializer(allAdvices, many=True)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
