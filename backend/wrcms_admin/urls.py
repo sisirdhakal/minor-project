@@ -53,7 +53,10 @@ urlpatterns = [
     path('parent/<str:id>/', ParentDetail.as_view()),
 
     path('routine/', RoutineList.as_view()),
+    path('routine/class/<str:id>/', ClassRoutine.as_view()),
+    path('routine/teacher/<str:id>/', TeacherRoutine.as_view()),
     path('routine/add/', RoutineAdd.as_view()),
+    path('lecture/<str:id>/', RoutineDetail.as_view()),
     path('routine/<str:id>/edit/', RoutineEdit.as_view()),
     path('routine/<str:id>/delete/', RoutineDelete.as_view()),
 
