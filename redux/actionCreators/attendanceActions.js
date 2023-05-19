@@ -19,6 +19,10 @@ export const setDayAttendance = (lecture_id, date) => async dispatch => {
     dispatch({ type: DAYATTENDANCE, payload: { lecture_id: lecture_id, date: date } })
 }
 
+export const resetStudentList = () => async dispatch => {
+    dispatch({ type: "RESET_STUDENT_LIST" })
+}
+
 export const addStudentList = (student, status) => dispatch => {
     dispatch({ type: PUSHSTUDENT, payload: { student: student, status: status } })
 }

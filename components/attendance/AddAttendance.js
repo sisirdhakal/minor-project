@@ -16,11 +16,16 @@ function AddAttendance({ cookies }) {
     const { query: { id: lectureId, type } } = useRouter()
     const { attendanceDate } = useSelector(state => state.teachersData)
     const dispatch = useDispatch()
-    const { addStudentList, setDayAttendance } = bindActionCreators(actionCreators, dispatch)
+    const { addStudentList, setDayAttendance, resetStudentList } = bindActionCreators(actionCreators, dispatch)
     const { studentsList, dayAttendance } = useSelector(state => state.attendance)
     const router = useRouter()
     const [values, setValues] = useState(null)
     const [process, setProcess] = useState("submit")
+    const [dateValue, setdateValue] = useState(new Date())
+
+    useEffect(() => {
+        resetStudentList()
+    }, [dateValue])
 
     useEffect(() => {
         const getData = async () => {
@@ -49,7 +54,7 @@ function AddAttendance({ cookies }) {
     const submitAttendance = async () => {
         try {
             setProcess("submitting ...")
-            const date = dayjs(attendanceDate).format("YYYY/MM/DD")
+            const date = dayjs(dateValue).format("YYYY/MM/DD")
             setDayAttendance(lectureId, date)
             const details = {
                 date: date,
@@ -63,6 +68,7 @@ function AddAttendance({ cookies }) {
             })
             if (data) {
                 toast.success(data.msg)
+                resetStudentList()
                 router.push("/teacher/attendance")
             }
 
@@ -84,7 +90,8 @@ function AddAttendance({ cookies }) {
 
                 <div className='bg-white h-full py-3 px-8'>
                     <div className='mb-2 flex justify-end'>
-                        <DateComp />
+                        {/* <DateComp /> */}
+                        <input type="date" name="date" value={dateValue} onChange={(e) => setdateValue(e.target.value)} id="" />
                     </div>
                     <div>
                         <div className="grid grid-cols-3 mb-3">
@@ -141,7 +148,7 @@ function AddAttendance({ cookies }) {
                                     </div>
                                 })}
                                 <div className='mt-12 mb-3 flex items-center justify-center'>
-                                    <button disabled={process === "submit" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-40 disabled:cursor-not-allowed' onClick={submitAttendance}>
+                                    <button disabled={process === "submit" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-52 disabled:cursor-not-allowed' onClick={submitAttendance}>
                                         {process}
                                     </button>
                                 </div>

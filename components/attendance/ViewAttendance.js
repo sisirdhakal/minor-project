@@ -22,6 +22,7 @@ function ViewAttendance({ cookies }) {
                     }
                 })
                 if (data) {
+                    console.log(data)
                     setValues(data)
                 }
             } catch (error) {

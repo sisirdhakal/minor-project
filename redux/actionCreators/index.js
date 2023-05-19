@@ -1,5 +1,5 @@
 import {
-    setAttendanceType, addStudentList, setDayAttendance, fetchTheoryLectures, fetchPracticalLabs, fetchSingleLecture, setAttendanceDate
+    setAttendanceType, addStudentList, setDayAttendance, fetchTheoryLectures, fetchPracticalLabs, fetchSingleLecture, setAttendanceDate, resetStudentList
 } from "./attendanceActions";
 import {
     setUserName, sidebarToggle, sidebarUser
@@ -49,4 +49,5 @@ export {
     setAdminDashboard,
     setSuccessFalse,
     setAllTeachers,
+    resetStudentList
 }

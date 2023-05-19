@@ -22,6 +22,12 @@ const attendance_reducer = (state = initialState, action) => {
             }
         }
     }
+    if (action.type === "RESET_STUDENT_LIST") {
+        return {
+            ...state,
+            studentsList: []
+        }
+    }
     if (action.type === PUSHSTUDENT) {
         const { student, status } = action.payload
         if (!status) {
