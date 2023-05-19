@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 function Step3({ csrf }) {
 
     const router = useRouter()
+    const [process, setprocess] = useState("Signup")
 
     const initialValue = {
         email: "",
@@ -34,6 +35,7 @@ function Step3({ csrf }) {
 
     const signupUser = async (e) => {
         e.preventDefault()
+        setprocess("Signing up...")
         try {
             if (values.password !== values.confirmPassword) {
                 return toast.error("Passwords doesnot match !!")
@@ -54,11 +56,13 @@ function Step3({ csrf }) {
             })
             if (data) {
                 toast.success(data.msg)
+                setprocess("Signup")
                 setTimeout(() => {
                     router.push("/")
                 }, 1000);
             }
         } catch (error) {
+            setprocess("Signup")
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
@@ -83,7 +87,7 @@ function Step3({ csrf }) {
                     <input
                         placeholder={`Email`}
                         value={signupData.email}
-                        onChange={() => { setSignupData(e) }}
+                        onChange={(e) => { setSignupData(e) }}
                         className='rounded-3xl text-gray-700 h-10 focus:ring-[#CAF0F8] border-[#CAF0F8] w-full bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide'
                         type="email"
                         name="email"
@@ -148,7 +152,7 @@ function Step3({ csrf }) {
                         required />
                 </div>
 
-                <button type='submit' className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '>Signup</button>
+                <button type='submit' disabled={process === "Signup" ? false : true} className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium '>{process}</button>
 
             </form>
         </>
