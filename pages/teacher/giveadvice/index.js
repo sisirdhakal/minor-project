@@ -54,7 +54,7 @@ function GiveFeedback({ cookie }) {
     return (
         <>
             <div>
-                <CollegeAdminHero title={"Teacher Advice"} image={"/assets/images/feedback.svg"} button={"Add"} url={"/teacher/givefeedback/add"} />
+                <CollegeAdminHero title={"Teacher Advice"} image={"/assets/images/feedback.svg"} button={"Add"} url={"/teacher/giveadvice/add"} />
             </div>
             {
                 loading ? <div className='py-6 bg-white rounded overflow-y-scroll scrollbar-hide px-8'>
@@ -85,7 +85,7 @@ function GiveFeedback({ cookie }) {
                                         </div>
                                     </div>
                                     <div className='flex justify-center mt-3 space-x-10 items-center'>
-                                        <Link href={`/collegeadmin/batch/${item.id}`}>
+                                        <Link href={`/teacher/giveadvice/${item.id}`}>
                                             <button className='bg-[#2091F9] rounded-lg hover: py-[2px] tracking-wider font-medium capitalize text-white text-[14px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed' >
                                                 Edit
                                             </button>

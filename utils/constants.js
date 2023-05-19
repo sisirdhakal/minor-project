@@ -197,8 +197,8 @@ export const sidebarOptions = {
         {
             id: 5,
             icon: "/assets/images/feedback.svg",
-            url: "/teacher/givefeedback",
-            name: "give feedback",
+            url: "/teacher/giveadvice",
+            name: "give advice",
 
         },
         {
