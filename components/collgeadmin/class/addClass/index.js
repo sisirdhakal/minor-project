@@ -3,19 +3,22 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../redux';
 
 const AddClassComp = ({ cookie }) => {
 
     const [process, setprocess] = useState("Add Class")
-    const [departments, setdepartments] = useState([])
-    const [batches, setbatches] = useState([])
-    const [programs, setprograms] = useState([])
+    const {data:departments, success:departmentSuccess} = useSelector(state=>state.collegeadmin.allDepartments)
+    const {data:batches, success:batchSuccess} = useSelector(state=>state.collegeadmin.allBatches)
+    const {data:programs, success:programSuccess} = useSelector(state=>state.collegeadmin.allPrograms)
+    // const [departments, setdepartments] = useState([])
+    // const [batches, setbatches] = useState([])
+    // const [programs, setprograms] = useState([])
     const router = useRouter()
     const dispatch = useDispatch()
-    const {setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
+    const {setAllDepartments, setAllPrograms, setAllBatches, setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
 
 
 
@@ -72,7 +75,7 @@ const AddClassComp = ({ cookie }) => {
                     }
                 })
                 if (data) {
-                    setdepartments(data)
+                    setAllDepartments(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -89,7 +92,7 @@ const AddClassComp = ({ cookie }) => {
                     }
                 })
                 if (data) {
-                    setbatches(data)
+                    setAllBatches(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -106,7 +109,7 @@ const AddClassComp = ({ cookie }) => {
                     }
                 })
                 if (data) {
-                    setprograms(data)
+                    setAllPrograms(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -114,9 +117,15 @@ const AddClassComp = ({ cookie }) => {
                 }
             }
         }
-        getDepartments()
-        getBatches()
-        getPrograms()
+        if(!departmentSuccess){
+            getDepartments()
+        }
+        if(!batchSuccess){
+            getBatches()
+        }
+        if(!programSuccess){
+            getPrograms()
+        }
     }, [])
 
     return (
