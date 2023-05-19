@@ -815,18 +815,22 @@ class RoutineAdd(APIView):
 
     def post(self, request, format=None):
         data = self.request.data
-        file = request.FILES.get('routine')
         try:
             if data['routineType'] == 'ClassRoutine':
                 routineFor = Class.objects.get(id=int(data['routineFor'])).name
             else:
                 routineFor = Teacher.objects.get(id=int(data['routineFor'])).userProfile.getFullName()
-            Routine.objects.create(
+            routine = Routine.objects.create(
                 routineType = data['routineType'],
                 routineFor = routineFor,
-                information = data['information'],
-                routineImage = file
+                information = data['information']
             )
+            if(data['routineImage']):
+                format, filestr = data['routineImage'].split(';base64,') 
+                ext = format.split('/')[-1] 
+                file = ContentFile(base64.b64decode(filestr), name='temp.' + ext)
+                routine.routineImage = file
+            routine.save()
             return Response({'msg': 'New routine added successfully!'}, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Error while adding new routine. Make sure details are correct.'}, status=status.HTTP_400_BAD_REQUEST)

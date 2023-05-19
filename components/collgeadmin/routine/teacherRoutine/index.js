@@ -46,11 +46,11 @@ const TeacherRoutineComp = ({cookie, id}) => {
             <div className="bg-white p-2 mb-2 flex justify-between">
                 <p>Teacher Routine of <span className="font-bold">{routine? routine.routineFor : ''}</span></p>
                 <div className='flex justify-center items-center gap-x-3'>
-                    <Link href={`/collegeadmin/routine/${routine?.id}`}>
+                    {/* <Link href={`/collegeadmin/routine/${routine?.id}`}>
                         <button className='bg-[#2091F9] rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block'>
                             Edit
                         </button>
-                    </Link>
+                    </Link> */}
                     <button className='bg-red-500 rounded-lg hover: py-[2px] font-medium capitalize text-white text-[16px] px-2 text-clrprimary10 transition-all ease-linear duration-300 w-[70px] disabled:cursor-not-allowed block' onClick={() => { handleClick(routine?.id) }}>
                         Delete
                     </button>
