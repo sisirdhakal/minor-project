@@ -369,6 +369,18 @@ class TeacherLectureList(APIView):
             return Response(context, status=status.HTTP_200_OK)
         except:
             return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@method_decorator(csrf_protect, name='dispatch')
+class LectureDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            lecture = Lecture.objects.get(id=id)
+            serializer = LectureSerializer(lecture, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Lecture not found.'}, status=status.HTTP_404_NOT_FOUND)
     
 @method_decorator(csrf_protect, name='dispatch')
 class LectureAdd(APIView):
@@ -400,7 +412,7 @@ class LectureEdit(APIView):
     
     def put(self, request, id, format=None):
         data = self.request.data
-        cLass = Class.objects.get(id=int(data['class']))
+        cLass = Class.objects.get(id=int(data['cLass']))
         subject = Subject.objects.get(id=int(data['subject']))
         programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
         try:
