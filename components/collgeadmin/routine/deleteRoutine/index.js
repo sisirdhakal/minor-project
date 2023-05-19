@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 
-export default function DeleteLectureModal({ showModal, setShowModal, cookie, id }) {
+export default function DeleteRoutineModal({ showModal, setShowModal, cookie, id }) {
 
     const [process, setprocess] = useState("Yes")
     const router=useRouter()
@@ -22,7 +22,7 @@ export default function DeleteLectureModal({ showModal, setShowModal, cookie, id
     const handleDelete = async () => {
         try {
             setprocess("Deleting ...")
-            const { data } = await axios.delete(`http://localhost:8000/api/admin/lecture/${id}/delete/`, {
+            const { data } = await axios.delete(`http://localhost:8000/api/admin/routine/${id}/delete/`, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookie.csrftoken
@@ -32,7 +32,7 @@ export default function DeleteLectureModal({ showModal, setShowModal, cookie, id
                 toast.success(data.msg)
                 setprocess("Yes")
                 setShowModal(false)
-                router.push("/collegeadmin/lecture")
+                router.push("/collegeadmin/routine")
             }
 
         } catch (error) {
@@ -72,7 +72,7 @@ export default function DeleteLectureModal({ showModal, setShowModal, cookie, id
                             >
                                 <Dialog.Panel className="bg-white relative flex justify-center items-center shadow-xl rounded-2xl w-[600px] h-[220px]">
                                     <div className=' w-full'>
-                                        <p className='text-xl mb-1 font-medium'>ARE YOU SURE YOU WANT TO DELETE THIS LECTURE?</p>
+                                        <p className='text-xl mb-1 font-medium'>ARE YOU SURE YOU WANT TO DELETE THIS ROUTINE?</p>
                                         <p className='text-lg text-red-700 mb-8 font-medium'>This action cannot be undone.</p>
 
 

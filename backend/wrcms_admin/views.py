@@ -764,6 +764,50 @@ class RoutineList(APIView):
                     return Response({'msg': 'Routine not found!'}, status=status.HTTP_404_NOT_FOUND)
             else:
                 return Response({'msg': 'Not authorized to access.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+@method_decorator(csrf_protect, name='dispatch')
+class ClassRoutine(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            cLass = Class.objects.get(id=id)
+            try:
+                routine = Routine.objects.get(routineType="ClassRoutine", routineFor=cLass.name)
+                serializer = RoutineSerializer(routine, many=False)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except:
+            return Response({'msg': 'Class not found.'}, status=status.HTTP_404_NOT_FOUND)
+        
+@method_decorator(csrf_protect, name='dispatch')
+class TeacherRoutine(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            teacher = Teacher.objects.get(id=id)
+            try:
+                routine = Routine.objects.get(routineType="TeacherRoutine", routineFor=teacher.userProfile.getFullName())
+                serializer = RoutineSerializer(routine, many=False)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            except:
+                return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except:
+            return Response({'msg': 'Teacher not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+@method_decorator(csrf_protect, name='dispatch')
+class RoutineDetail(APIView):
+    permission_classes = (permissions.IsAuthenticated, permissions.IsAdminUser,)
+
+    def get(self, request, id, format=None):
+        try:
+            routine = Routine.objects.get(id=id)
+            serializer = RoutineSerializer(routine, many=False)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({'msg': 'Routine not found.'}, status=status.HTTP_404_NOT_FOUND)
             
 @method_decorator(csrf_protect, name='dispatch')
 class RoutineAdd(APIView):
