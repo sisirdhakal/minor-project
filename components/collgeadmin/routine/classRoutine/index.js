@@ -57,6 +57,7 @@ const ClassRoutineComp = ({cookie, id}) => {
                 </div>
             </div>
             <div className="bg-white p-2">
+                <p>{routine?.information}</p>
                 <div className="px-10">
                     <img src={routine?.routineImage} alt={`Class Routine of ${routine? routine.routineFor : ''}`}/>
                 </div>
