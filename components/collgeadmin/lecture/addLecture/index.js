@@ -3,43 +3,66 @@ import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../../redux';
 
 const AddLectureComp = ({ cookie }) => {
 
     const [process, setprocess] = useState("Add Lecture")
-    const [departments, setdepartments] = useState([])
-    const [batches, setbatches] = useState([])
-    const [programs, setprograms] = useState([])
+    const { data: classes, success:successClass } = useSelector(state => state.collegeadmin.allClasses)
+    const { data: teachers, success:successTeacher } = useSelector(state => state.collegeadmin.allTeachers)
+    const [subjects, setsubjects] = useState([])
+    const [programSubjects, setprogramSubjects] = useState([])
     const router = useRouter()
     const dispatch = useDispatch()
-    const {setSuccessFalse} = bindActionCreators(actionCreators, dispatch)
-
+    const { setAllClasses, setAllTeachers } = bindActionCreators(actionCreators, dispatch)
+    const [filteredSubjects, setfilteredSubjects] = useState([])
 
 
     const initialValue = {
-        name: '',
-        department: null,
-        batch: null,
-        program: null,
-        semester: null
+        type: '',
+        subject: null,
+        cLass: null,
+        teacher: null,
+        teacher2: null
     }
 
 
     const [values, setvalues] = useState(initialValue)
 
+    const filterSubjects = () => {
+
+        const matchingClass = classes.find((c) => c.id === Number(values.cLass))
+        const filteredProgramSubjects = programSubjects?.filter((ps) => Number(ps.program) == Number(matchingClass.program) && Number(ps.semester) == Number(matchingClass.semester)
+        )
+        let filteredArray = []
+        filteredProgramSubjects?.map(item => {
+            const getSubjectFromFilteredSub = subjects.find(sub => Number(item.subject) == Number(sub.id))
+            if (getSubjectFromFilteredSub) {
+                filteredArray.push(getSubjectFromFilteredSub)
+            }
+        })
+        setfilteredSubjects(filteredArray ?? [])
+    }
+
     const handleChange = (e) => {
         setvalues({ ...values, [e.target.name]: e.target.value })
+
     }
+    useEffect(() => {
+        if (values.cLass !== null) {
+            filterSubjects()
+        }
+    }, [values.cLass])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
             setprocess("Adding ...")
             console.log(values)
-            const { data } = await axios.post(`http://localhost:8000/api/admin/class/add/`, values, {
+            const { data } = await axios.post(`http://localhost:8000/api/admin/lecture/add/`, values, {
                 withCredentials: true,
                 headers: {
                     "X-CSRFTOKEN": cookie.csrftoken
@@ -47,15 +70,13 @@ const AddLectureComp = ({ cookie }) => {
             })
             if (data) {
                 toast.success(data.msg)
-                setprocess("Add Class")
-                setSuccessFalse("collegeadmin_allClasses")
-                router.push("/collegeadmin/class")
+                setprocess("Add Lecture")
+                router.push(`/collegeadmin/lecture/class_${values.cLass}`)
                 setvalues(initialValue)
             }
 
         } catch (error) {
-            setprocess("Add Class")
-            console.log(error)
+            setprocess("Add Lecture")
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
@@ -63,16 +84,16 @@ const AddLectureComp = ({ cookie }) => {
 
     }
     useEffect(() => {
-        const getDepartments = async () => {
+        const getSubjects = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/api/admin/department/`, {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/subject/`, {
                     withCredentials: true,
                     headers: {
                         "X-CSRFTOKEN": cookie.csrftoken
                     }
                 })
                 if (data) {
-                    setdepartments(data)
+                    setsubjects(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -80,16 +101,16 @@ const AddLectureComp = ({ cookie }) => {
                 }
             }
         }
-        const getBatches = async () => {
+        const getProgramSubjects = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/api/admin/batch/`, {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/programSubject/`, {
                     withCredentials: true,
                     headers: {
                         "X-CSRFTOKEN": cookie.csrftoken
                     }
                 })
                 if (data) {
-                    setbatches(data)
+                    setprogramSubjects(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -97,16 +118,16 @@ const AddLectureComp = ({ cookie }) => {
                 }
             }
         }
-        const getPrograms = async () => {
+        const getClasses = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:8000/api/admin/program/`, {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/class/`, {
                     withCredentials: true,
                     headers: {
                         "X-CSRFTOKEN": cookie.csrftoken
                     }
                 })
                 if (data) {
-                    setprograms(data)
+                    setAllClasses(data)
                 }
             } catch (error) {
                 if (error.response?.data.msg) {
@@ -114,41 +135,47 @@ const AddLectureComp = ({ cookie }) => {
                 }
             }
         }
-        getDepartments()
-        getBatches()
-        getPrograms()
+        const getTeachers = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:8000/api/admin/teacher/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    setAllTeachers(data)
+                }
+            } catch (error) {
+                if (error.response?.data.msg) {
+                    toast.error(error.response.data.msg)
+                }
+            }
+        }
+        if (!successClass) {
+            getClasses()
+        }
+        if (!successTeacher) {
+            getTeachers()
+        }
+        getSubjects()
+        getProgramSubjects()
     }, [])
 
     return (
         <div>
             <div>
-                <CollegeAdminHero parent={"class"} title={"Add Class"} image={"/assets/images/class.svg"} />
+                <CollegeAdminHero parent={"lecture"} title={"Add Lecture"} image={"/assets/images/lecture.svg"} />
             </div>
             <div className='my-10'>
                 <div className='h-full bg-white rounded-sm w-full px-8 py-6'>
                     <form action="" className='w-1/2' onSubmit={handleSubmit}>
                         <div className='mb-3'>
-                            <label className='text-sm'>Class Name<span className='text-red-800'>*</span></label>
-                            <input value={values.name} onChange={handleChange} type='text' name='name' placeholder='eg. BCT-076' className='w-full bg-[#caf0f8] border-none outline-none h-8' required></input>
-                        </div>
-                        <div className='mb-3'>
-                            <label className='text-sm'>Batch <span className='text-red-800'>*</span></label>
-                            <select value={values.batch} onChange={handleChange} type='text' name='batch' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
-                                <option value='' selected>Select batch</option>
+                            <label className='text-sm'>Class <span className='text-red-800'>*</span></label>
+                            <select value={values.cLass} onChange={handleChange} type='text' name='cLass' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required disabled={programSubjects ? false : true}>
+                                <option value='' selected>Select class</option>
                                 {
-                                    batches?.map(item => {
-                                        const { year, id } = item;
-                                        return <option value={id}>{year}</option>
-                                    })
-                                }
-                            </select>
-                        </div>
-                        <div className='mb-3'>
-                            <label className='text-sm'>Department <span className='text-red-800'>*</span></label>
-                            <select value={values.department} onChange={handleChange} type='text' name='department' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
-                                <option value='' selected>Select department</option>
-                                {
-                                    departments?.map(item => {
+                                    classes?.map(item => {
                                         const { name, id } = item;
                                         return <option value={id}>{name}</option>
                                     })
@@ -156,25 +183,69 @@ const AddLectureComp = ({ cookie }) => {
                             </select>
                         </div>
                         <div className='mb-3'>
-                            <label className='text-sm'>Program <span className='text-red-800'>*</span></label>
-                            <select value={values.program} onChange={handleChange} type='text' name='program' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
-                                <option value='' selected>Select program</option>
+                            <label className='text-sm'>Subject <span className='text-red-800'>*</span></label>
+                            <select value={values.subject} onChange={handleChange} type='text' name='subject' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
+                                <option value='' selected>Select subject</option>
                                 {
-                                    programs?.map(item => {
-                                        const { name, id, department } = item;
-                                        if (department === Number(values.department)){
-                                            return <option value={id}>{name}</option>
+                                    filteredSubjects?.map(item => {
+                                        const { name, id } = item;
+                                        return <option value={id}>{name}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className='mb-3'>
+                            <label className='text-sm'>Type <span className='text-red-800'>*</span></label>
+                            <select value={values.type} onChange={handleChange} type='text' name='type' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
+                                <option value='' selected>Select type</option>
+                                {
+                                    subjects?.map(item => {
+                                        const { id, type } = item;
+                                        if (id === Number(values.subject)) {
+                                            if (type === "Both") {
+                                                return <>
+                                                    <option value="Theory">Theory</option>
+                                                    <option value="Practical">Practical</option>
+                                                </>
+                                            }
+                                            else if (type === "Theory") {
+                                                return <option value="Theory">Theory</option>
+                                            } else {
+                                                return <option value="Practical">Practical</option>
+                                            }
                                         }
                                     })
                                 }
                             </select>
                         </div>
                         <div className='mb-3'>
-                            <label className='text-sm'>Semester <span className='text-red-800'>*</span></label>
-                            <input value={values.semester} onChange={handleChange} type='text' name='semester' placeholder='eg. 1' className='w-full bg-[#caf0f8] border-none outline-none h-8' required></input>
+                            <label className='text-sm'>Teacher-1 <span className='text-red-800'>*</span></label>
+                            <select value={values.teacher} onChange={handleChange} type='text' name='teacher' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]' required>
+                                <option value='' selected>Select teacher</option>
+                                {
+                                    teachers?.map(item => {
+                                        const { user_profile } = item
+                                        if (values.teacher2 == item.id) return;
+                                        return <option key={item.id} value={item.id} className='cursor-pointer capitalize'>{user_profile.firstName} {user_profile.middleName} {user_profile.lastName}</option>
+                                    })
+                                }
+                            </select>
+                        </div>
+                        <div className='mb-3'>
+                            <label className='text-sm'>Teacher-2</label>
+                            <select value={values.teacher2} onChange={handleChange} type='text' name='teacher2' className='w-full text-sm bg-[#caf0f8] border-none outline-none h-8 p-[-3px]'>
+                                <option value='' selected>Select teacher</option>
+                                {
+                                    teachers?.map(item => {
+                                        const { user_profile } = item
+                                        if (values.teacher == item.id) return;
+                                        return <option key={item.id} value={item.id} className='cursor-pointer capitalize'>{user_profile.firstName} {user_profile.middleName} {user_profile.lastName}</option>
+                                    })
+                                }
+                            </select>
                         </div>
                         <div className='mt-3'>
-                            <button disabled={process === "Add Class" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] font-medium capitalize text-white text-[16px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-36 disabled:cursor-not-allowed'>
+                            <button disabled={process === "Add Lecture" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] font-medium capitalize text-white text-[16px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-36 disabled:cursor-not-allowed'>
                                 {process}
                             </button>
                         </div>
