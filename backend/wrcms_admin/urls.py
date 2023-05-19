@@ -30,6 +30,7 @@ urlpatterns = [
     path('lecture/class/<str:id>/', ClassLectureList.as_view()),
     path('lecture/teacher/<str:id>/', TeacherLectureList.as_view()),
     path('lecture/add/', LectureAdd.as_view()),
+    path('lecture/<str:id>/', LectureDetail.as_view()),
     path('lecture/<str:id>/edit/', LectureEdit.as_view()),
     path('lecture/<str:id>/delete/', LectureDelete.as_view()),
 
