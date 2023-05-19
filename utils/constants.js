@@ -98,13 +98,13 @@ export const sidebarOptions = {
 
         },
 
-        {
-            id: 7,
-            icon: "/assets/images/results.svg",
-            url: "/student/results",
-            name: "results",
+        // {
+        //     id: 7,
+        //     icon: "/assets/images/results.svg",
+        //     url: "/student/results",
+        //     name: "results",
 
-        },
+        // },
         {
             id: 8,
             icon: "/assets/images/feedback.svg",
@@ -146,17 +146,17 @@ export const sidebarOptions = {
         {
             id: 2,
             icon: "/assets/images/feedback.svg",
-            url: "/parent/teacherfeedback",
-            name: "teacher feedback",
+            url: "/parent/teacheradvice",
+            name: "teacher advice",
 
         },
-        {
-            id: 3,
-            icon: "/assets/images/results.svg",
-            url: "/parent/results",
-            name: "results",
+        // {
+        //     id: 3,
+        //     icon: "/assets/images/results.svg",
+        //     url: "/parent/results",
+        //     name: "results",
 
-        },
+        // },
         {
             id: 4,
             icon: "/assets/images/attendance.svg",
