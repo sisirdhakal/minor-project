@@ -71,7 +71,7 @@ function TeacherAdvice({ cookie }) {
                   <div className=' font-medium text-clrgrey1'>
                     <div className='flex justify-between items-center mb-3'>
                       <p className=''>
-                        <span className='text-[#023E8A] mr-2 font-semibold'>To Student :</span> {student_name}
+                        <span className='text-[#023E8A] mr-2 font-semibold'>From Teacher :</span> {teacher_name}
                       </p>
                       <p className=''>
                         <span className='text-[#023E8A] font-semibold mr-2'>Date :</span>  {dayjs(posted_datetime).format("LL")}
