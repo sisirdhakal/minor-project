@@ -8,9 +8,10 @@ import toast from 'react-hot-toast';
 const date_regex = /^\d{4}\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])$/;
 
 
-function Step1() {
+function Step1({ csrf }) {
 
     const dispatch = useDispatch()
+    const [process, setprocess] = useState("Proceed")
     const { setVerifyDetailsValue, setVerified, setSignUpSteps, setSignupEmail } = bindActionCreators(actionCreators, dispatch)
 
     const { signUpDetails: { step1, placeholder1 }, step } = useSelector(state => state.auth)
@@ -26,6 +27,7 @@ function Step1() {
 
     const verifyData = async (e) => {
         e.preventDefault()
+        setprocess("Proceeding")
         try {
             let result = date_regex.test(dobStudent)
             if (!result) {
@@ -34,8 +36,13 @@ function Step1() {
             }
             let verifydatas = { ...verifyDetails }
             verifydatas.role = localStorage.getItem("signupRole")
-            const { data } = await axios.post("http://localhost:8000/api/verify/", verifydatas, { withCredentials: true })
+            const { data } = await axios.post("http://localhost:8000/api/verify/", verifydatas, {
+                withCredentials: true, headers: {
+                    "X-CSRFTOKEN": csrf
+                }
+            })
             if (data) {
+                setprocess("Proceed")
                 if (data.email) {
                     setSignupEmail(data.email)
                 }
@@ -43,6 +50,7 @@ function Step1() {
                 setSignUpSteps(step + 1)
             }
         } catch (error) {
+            setprocess("Proceed")
             if (error.response?.data.msg) {
                 toast.error(error.response.data.msg)
             }
@@ -103,7 +111,7 @@ function Step1() {
                         required
                         name="dobStudent" />
                 </div>
-                <button className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' type='submit' >Proceed</button>
+                <button disabled={process === "Proceed" ? false : true} className='w-full p-1 bg-primary-text rounded-2xl  transition-all duration-500 mt-2 ease-in-out text-white text-xl font-medium ' type='submit' >{process}</button>
             </form>
         </>
     )

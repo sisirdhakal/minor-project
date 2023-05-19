@@ -4,14 +4,14 @@ import Step2 from '../SignupSteps/Step2'
 import { useSelector } from 'react-redux';
 import Step3 from '../SignupSteps/Step3';
 
-function TypeTwo() {
+function TypeTwo({ csrf }) {
     const { step } = useSelector(state => state.auth)
 
     return (
         <>
             {
                 step === 1 ?
-                    (<Step1 />) : step === 2 ? (<Step2 />) : (<Step3 />)
+                    (<Step1 csrf={csrf} />) : step === 2 ? (<Step2 />) : (<Step3 csrf={csrf} />)
             }
         </>
     )

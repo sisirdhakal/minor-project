@@ -108,8 +108,8 @@ export const sidebarOptions = {
         {
             id: 8,
             icon: "/assets/images/feedback.svg",
-            url: "/student/teacherfeedback",
-            name: "teacher feedback",
+            url: "/student/teacheradvice",
+            name: "teacher advice",
 
         },
         {
@@ -319,10 +319,10 @@ export const statsOptions = [
         body: "No Due!"
     },
     {
-        title: 'Feedback',
+        title: 'Advice',
         icon: "/assets/images/feedbackImage.svg",
         id: 3,
-        body: "See feedback from your teachers."
+        body: "See Advices from your teachers."
     },
 ]
 

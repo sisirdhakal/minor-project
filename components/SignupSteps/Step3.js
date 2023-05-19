@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../redux';
 import { useRouter } from 'next/router';
 
-function Step3() {
+function Step3({ csrf }) {
 
     const router = useRouter()
 
@@ -47,7 +47,11 @@ function Step3() {
             signupValues.password = values.password
             signupValues.id = id
             console.log(signupValues)
-            const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, { withCredentials: true })
+            const { data } = await axios.post("http://localhost:8000/api/signup/", signupValues, {
+                withCredentials: true, headers: {
+                    "X-CSRFTOKEN": csrf
+                }
+            })
             if (data) {
                 toast.success(data.msg)
                 setTimeout(() => {

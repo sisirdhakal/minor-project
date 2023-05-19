@@ -96,7 +96,7 @@ function Signup({ csrf }) {
                         <div className='h-[290px] items-center'>
 
                             {
-                                user === "one" ? (<TypeOne />) : (<TypeTwo />)
+                                user === "one" ? (<TypeOne csrf={csrf} />) : (<TypeTwo csrf={csrf} />)
 
                             }
                         </div>
@@ -119,27 +119,27 @@ function Signup({ csrf }) {
 
 export default Signup
 
-// export const getServerSideProps = async ({ req, res }) => {
-//     try {
+export const getServerSideProps = async ({ req, res }) => {
+    try {
 
-//         await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
-//     } catch (error) {
-//         console.log(error)
-//     }
+        await axios.get(`http://localhost:8000/api/get-csrf/`, { withCredentials: true });
+    } catch (error) {
+        // console.log(error)
+    }
 
-//     const token = req?.cookies?.csrftoken || null
+    const token = req?.cookies?.csrftoken || null
 
-//     if (token) {
-//         return {
-//             props: {
-//                 csrf: token,
-//             },
-//         };
-//     } else {
-//         return {
-//             props: {
-//                 csrf: "null"
-//             },
-//         };
-//     }
-// };
+    if (token) {
+        return {
+            props: {
+                csrf: token,
+            },
+        };
+    } else {
+        return {
+            props: {
+                csrf: "null"
+            },
+        };
+    }
+};
