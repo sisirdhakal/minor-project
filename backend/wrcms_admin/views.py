@@ -377,7 +377,7 @@ class LectureAdd(APIView):
     def post(self, request, format=None):
         data = self.request.data
         try:
-            cLass = Class.objects.get(id=int(data['class']))
+            cLass = Class.objects.get(id=int(data['cLass']))
             subject = Subject.objects.get(id=int(data['subject']))
             programSubject = ProgramSubject.objects.get(program=cLass.program, subject=subject)
             lecture = Lecture.objects.create(
