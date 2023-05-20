@@ -16,7 +16,9 @@ import {
     setAdminDashboard, setAllBatches, setAllDepartments, setUserDetails, setAllClasses, setAllPrograms, setSuccessFalse, setAllTeachers
 } from './collegeAdmin'
 
-
+import {
+    setMarksObject
+} from './marks'
 
 export {
     setAttendanceType,
@@ -49,5 +51,6 @@ export {
     setAdminDashboard,
     setSuccessFalse,
     setAllTeachers,
-    resetStudentList
+    resetStudentList,
+    setMarksObject
 }

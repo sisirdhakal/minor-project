@@ -13,18 +13,33 @@ import CenteredLoading from '../../../../common/Loader'
 function AddAttendance({ cookies }) {
 
   const { query: { id: lectureId, type } } = useRouter()
-  const { attendanceDate } = useSelector(state => state.teachersData)
   const dispatch = useDispatch()
-  const { addStudentList, setDayAttendance, resetStudentList } = bindActionCreators(actionCreators, dispatch)
-  const { studentsList, dayAttendance } = useSelector(state => state.attendance)
+  const { setMarksObject } = bindActionCreators(actionCreators, dispatch)
+  const { fetched, objects } = useSelector(state => state.marks)
   const router = useRouter()
-  const [values, setValues] = useState(null)
   const [process, setProcess] = useState("submit")
-  const [dateValue, setdateValue] = useState(new Date())
+  const [values, setValues] = useState([]);
 
-  useEffect(() => {
-    resetStudentList()
-  }, [dateValue])
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const [type, id] = name.split('_');
+
+    // Find the existing entry for the student in the values array
+    const existingEntry = values.find((entry) => entry.id === Number(id));
+
+    // Update the existing entry or create a new entry
+    const updatedEntry = existingEntry
+      ? { ...existingEntry, [type]: value }
+      : { id: Number(id), [type]: value };
+
+    // Update the values array
+    const updatedValues = existingEntry
+      ? values.map((entry) => (entry.id === Number(id) ? updatedEntry : entry))
+      : [...values, updatedEntry];
+
+    setValues(updatedValues);
+  };
+
 
   useEffect(() => {
     const getData = async () => {
@@ -37,7 +52,7 @@ function AddAttendance({ cookies }) {
           }
         })
         if (data) {
-          setValues(data)
+          setMarksObject(data)
         }
       } catch (error) {
         if (error.response?.data.msg) {
@@ -46,44 +61,51 @@ function AddAttendance({ cookies }) {
       }
 
     }
-    getData()
-  }, [])
+    if (!fetched) { getData() }
+  }, [fetched])
 
 
-  const submitAttendance = async () => {
-    try {
-      setProcess("submitting ...")
-      const date = dayjs(dateValue).format("YYYY/MM/DD")
-      setDayAttendance(lectureId, date)
-      const details = {
-        date: date,
-        attendance: [...studentsList]
-      }
-      const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}/`, details, {
-        withCredentials: true,
-        headers: {
-          "X-CSRFTOKEN": cookies.csrftoken
-        }
-      })
-      if (data) {
-        toast.success(data.msg)
-        resetStudentList()
-        router.push("/teacher/attendance")
-      }
+  const submitMarks = async () => {
 
-    } catch (error) {
-      setProcess("submit")
-      if (error.response?.data.msg) {
-        toast.error(error.response.data.msg)
-      }
+    const hasEmptyString = values.marks.some((mark) => mark.th === "");
+
+    const details = {
+      marks: values
     }
+    console.log(details)
+    // try {
+    //   setProcess("submitting ...")
+    //   const date = dayjs(dateValue).format("YYYY/MM/DD")
+    //   setDayAttendance(lectureId, date)
+    //   const details = {
+    //     date: date,
+    //     attendance: [...studentsList]
+    //   }
+    //   const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}/`, details, {
+    //     withCredentials: true,
+    //     headers: {
+    //       "X-CSRFTOKEN": cookies.csrftoken
+    //     }
+    //   })
+    //   if (data) {
+    //     toast.success(data.msg)
+    //     resetStudentList()
+    //     router.push("/teacher/attendance")
+    //   }
+
+    // } catch (error) {
+    //   setProcess("submit")
+    //   if (error.response?.data.msg) {
+    //     toast.error(error.response.data.msg)
+    //   }
+    // }
   }
 
   const pushStudent = (e) => {
-    let status = e.target.checked ? 1 : 0
-    addStudentList(Number(e.target.id), status)
+    // let status = e.target.checked ? 1 : 0
+    // addStudentList(Number(e.target.id), status)
   }
-  console.log(values)
+
   return (
     <div>
       <div className='h-full py-5'>
@@ -124,15 +146,16 @@ function AddAttendance({ cookies }) {
             </div>
           </div>
           {
-            !values ? (
+            !objects ? (
               <div className='py-6'>
                 <p className='text-secondary-text text-center text-lg font-medium'>Loading Students list ...</p>
                 <CenteredLoading />
               </div>
             ) : (
               <div>
-                {values?.students.map(item => {
+                {objects?.students.map(item => {
                   const { id, rollNumber, full_name } = item
+                  const { subject: { theoryAssessment, practicalAssessment, type } } = objects
                   return <div key={id} className="grid grid-cols-marksBottom mb-1">
                     <div className=''>
                       <p className='text-clrgrey1 font-medium text-lg'>
@@ -148,31 +171,33 @@ function AddAttendance({ cookies }) {
                       <form action='' className="grid grid-cols-4 gap-6 w-full " onSubmit={(e) => e.preventDefault()}>
                         <div className=''>
                           <p className='text-clrgrey1  font-medium text-lg text-center'>
-                            25
+                            {theoryAssessment ? theoryAssessment : "-"}
                           </p>
                         </div>
                         <div>
                           <input
-                            // value={values.title}
-                            // onChange={handleChange}
-                            type="text"
-                            name='title'
+                            value={values[`th_${id}`]}
+                            onChange={handleChange}
+                            type="number"
+                            name={`th_${id}`}
                             placeholder=''
+                            required
                             className='rounded text-gray-700 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] w-24 bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
                         </div>
                         <div className=''>
                           <p className='text-clrgrey1  font-medium text-lg text-center'>
-                            25
+                            {practicalAssessment ? practicalAssessment : "-"}
                           </p>
                         </div>
                         <div>
                           <input
-                            // value={values.title}
-                            // onChange={handleChange}
-                            type="text"
-                            name='title'
+                            value={values[`pr_${id}`]}
+                            onChange={handleChange}
+                            disabled={!practicalAssessment}
+                            type="number"
+                            name={`pr_${id}`}
                             placeholder=''
-                            className='rounded text-gray-700 w-24 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide' />
+                            className='rounded text-gray-700 w-24 h-8 focus:ring-[#CAF0F8] border-[#CAF0F8] bg-background focus:border-[#CAF0F8] placeholder:text-[#676B6B] placeholder:font-medium placeholder:tracking-wide disabled:bg-slate-400 disabled:border-slate-400 disabled:cursor-not-allowed' />
                         </div>
 
                       </form>
@@ -180,7 +205,7 @@ function AddAttendance({ cookies }) {
                   </div>
                 })}
                 <div className='mt-12 mb-3 flex items-center justify-center'>
-                  <button disabled={process === "submit" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-52 disabled:cursor-not-allowed' onClick={submitAttendance}>
+                  <button disabled={process === "submit" ? false : true} className='bg-[#2091F9] rounded-lg hover: py-[4px] tracking-wider font-medium capitalize text-white text-[20px] px-3 text-clrprimary10 transition-all ease-linear duration-300 w-52 disabled:cursor-not-allowed' onClick={submitMarks}>
                     {process}
                   </button>
                 </div>
