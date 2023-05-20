@@ -46,6 +46,7 @@ function Step1({ csrf }) {
                 if (data.email) {
                     setSignupEmail(data.email)
                 }
+                toast.success("User Verified.")
                 setVerified(data.id)
                 setSignUpSteps(step + 1)
             }

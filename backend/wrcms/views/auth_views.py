@@ -128,6 +128,7 @@ class SignUp(APIView):
                             email = email,
                             role = UserRole.objects.get(type='Parent'),
                             identificationDocumentType = 'Citizenship',
+                            identificationDocumentNumber = 'XX-XX-XX-XXXXX',
                             dateOfBirth = 'YYYY/MM/DD'
                         )
                         Parent.objects.create(
@@ -147,7 +148,11 @@ class SignUp(APIView):
                             lastName = splitParentName[1],
                             address = address,
                             contact = contactNumber,
-                            role = UserRole.objects.get(type='Parent')
+                            email = email,
+                            role = UserRole.objects.get(type='Parent'),
+                            identificationDocumentType = 'Citizenship',
+                            identificationDocumentNumber = 'XX-XX-XX-XXXXX',
+                            dateOfBirth = 'YYYY/MM/DD'
                         )
                         Parent.objects.create(
                             user = user,
