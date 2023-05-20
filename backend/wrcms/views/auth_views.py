@@ -7,6 +7,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.utils.decorators import method_decorator
 from django.contrib.auth import authenticate, login, logout
 from rest_framework import status
+from ..email import send_welcome_message
 
 
 @method_decorator(ensure_csrf_cookie, name='dispatch')
@@ -124,13 +125,17 @@ class SignUp(APIView):
                             lastName = splitParentName[2],
                             address = address,
                             contact = contactNumber,
-                            role = UserRole.objects.get(type='Parent')
+                            email = email,
+                            role = UserRole.objects.get(type='Parent'),
+                            identificationDocumentType = 'Citizenship',
+                            dateOfBirth = 'YYYY/MM/DD'
                         )
                         Parent.objects.create(
                             user = user,
                             userProfile = userProfile,
                             parentOf = student
                         )
+                        send_welcome_message(userProfile)
                         student.isParentRegistered = True
                         student.save()
                         return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
@@ -151,6 +156,7 @@ class SignUp(APIView):
                         )
                         student.isParentRegistered = True
                         student.save()
+                        send_welcome_message(userProfile)
                         return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -171,6 +177,7 @@ class SignUp(APIView):
                         teacher.user = user
                         teacherUserProfile.save()
                         teacher.save()
+                        send_welcome_message(teacherUserProfile)
                         return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -188,6 +195,7 @@ class SignUp(APIView):
                         student.user = user
                         studentUserProfile.save()
                         student.save()
+                        send_welcome_message(studentUserProfile)
                         return Response({'msg': 'Signed up successfully.'}, status=status.HTTP_200_OK)
                 except:
                     return Response({'msg': 'Error while signing up!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -210,7 +218,13 @@ class LoginView(APIView):
             loggedInUser = User.objects.get(username=username)
             profile = UserProfile.objects.get(user=loggedInUser)
             response.set_cookie('role', profile.role.type)
-            response.data = {'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName()}
+            if (profile.role.type == 'Student'):
+                responseData = {'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName(), 'semester':profile.student.cLass.semester}
+            elif (profile.role.type == 'Parent'):
+                responseData = {'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName(), 'semester':profile.parent.parentOf.cLass.semester}
+            else:
+                responseData = {'msg': 'User logged in successfully!', 'username': username, 'role':profile.role.type, 'name':profile.getFullName()}
+            response.data = responseData
             return response
         else:
             return Response({'msg': 'Incorrect password!'}, status=status.HTTP_400_BAD_REQUEST)

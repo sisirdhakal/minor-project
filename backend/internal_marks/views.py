@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Lecture, Student, ProgramSubject
+from wrcms.models import UserProfile, Teacher, Lecture, Student, ProgramSubject, Parent, Subject
 from .models import InternalMark
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
@@ -9,6 +9,7 @@ from rest_framework import status
 from wrcms.serializers.attendance_serializers import LectureSerializer, StudentSerializer
 from wrcms_admin.serializers import SubjectSerializer
 from django.db import transaction
+from .serializers import LectureInternalMarkSerializer, StudentViewInternalMarkSerializer
 
 @method_decorator(csrf_protect, name='dispatch')
 class AddInternalMarks(APIView):
@@ -83,10 +84,57 @@ class ViewInternalMarks(APIView):
         try:
             userProfile = UserProfile.objects.get(user=user)
             lecture = Lecture.objects.get(id=id)
-            subject = lecture.subject
             if userProfile.role.type == "Teacher":
-                pass
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                if lecture.teacher==teacher or lecture.teacher2==teacher:
+                    if (lecture.internalMarksAdded == True):
+                        serializer = LectureInternalMarkSerializer(lecture, many=False)
+                        return Response(serializer.data, status=status.HTTP_200_OK)
+                    else:
+                        return Response({'msg': 'No internal marks added.'}, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
             else:
                 return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response({'msg': 'Lecture unavailable.'}, status=status.HTTP_404_NOT_FOUND)
+        
+
+@method_decorator(csrf_protect, name='dispatch')
+class StudentViewInternalMarks(APIView):
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get(self, request, sem, format=None):
+        user = request.user
+        # try:
+        userProfile = UserProfile.objects.get(user=user)
+        if userProfile.role.type == "Student":
+            student = Student.objects.get(user=user, userProfile=userProfile)
+            program = student.cLass.program
+            programSubjects = ProgramSubject.objects.filter(semester=sem)
+            serializerContext = {"semester": sem}
+            mySubjects = Subject.objects.filter(programsubject__in = programSubjects)
+            subjectSerializer = SubjectSerializer(mySubjects, many=True)
+            serializer = StudentViewInternalMarkSerializer(student, many=False, context=serializerContext)
+            context = {
+                'subjects': subjectSerializer.data,
+                'marks': serializer.data
+            }
+            return Response(context, status=status.HTTP_200_OK)
+        elif userProfile.role.type == "Parent":
+            parent = Parent.objects.get(user=user, userProfile=userProfile)
+            student = parent.parentOf
+            program = student.cLass.program
+            mySubjects = program.subject_set.all()
+            subjectSerializer = SubjectSerializer(mySubjects, many=True)
+            serializer = StudentViewInternalMarkSerializer(student, many=False)
+            context = {
+                'subjects': subjectSerializer.data,
+                'marks': serializer.data
+            }
+            serializer = StudentViewInternalMarkSerializer(student, many=False)
+            return Response(context, status=status.HTTP_200_OK)
+        else:
+            return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
+        # except:
+        #     return Response({'msg': 'Lecture unavailable.'}, status=status.HTTP_404_NOT_FOUND)

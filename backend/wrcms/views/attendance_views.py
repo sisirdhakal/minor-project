@@ -9,6 +9,7 @@ from ..serializers.attendance_serializers import LectureSerializer, LectureDetai
 from django.db.models import Q
 import datetime
 from django.db import transaction
+from ..email import send_student_absent_notification
 
 @method_decorator(csrf_protect, name='dispatch')
 class GetLectures(APIView):
@@ -93,7 +94,7 @@ class AddAttendance(APIView):
                                     Attendance.objects.create(
                                         lecture = lecture,
                                         cLass = lecture.cLass,
-                                        student = Student.objects.get(id=i.id),
+                                        student = i,
                                         status = True,
                                         date = attendanceDate
                                     )
@@ -101,10 +102,16 @@ class AddAttendance(APIView):
                                     Attendance.objects.create(
                                         lecture = lecture,
                                         cLass = lecture.cLass,
-                                        student = Student.objects.get(id=i.id),
+                                        student = i,
                                         status = False,
                                         date = attendanceDate
                                     )
+                                    try:
+                                        parent = Parent.objects.get(parentOf=i)
+                                    except Parent.DoesNotExist:
+                                        parent = None
+                                    if(parent != None):
+                                        send_student_absent_notification(parent, i, lecture, date)
                                 lecture.totalLectureDays += 1
                                 lecture.save()
                                 return Response({'msg': 'Attendance added successfully!'}, status=status.HTTP_200_OK)
