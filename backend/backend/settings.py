@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'wrcms',
     'leaveApplication',
     'wrcms_admin',
+    'internal_marks',
     'corsheaders',
     'cloudinary_storage',
     'cloudinary',

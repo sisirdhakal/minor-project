@@ -10,7 +10,7 @@ class LectureSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lecture
-        fields = ['id', 'subject_name', 'type', 'class_name', 'teacher_name', 'totalLectureDays', 'department_name']
+        fields = ['id', 'subject_name', 'type', 'class_name', 'teacher_name', 'totalLectureDays', 'department_name', 'internalMarksAdded']
 
     def get_class_name(self, obj):
         return obj.cLass.name

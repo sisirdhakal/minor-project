@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework.response import Response
-from wrcms.models import UserProfile, Teacher, Student, Class, Department, Lecture, Notice
+from wrcms.models import UserProfile, Teacher, Student, Class, Department, Lecture, Notice, Batch
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
@@ -32,12 +32,13 @@ class AddNotice(APIView):
                 if teacher==teacher.department.headOfDepartment or teacher==teacher.department.deputyHeadOfDepartment:
                     department = teacher.department
                     deptSerializer = DepartmentSerializer(department, many=False)
-                    lectures = Lecture.objects.filter(teacher=teacher).only('cLass_id')
-                    classes = Class.objects.filter(id__in=lectures)
+                    lectures = Lecture.objects.filter(Q(teacher=teacher)|Q(teacher2=teacher)).only('cLass_id')
+                    batches = Batch.objects.filter(graduated=False)
+                    classes = Class.objects.filter(id__in=lectures, batch__in=batches)
                     classSerializer = ClassSerializer(classes, many=True)
                     return Response({'department': deptSerializer.data, 'class': classSerializer.data}, status=status.HTTP_200_OK)
                 else:
-                    lectures = Lecture.objects.filter(teacher=teacher).only('cLass_id')
+                    lectures = Lecture.objects.filter(Q(teacher=teacher)|Q(teacher2=teacher)).only('cLass_id')
                     classes = Class.objects.filter(id__in=lectures)
                     classSerializer = ClassSerializer(classes, many=True)
                     return Response({'class': classSerializer.data}, status=status.HTTP_200_OK)
