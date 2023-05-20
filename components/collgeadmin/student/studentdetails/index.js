@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CollegeAdminHero from '../../collegeAdminHero'
 import { toast } from 'react-hot-toast'
@@ -6,12 +6,47 @@ import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../../../redux'
+import CenteredLoading from '../../../../common/Loader'
+import ViewMarks from '../../../teacher/internalmarks/viewmarks'
 
 const StudentDetails = ({ cookie, id }) => {
+    const [loadingMarks, setloadingMarks] = useState(false)
+    const [loadingMarksFalse, setloadingMarksFalse] = useState(false)
+    
+    const [selectedSemester, setselectedSemester] = useState(null)
+    const [values, setvalues] = useState([])
 
     const { userDetails } = useSelector(state => state.collegeadmin)
     const dispatch = useDispatch()
     const { setUserDetails } = bindActionCreators(actionCreators, dispatch)
+
+    useEffect(() => {
+        const getData = async () => {
+            if (selectedSemester) {
+                try {
+                    setloadingMarks(true)
+                    const { data } = await axios.get(`http://localhost:8000/api/internal-marks/view/admin/${id}_${selectedSemester}/`, {
+                        withCredentials: true,
+                        headers: {
+                            "X-CSRFTOKEN": cookie.csrftoken
+                        }
+                    })
+                    if (data) {
+                        console.log(data)
+                        setvalues(data)
+                        setloadingMarks(false)
+                    }
+                } catch (error) {
+                    if (error.response?.data.msg) {
+                        setloading(false)
+                        setloadingMarksFalse(true)
+                        toast.error(error.response.data.msg)
+                    }
+                }
+            }
+        }
+        getData()
+    }, [selectedSemester])
 
     useEffect(() => {
         const getData = async () => {
@@ -24,6 +59,7 @@ const StudentDetails = ({ cookie, id }) => {
                 })
                 if (data) {
                     setUserDetails(data)
+                    setselectedSemester(data.semester)
                 }
 
             } catch (error) {
@@ -103,6 +139,45 @@ const StudentDetails = ({ cookie, id }) => {
                             Delete
                         </button>
                     </div>
+                    <div>
+                        <p className='my-3 font-medium'>Internal Marks:</p>
+                        <div className='flex justify-center bg-white rounded-md items-center w-[200px]'>
+                            <select
+                                className='bg-slate-300 py-[0px] flex justify-center items-center h-[36px] border-0 rounded cursor-pointer text-clrgrey1 font-medium focus:ring-0'
+                                placeholder='hod'
+                                name='lecture'
+                                value={selectedSemester ?? 0}
+                                onChange={e => setselectedSemester(e.target.value)}
+                            >
+                                <option value="" disabled defaultValue>Select semester</option>
+                                {Array.from({ length: userDetails?.semester }, (_, index) => (
+                                    <option key={index + 1} value={index + 1} className=''>{index + 1} Semester</option>
+                                ))}
+                            </select>
+                        </div>
+                                <div>
+                            {
+                                loadingMarks ?
+                                    (<div className='py-6 bg-white rounded-md'>
+                                        <p className='text-secondary-text text-center text-lg font-medium'>Loading Marks ...</p>
+                                        <CenteredLoading />
+                                    </div>) :
+                                    loadingMarksFalse ?
+                                        (<div>
+                                            <div className='py-6'>
+                                                <p className='text-[#ff0000] text-center text-xl font-medium'>
+                                                    Failed to load marks ...</p>
+
+                                            </div>
+                                        </div>) :
+                                        <div>
+                                            <ViewMarks values={values} />
+                                        </div>
+                            }
+                        </div>
+                        
+                    </div>
+                    
                 </div>
             </div>
 
