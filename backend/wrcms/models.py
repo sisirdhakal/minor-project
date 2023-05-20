@@ -183,6 +183,7 @@ class Lecture(models.Model):
     teacher2 = models.ForeignKey(Teacher, on_delete=models.SET_NULL, null=True, blank=True, related_name='Teacher_two')
     isArchived = models.BooleanField(default=False)
     totalLectureDays = models.IntegerField(default=0)
+    internalMarksAdded = models.BooleanField(default=False)
 
     def getLectureName(self):
         teacher = self.teacher.userProfile.getFullName()
