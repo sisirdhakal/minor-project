@@ -44,7 +44,7 @@ function SigninComp({ csrf }) {
 
     try {
       setProcess("logging in ...")
-      const { data: { msg, role, username, name } } = await axios.post("http://localhost:8000/api/login/",
+      const { data: { msg, role, name, semester } } = await axios.post("http://localhost:8000/api/login/",
         values,
         {
           withCredentials: true,
@@ -55,6 +55,8 @@ function SigninComp({ csrf }) {
 
       if (msg) {
         localStorage.setItem("userName", name)
+        if (semester)
+          localStorage.setItem("semester", semester)
         toast.success(msg)
         let test = role.toLowerCase()
         sidebarUser(test)

@@ -98,13 +98,13 @@ export const sidebarOptions = {
 
         },
 
-        // {
-        //     id: 7,
-        //     icon: "/assets/images/results.svg",
-        //     url: "/student/results",
-        //     name: "results",
+        {
+            id: 7,
+            icon: "/assets/images/results.svg",
+            url: "/student/internalmarks",
+            name: "internal marks",
 
-        // },
+        },
         {
             id: 8,
             icon: "/assets/images/feedback.svg",
