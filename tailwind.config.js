@@ -53,7 +53,9 @@ module.exports = {
       },
       gridTemplateColumns: {
         "auto": "1fr auto",
-        "autofirst":"auto 1fr"
+        "autofirst": "auto 1fr",
+        "marksTop": "160px 268px auto auto auto auto",
+        "marksBottom": "160px 280px 1fr"
       }
     },
   },

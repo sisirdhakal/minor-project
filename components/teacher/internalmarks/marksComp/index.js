@@ -25,7 +25,8 @@ function InternalMarksComp({ lectures }) {
                                 </div>
                                 <div className='grid grid-cols-2'>
                                     <div className=' items-center flex'>
-                                        <h1 className='text-clrgrey1 mb-3 font-bold text-lg'>Total Lectures : <span >{totalLectureDays ?? totalLabDays}</span></h1>
+                                        
+
 
                                     </div>
                                     <div className='grid grid-cols-3  gap-4 items-center px-3'>
@@ -35,12 +36,12 @@ function InternalMarksComp({ lectures }) {
                                             </button>
                                         </Link>
                                         <Link href={`/teacher/internalmarks/${id}?type=edit`}>
-                                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider w-full font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                            <button disabled={!internalMarksAdded}  className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider w-full font-medium text-white text-xl px-3 text-clrprimary10 transition-all ease-linear duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed'>
                                                 Edit
                                             </button>
                                         </Link>
                                         <Link href={`/teacher/internalmarks/${id}?type=view`}>
-                                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium w-full text-xl text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                            <button disabled={!internalMarksAdded}  className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium w-full text-xl text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed'>
                                                 View
                                             </button>
                                         </Link>

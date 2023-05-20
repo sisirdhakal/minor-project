@@ -10,6 +10,9 @@ import EditAttendance from '../../../components/attendance/EditAttendance';
 import ViewAttendance from '../../../components/attendance/ViewAttendance';
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { actionCreators } from '../../../redux';
+import Viewmarks from '../../../components/teacher/internalmarks/viewmarks';
+import EditMarks from '../../../components/teacher/internalmarks/editmarks';
+import Addmarks from '../../../components/teacher/internalmarks/addmarks';
 
 function InternalMarksComp({ cookies }) {
 
@@ -57,7 +60,7 @@ function InternalMarksComp({ cookies }) {
             </div>
             <div>
                 {
-                    type === "view" ? (<ViewAttendance cookies={cookies} />) : type === "edit" ? (<EditAttendance cookies={cookies} />) : (<AddAttendance cookies={cookies} />)
+                    type === "view" ? (<Viewmarks cookies={cookies} />) : type === "edit" ? (<EditMarks cookies={cookies} />) : (<Addmarks cookies={cookies} />)
                 }
             </div>
 
