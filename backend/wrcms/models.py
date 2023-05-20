@@ -46,7 +46,7 @@ class UserProfile(models.Model):
     temporaryAddress = models.CharField(max_length=255, null=True, blank=True)
     nationality = models.CharField(max_length=255, null=True, blank=True)
     identificationDocumentType = models.CharField(max_length=12, choices=ID_TYPE_CHOICES, null=True, blank=True)
-    identificationDocumentNumber = models.CharField(max_length=255, unique=True)
+    identificationDocumentNumber = models.CharField(max_length=255, null=True, blank=True)
     dateOfBirth = models.CharField(max_length=10)
     date_added = models.DateField(auto_now=True, blank=True, null=True)
     photo = models.ImageField(upload_to='profile-pictures/', null=True, blank=True)
