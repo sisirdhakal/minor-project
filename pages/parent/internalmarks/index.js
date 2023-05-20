@@ -23,6 +23,7 @@ function InternalMarks({ cookies }) {
             if (selectedSemester) {
                 try {
                     setloading(true)
+                    console.log(selectedSemester)
                     const { data } = await axios.get(`http://localhost:8000/api/internal-marks/view/student/${selectedSemester}/`, {
                         withCredentials: true,
                         headers: {
@@ -40,6 +41,7 @@ function InternalMarks({ cookies }) {
                         toast.error(error.response.data.msg)
                     }
                 }
+
             }
         }
         getData()

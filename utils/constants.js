@@ -150,13 +150,13 @@ export const sidebarOptions = {
             name: "teacher advice",
 
         },
-        // {
-        //     id: 3,
-        //     icon: "/assets/images/results.svg",
-        //     url: "/parent/results",
-        //     name: "results",
+        {
+            id: 3,
+            icon: "/assets/images/results.svg",
+            url: "/parent/internalmarks",
+            name: "internal marks",
 
-        // },
+        },
         {
             id: 4,
             icon: "/assets/images/attendance.svg",
