@@ -25,14 +25,14 @@ function InternalMarks({ cookies }) {
         const getData = async () => {
             if (selectedSemester) {
                 try {
-                    const { data } = await axios.get(`http://localhost:8000/api/internal-marks/view/student/${selectedSemester}/`, {
+                    const { data } = await axios.get(`http://localhost:8000/api/internal-marks/view/student/${selectedSemester}`, {
                         withCredentials: true,
                         headers: {
                             "X-CSRFTOKEN": cookies.csrftoken
                         }
                     })
                     if (data) {
-                        console.log(data)
+                        setvalues(data)
                     }
                 } catch (error) {
                     if (error.response?.data.msg) {
