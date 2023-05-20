@@ -153,10 +153,10 @@ class Subject(models.Model):
     # program = models.ForeignKey(Program, on_delete=models.CASCADE, null=True)
     type = models.CharField(max_length=10, choices=SUBJECT_TYPE_CHOICES, null=True, blank=True)
     # semester = models.IntegerField()
-    theoryAssessment = models.IntegerField(null=True, blank=True)
-    theoryFinal = models.IntegerField(null=True, blank=True)
-    practicalAssessment = models.IntegerField(null=True, blank=True)
-    practicalFinal = models.IntegerField(null=True, blank=True)
+    theoryAssessment = models.IntegerField(default=0)
+    theoryFinal = models.IntegerField(default=0)
+    practicalAssessment = models.IntegerField(default=0)
+    practicalFinal = models.IntegerField(default=0)
     programs = models.ManyToManyField('wrcms.Program', through='wrcms.ProgramSubject')
 
     def __str__(self):
