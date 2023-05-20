@@ -6,16 +6,20 @@ from wrcms.serializers.attendance_serializers import StudentSerializer, LectureS
 class InternalMarkSerializer(serializers.ModelSerializer):
     theoryFM = serializers.SerializerMethodField(read_only=True)
     practicalFM = serializers.SerializerMethodField(read_only=True)
+    subject_name = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = InternalMark
-        fields = ['id', 'theoryFM', 'practicalFM', 'theoryAssessment', 'practicalAssessment']
+        fields = ['id', 'subject', 'subject_name', 'theoryFM', 'practicalFM', 'theoryAssessment', 'practicalAssessment']
 
     def get_theoryFM(self, obj):
         return obj.subject.theoryAssessment
     
     def get_practicalFM(self, obj):
         return obj.subject.practicalAssessment
+    
+    def get_subject_name(self, obj):
+        return obj.subject.name
 
 class StudentInternalMarkSerializer(StudentSerializer):
     internalMark = serializers.SerializerMethodField(read_only=True)
@@ -44,5 +48,18 @@ class LectureInternalMarkSerializer(LectureSerializer):
         context = {"lecture_id": obj.id}
         students = sorted(Student.objects.filter(cLass=obj.cLass), key=lambda x:x.rollNumber[-3:])
         serializer = StudentInternalMarkSerializer(students, many=True, context=context)
+        return serializer.data
+    
+
+class StudentViewInternalMarkSerializer(StudentSerializer):
+    internalMarks = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Student
+        fields = ['id', 'rollNumber', 'full_name', 'internalMarks']
+
+    def get_internalMarks(self, obj):
+        marks = InternalMark.objects.filter(student=obj).order_by('semester')
+        serializer = InternalMarkSerializer(marks, many=True)
         return serializer.data
         
