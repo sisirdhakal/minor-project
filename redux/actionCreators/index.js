@@ -17,7 +17,8 @@ import {
 } from './collegeAdmin'
 
 import {
-    setMarksObject
+    setMarksObject,
+    setMarksObjectFalse
 } from './marks'
 
 export {
@@ -52,5 +53,6 @@ export {
     setSuccessFalse,
     setAllTeachers,
     resetStudentList,
-    setMarksObject
+    setMarksObject,
+    setMarksObjectFalse
 }

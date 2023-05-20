@@ -4,6 +4,9 @@
 export const setMarksObject = (value) => async dispatch => {
     dispatch({ type: "SET_ALL_MARKS_OBJECT", payload: value })
 }
+export const setMarksObjectFalse = (value) => async dispatch => {
+    dispatch({ type: "SET_ALL_MARKS_FALSE" })
+}
 
 
 // export const setActiveNotice = (value) => async dispatch => {

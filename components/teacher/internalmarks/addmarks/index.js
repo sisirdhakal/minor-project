@@ -14,7 +14,7 @@ function AddAttendance({ cookies }) {
 
   const { query: { id: lectureId } } = useRouter()
   const dispatch = useDispatch()
-  const { setMarksObject } = bindActionCreators(actionCreators, dispatch)
+  const { setMarksObject, setMarksObjectFalse } = bindActionCreators(actionCreators, dispatch)
   const { fetched, objects } = useSelector(state => state.marks)
   const router = useRouter()
   const [process, setProcess] = useState("submit")
@@ -95,6 +95,7 @@ function AddAttendance({ cookies }) {
       })
       if (data) {
         toast.success(data.msg)
+        setMarksObjectFalse()
         setValues([])
         router.push("/teacher/internalmarks")
       }
