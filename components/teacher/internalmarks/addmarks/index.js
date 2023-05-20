@@ -73,6 +73,15 @@ function AddAttendance({ cookies }) {
       return toast.error("Please fill all the student's marks")
     }
 
+    const { subject: { theoryAssessment, practicalAssessment, type } } = objects
+
+
+    const hasGreaterThan = values.some((mark) => Number(mark.th) > Number(theoryAssessment) || Number(mark.pr) > Number(practicalAssessment));
+
+    if (hasGreaterThan) {
+      return toast.error("Invalid the student's marks")
+    }
+
     setProcess("submitting ...")
     try {
       const details = {
@@ -86,7 +95,7 @@ function AddAttendance({ cookies }) {
       })
       if (data) {
         toast.success(data.msg)
-        setValues(null)
+        setValues([])
         router.push("/teacher/internalmarks")
       }
 
@@ -96,11 +105,6 @@ function AddAttendance({ cookies }) {
         toast.error(error.response.data.msg)
       }
     }
-  }
-
-  const pushStudent = (e) => {
-    // let status = e.target.checked ? 1 : 0
-    // addStudentList(Number(e.target.id), status)
   }
 
   return (
