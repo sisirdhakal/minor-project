@@ -74,7 +74,6 @@ class AddAttendance(APIView):
         date = data['date']
         attendanceDate = datetime.datetime.strptime(date, "%Y/%m/%d")
         attendances = data['attendance']
-        print(attendances)
         if attendances and len(attendances)==0:
             return Response({'msg': 'No attendance data'}, status=status.HTTP_401_UNAUTHORIZED)
         else:

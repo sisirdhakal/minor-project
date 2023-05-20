@@ -15,3 +15,17 @@ def send_student_absent_notification(parent, student, lecture, date):
     )
     mail.content_subtype = "html"
     return mail.send(fail_silently=True)
+
+def send_welcome_message(user):
+    message = get_template("welcome_message.html").render({
+        'userProfile': user
+    })
+    mail = EmailMessage(
+        subject="Welcome to WRCMS",
+        body=message,
+        from_email=settings.EMAIL_HOST_USER,
+        to=[user.email],
+        reply_to=[settings.EMAIL_HOST_USER],
+    )
+    mail.content_subtype = "html"
+    return mail.send(fail_silently=True)

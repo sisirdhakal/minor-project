@@ -8,6 +8,6 @@ urlpatterns = [
     # path('delete/<str:id>/', DeleteLeaveRequest.as_view()),
     # path('edit/<str:id>/', EditLeaveRequest.as_view()),
     path('add/<str:id>/', AddInternalMarks.as_view()),
-    path('view/student/', StudentViewInternalMarks.as_view()),
+    path('view/student/<str:sem>', StudentViewInternalMarks.as_view()),
     path('view/<str:id>/', ViewInternalMarks.as_view()),
 ]

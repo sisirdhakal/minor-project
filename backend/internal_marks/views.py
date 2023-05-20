@@ -104,16 +104,18 @@ class ViewInternalMarks(APIView):
 class StudentViewInternalMarks(APIView):
     permission_classes = (permissions.IsAuthenticated, )
 
-    def get(self, request, format=None):
+    def get(self, request, sem, format=None):
         user = request.user
         # try:
         userProfile = UserProfile.objects.get(user=user)
         if userProfile.role.type == "Student":
             student = Student.objects.get(user=user, userProfile=userProfile)
             program = student.cLass.program
-            mySubjects = program.subject_set.all()
+            programSubjects = ProgramSubject.objects.filter(semester=sem)
+            serializerContext = {"semester": sem}
+            mySubjects = Subject.objects.filter(programsubject__in = programSubjects)
             subjectSerializer = SubjectSerializer(mySubjects, many=True)
-            serializer = StudentViewInternalMarkSerializer(student, many=False)
+            serializer = StudentViewInternalMarkSerializer(student, many=False, context=serializerContext)
             context = {
                 'subjects': subjectSerializer.data,
                 'marks': serializer.data

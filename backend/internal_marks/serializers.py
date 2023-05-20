@@ -59,7 +59,8 @@ class StudentViewInternalMarkSerializer(StudentSerializer):
         fields = ['id', 'rollNumber', 'full_name', 'internalMarks']
 
     def get_internalMarks(self, obj):
-        marks = InternalMark.objects.filter(student=obj).order_by('semester')
+        semester = self.context.get("semester")
+        marks = InternalMark.objects.filter(student=obj, semester=semester)
         serializer = InternalMarkSerializer(marks, many=True)
         return serializer.data
         
