@@ -6,9 +6,8 @@ from .models import InternalMark
 from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 from rest_framework import status
-from wrcms.serializers.attendance_serializers import LectureSerializer
+from wrcms.serializers.attendance_serializers import LectureSerializer, StudentSerializer
 from wrcms_admin.serializers import SubjectSerializer
-from wrcms_admin.serializers import StudentSerializer
 from django.db.models import Q
 
 @method_decorator(csrf_protect, name='dispatch')
@@ -23,7 +22,7 @@ class AddInternalMarks(APIView):
             lecture = Lecture.objects.get(id=id)
             subject = lecture.subject
             if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
-                students = Student.objects.filter(cLass=lecture.cLass)
+                students = sorted(Student.objects.filter(cLass=lecture.cLass), key=lambda x:x.rollNumber[-3:])
                 studentSerializer = StudentSerializer(students, many=True)
                 lectureSerializer = LectureSerializer(lecture, many=False)
                 subjectSerializer = SubjectSerializer(subject, many=False)
