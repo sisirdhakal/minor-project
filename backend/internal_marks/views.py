@@ -9,6 +9,7 @@ from rest_framework import status
 from wrcms.serializers.attendance_serializers import LectureSerializer, StudentSerializer
 from wrcms_admin.serializers import SubjectSerializer
 from django.db import transaction
+from .serializers import LectureInternalMarkSerializer
 
 @method_decorator(csrf_protect, name='dispatch')
 class AddInternalMarks(APIView):
@@ -83,9 +84,16 @@ class ViewInternalMarks(APIView):
         try:
             userProfile = UserProfile.objects.get(user=user)
             lecture = Lecture.objects.get(id=id)
-            subject = lecture.subject
             if userProfile.role.type == "Teacher":
-                pass
+                teacher = Teacher.objects.get(user=user, userProfile=userProfile)
+                if lecture.teacher==teacher or lecture.teacher2==teacher:
+                    if (lecture.internalMarksAdded == True):
+                        serializer = LectureInternalMarkSerializer(lecture, many=False)
+                        return Response(serializer.data, status=status.HTTP_200_OK)
+                    else:
+                        return Response({'msg': 'No internal marks added.'}, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
             else:
                 return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:

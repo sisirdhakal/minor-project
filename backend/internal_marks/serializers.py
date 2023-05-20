@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import InternalMark
-from wrcms.models import Student, Lecture
-from wrcms.serializers.attendance_serializers import StudentSerializer
+from wrcms.models import Student, Lecture, ProgramSubject
+from wrcms.serializers.attendance_serializers import StudentSerializer, LectureSerializer
 
 class InternalMarkSerializer(serializers.ModelSerializer):
     theoryFM = serializers.SerializerMethodField(read_only=True)
@@ -9,7 +9,13 @@ class InternalMarkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InternalMark
-        fields = ['id', 'theoryFM', 'practicalFM' 'theoryAssessment', 'practicalAssessment']
+        fields = ['id', 'theoryFM', 'practicalFM', 'theoryAssessment', 'practicalAssessment']
+
+    def get_theoryFM(self, obj):
+        return obj.subject.theoryAssessment
+    
+    def get_practicalFM(self, obj):
+        return obj.subject.practicalAssessment
 
 class StudentInternalMarkSerializer(StudentSerializer):
     internalMark = serializers.SerializerMethodField(read_only=True)
@@ -22,7 +28,21 @@ class StudentInternalMarkSerializer(StudentSerializer):
         lecture_id = self.context.get("lecture_id")
         lecture = Lecture.objects.get(id=lecture_id)
         subject = lecture.subject
-        mark = InternalMark.objects.get()
+        semester = ProgramSubject.objects.get(subject=subject, program=lecture.cLass.program).semester
+        mark = InternalMark.objects.get(subject=subject, student=obj, semester=semester)
         serializer = InternalMarkSerializer(mark, many=False)
+        return serializer.data
+    
+class LectureInternalMarkSerializer(LectureSerializer):
+    students = serializers.SerializerMethodField(read_only=True)
+    
+    class Meta:
+        model = Lecture
+        fields = ['id', 'type', 'subject_name', 'class_name', 'department_name', 'students']
+
+    def get_students(self, obj):
+        context = {"lecture_id": obj.id}
+        students = sorted(Student.objects.filter(cLass=obj.cLass), key=lambda x:x.rollNumber[-3:])
+        serializer = StudentInternalMarkSerializer(students, many=True, context=context)
         return serializer.data
         
