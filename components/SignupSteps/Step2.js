@@ -42,9 +42,9 @@ function Step2() {
                     >
                         {/* <option value="" disabled  hidden>Courtesy Title</option> */}
                         <option value="" disabled defaultValue>Courtesy Title</option>
-                        <option value='Mr.' className='cursor-pointer capitalize'>Mr</option>
-                        <option value='Mrs.' className='cursor-pointer'>Mrs</option>
-                        <option value='Ms.' className='cursor-pointer'>Ms</option>
+                        <option value='Mr.' className='cursor-pointer capitalize'>Mr.</option>
+                        <option value='Mrs.' className='cursor-pointer'>Mrs.</option>
+                        <option value='Ms.' className='cursor-pointer'>Ms.</option>
 
                     </select>
                 </div>
