@@ -69,27 +69,27 @@ export const sidebarOptions = {
             name: "attendance",
 
         },
-        {
-            id: 3,
-            icon: "/assets/images/complaints.svg",
-            url: "/student/complaints",
-            name: "complaints",
+        // {
+        //     id: 3,
+        //     icon: "/assets/images/complaints.svg",
+        //     url: "/student/complaints",
+        //     name: "complaints",
 
-        },
-        {
-            id: 4,
-            icon: "/assets/images/credits.svg",
-            url: "/student/credits",
-            name: "Credits/Payments",
+        // },
+        // {
+        //     id: 4,
+        //     icon: "/assets/images/credits.svg",
+        //     url: "/student/credits",
+        //     name: "Credits/Payments",
 
-        },
-        {
-            id: 5,
-            icon: "/assets/images/exam.svg",
-            url: "/student/exams",
-            name: "exams",
+        // },
+        // {
+        //     id: 5,
+        //     icon: "/assets/images/exam.svg",
+        //     url: "/student/exams",
+        //     name: "exams",
 
-        },
+        // },
         {
             id: 6,
             icon: "/assets/images/notice.svg",
@@ -311,18 +311,37 @@ export const sidebarOptions = {
     ]
 }
 
-export const statsOptions = [
+export const studentStatsOptions = [
     {
         title: 'Due',
         icon: "/assets/images/payment.svg",
         id: 2,
-        body: "No Due!"
+        body: "No Due!",
+        url: ""
     },
     {
         title: 'Advice',
         icon: "/assets/images/feedbackImage.svg",
         id: 3,
-        body: "See Advices from your teachers."
+        body: "See Advices from your teachers.",
+        url: "/student/teacheradvice"
+    },
+]
+
+export const statsOptions = [
+    {
+        title: 'Due',
+        icon: "/assets/images/payment.svg",
+        id: 2,
+        body: "No Due!",
+        url: ""
+    },
+    {
+        title: 'Advice',
+        icon: "/assets/images/feedbackImage.svg",
+        id: 3,
+        body: "See Advices from your teachers.",
+        url: "/parent/teacheradvice/"
     },
 ]
 

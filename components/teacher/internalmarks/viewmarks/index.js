@@ -8,7 +8,7 @@ function ViewMarks({ values }) {
         <div className='bg-white p-5 gap-y-3 rounded-md'>
             <div className='grid grid-cols-8 font-semibold text-xl'>
                 <div className='col-span-3'>Subject</div>
-                <div className='text-center'>Subject</div>
+                <div className='text-center'>Type</div>
                 <div className='text-center'>Theory FM</div>
                 <div className='text-center'>Theory OM</div>
                 <div className='text-center'>Practical FM</div>

@@ -3,9 +3,12 @@ from .views.auth_views import *
 from .views.attendance_views import *
 from .views.notice_views import *
 from .views.teacher_advice_views import *
+from .views.dashboard_views import *
 
 
 urlpatterns = [
+    path('dashboard/', Dashboard.as_view()),
+
     # authentication
     path('check-auth/', CheckAuthenticated.as_view()),
     path('get-csrf/', GetCSRFToken.as_view()),

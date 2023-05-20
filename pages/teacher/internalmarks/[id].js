@@ -13,6 +13,7 @@ import { actionCreators } from '../../../redux';
 import Viewmarks from '../../../components/teacher/internalmarks/viewmarks';
 import EditMarks from '../../../components/teacher/internalmarks/editmarks';
 import Addmarks from '../../../components/teacher/internalmarks/addmarks';
+import ViewMarks from '../../../components/teacher/internalmarks/teacherViewMarks';
 
 function InternalMarksComp({ cookies }) {
 
@@ -60,7 +61,7 @@ function InternalMarksComp({ cookies }) {
             </div>
             <div>
                 {
-                    type === "view" ? (<Viewmarks cookies={cookies} />) : type === "edit" ? (<EditMarks cookies={cookies} />) : (<Addmarks cookies={cookies} />)
+                    type === "view" ? (<ViewMarks cookies={cookies} id={lectureId} />) : type === "edit" ? (<EditMarks cookies={cookies} />) : (<Addmarks cookies={cookies} />)
                 }
             </div>
 
