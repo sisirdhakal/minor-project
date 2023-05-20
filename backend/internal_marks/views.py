@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from rest_framework import status
 from wrcms.serializers.attendance_serializers import LectureSerializer, StudentSerializer
 from wrcms_admin.serializers import SubjectSerializer
-from django.db.models import Q
+from django.db import transaction
 
 @method_decorator(csrf_protect, name='dispatch')
 class AddInternalMarks(APIView):
@@ -47,23 +47,27 @@ class AddInternalMarks(APIView):
             subject = lecture.subject
             if userProfile.role.type == "Teacher" and (lecture.teacher==requestedTeacher or lecture.teacher2==requestedTeacher):
                 marks = data['marks']
-                for mark in marks:
-                    InternalMark.objects.create(
-                        student = Student.objects.get(id=int(mark['id'])),
-                        subject = subject,
-                        theoryAssessment = int(mark['th']),
-                        practicalAssessment = int(mark['pr']),
-                        semester = ProgramSubject.objects.get(subject=subject, program=lecture.cLass.program)
-                    )
-                if(subject.type == "Both"):
-                    allLectures = Lecture.objects.filter(subject=subject, cLass=lecture.cLass)
-                    for lec in allLectures:
-                        lec.internalMarksAdded = True
-                        lec.save()
-                else:
-                    lecture.internalMarksAdded = True
-                    lecture.save()
-                return Response({'msg': 'Internal marks added successfully.'}, status=status.HTTP_200_OK)
+                try:
+                    with transaction.atomic():
+                        for mark in marks:
+                            InternalMark.objects.create(
+                                student = Student.objects.get(id=int(mark['id'])),
+                                subject = subject,
+                                theoryAssessment = int(mark['th']),
+                                practicalAssessment = int(mark['pr']),
+                                semester = ProgramSubject.objects.get(subject=subject, program=lecture.cLass.program).semester
+                            )
+                        if(subject.type == "Both"):
+                            allLectures = Lecture.objects.filter(subject=subject, cLass=lecture.cLass)
+                            for lec in allLectures:
+                                lec.internalMarksAdded = True
+                                lec.save()
+                        else:
+                            lecture.internalMarksAdded = True
+                            lecture.save()
+                        return Response({'msg': 'Internal marks added successfully.'}, status=status.HTTP_200_OK)
+                except:
+                    return Response({'msg': 'Database error!'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:
                 return Response({'msg': 'Unauthorized to add marks.'}, status=status.HTTP_401_UNAUTHORIZED)
         except:
