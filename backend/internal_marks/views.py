@@ -106,35 +106,37 @@ class StudentViewInternalMarks(APIView):
 
     def get(self, request, sem, format=None):
         user = request.user
-        # try:
-        userProfile = UserProfile.objects.get(user=user)
-        if userProfile.role.type == "Student":
-            student = Student.objects.get(user=user, userProfile=userProfile)
-            program = student.cLass.program
-            programSubjects = ProgramSubject.objects.filter(semester=sem)
-            serializerContext = {"semester": sem}
-            mySubjects = Subject.objects.filter(programsubject__in = programSubjects)
-            subjectSerializer = SubjectSerializer(mySubjects, many=True)
-            serializer = StudentViewInternalMarkSerializer(student, many=False, context=serializerContext)
-            context = {
-                'subjects': subjectSerializer.data,
-                'marks': serializer.data
-            }
-            return Response(context, status=status.HTTP_200_OK)
-        elif userProfile.role.type == "Parent":
-            parent = Parent.objects.get(user=user, userProfile=userProfile)
-            student = parent.parentOf
-            program = student.cLass.program
-            mySubjects = program.subject_set.all()
-            subjectSerializer = SubjectSerializer(mySubjects, many=True)
-            serializer = StudentViewInternalMarkSerializer(student, many=False)
-            context = {
-                'subjects': subjectSerializer.data,
-                'marks': serializer.data
-            }
-            serializer = StudentViewInternalMarkSerializer(student, many=False)
-            return Response(context, status=status.HTTP_200_OK)
-        else:
-            return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
-        # except:
-        #     return Response({'msg': 'Lecture unavailable.'}, status=status.HTTP_404_NOT_FOUND)
+        try:
+            userProfile = UserProfile.objects.get(user=user)
+            if userProfile.role.type == "Student":
+                student = Student.objects.get(user=user, userProfile=userProfile)
+                program = student.cLass.program
+                programSubjects = ProgramSubject.objects.filter(semester=sem, program=program)
+                serializerContext = {"semester": sem}
+                mySubjects = Subject.objects.filter(programsubject__in = programSubjects)
+                subjectSerializer = SubjectSerializer(mySubjects, many=True)
+                serializer = StudentViewInternalMarkSerializer(student, many=False, context=serializerContext)
+                context = {
+                    'subjects': subjectSerializer.data,
+                    'marks': serializer.data
+                }
+                return Response(context, status=status.HTTP_200_OK)
+            elif userProfile.role.type == "Parent":
+                parent = Parent.objects.get(user=user, userProfile=userProfile)
+                student = parent.parentOf
+                program = student.cLass.program
+                programSubjects = ProgramSubject.objects.filter(semester=sem, program=program)
+                serializerContext = {"semester": sem}
+                mySubjects = Subject.objects.filter(programsubject__in = programSubjects)
+                subjectSerializer = SubjectSerializer(mySubjects, many=True)
+                serializer = StudentViewInternalMarkSerializer(student, many=False, context=serializerContext)
+                context = {
+                    'subjects': subjectSerializer.data,
+                    'marks': serializer.data
+                }
+                serializer = StudentViewInternalMarkSerializer(student, many=False)
+                return Response(context, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Unauthorized to view marks.'}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({'msg': 'Lecture unavailable.'}, status=status.HTTP_404_NOT_FOUND)
