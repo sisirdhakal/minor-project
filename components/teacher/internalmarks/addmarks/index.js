@@ -12,7 +12,7 @@ import CenteredLoading from '../../../../common/Loader'
 
 function AddAttendance({ cookies }) {
 
-  const { query: { id: lectureId, type } } = useRouter()
+  const { query: { id: lectureId } } = useRouter()
   const dispatch = useDispatch()
   const { setMarksObject } = bindActionCreators(actionCreators, dispatch)
   const { fetched, objects } = useSelector(state => state.marks)
@@ -67,38 +67,35 @@ function AddAttendance({ cookies }) {
 
   const submitMarks = async () => {
 
-    const hasEmptyString = values.marks.some((mark) => mark.th === "");
+    const hasEmptyString = values.some((mark) => mark.th === "");
 
-    const details = {
-      marks: values
+    if (hasEmptyString) {
+      return toast.error("Please fill all the student's marks")
     }
-    console.log(details)
-    // try {
-    //   setProcess("submitting ...")
-    //   const date = dayjs(dateValue).format("YYYY/MM/DD")
-    //   setDayAttendance(lectureId, date)
-    //   const details = {
-    //     date: date,
-    //     attendance: [...studentsList]
-    //   }
-    //   const { data } = await axios.post(`http://localhost:8000/api/add-attendance/${lectureId}/`, details, {
-    //     withCredentials: true,
-    //     headers: {
-    //       "X-CSRFTOKEN": cookies.csrftoken
-    //     }
-    //   })
-    //   if (data) {
-    //     toast.success(data.msg)
-    //     resetStudentList()
-    //     router.push("/teacher/attendance")
-    //   }
 
-    // } catch (error) {
-    //   setProcess("submit")
-    //   if (error.response?.data.msg) {
-    //     toast.error(error.response.data.msg)
-    //   }
-    // }
+    setProcess("submitting ...")
+    try {
+      const details = {
+        marks: values
+      }
+      const { data } = await axios.post(`http://localhost:8000/api/internal-marks/add/${lectureId}/`, details, {
+        withCredentials: true,
+        headers: {
+          "X-CSRFTOKEN": cookies.csrftoken
+        }
+      })
+      if (data) {
+        toast.success(data.msg)
+        setValues(null)
+        router.push("/teacher/internalmarks")
+      }
+
+    } catch (error) {
+      setProcess("submit")
+      if (error.response?.data.msg) {
+        toast.error(error.response.data.msg)
+      }
+    }
   }
 
   const pushStudent = (e) => {
