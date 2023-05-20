@@ -8,6 +8,7 @@ export const getTheoryLectures = async (cookie) => {
             "X-CSRFTOKEN": cookie.csrftoken
         }
     })
+    console.log(theoryData)
     return theoryData;
 }
 export const getPracticalLectures = async (cookie) => {

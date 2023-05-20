@@ -211,8 +211,8 @@ export const sidebarOptions = {
         {
             id: 7,
             icon: "/assets/images/results.svg",
-            url: "/teacher/results",
-            name: "results",
+            url: "/teacher/internalmarks",
+            name: "Internal Marks",
 
         },
         {
