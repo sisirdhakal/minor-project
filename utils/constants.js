@@ -69,25 +69,25 @@ export const sidebarOptions = {
             name: "attendance",
 
         },
-        {
-            id: 3,
-            icon: "/assets/images/complaints.svg",
-            url: "/student/complaints",
-            name: "complaints",
+        // {
+        //     id: 3,
+        //     icon: "/assets/images/complaints.svg",
+        //     url: "/student/complaints",
+        //     name: "complaints",
 
-        },
-        {
-            id: 4,
-            icon: "/assets/images/credits.svg",
-            url: "/student/credits",
-            name: "Credits/Payments",
+        // },
+        // {
+        //     id: 4,
+        //     icon: "/assets/images/credits.svg",
+        //     url: "/student/credits",
+        //     name: "Credits/Payments",
 
-        },
+        // },
         {
             id: 5,
             icon: "/assets/images/exam.svg",
-            url: "/student/exams",
-            name: "exams",
+            url: "/student/routine",
+            name: "routine",
 
         },
         {
@@ -180,20 +180,20 @@ export const sidebarOptions = {
             name: "attendance",
 
         },
-        {
-            id: 3,
-            icon: "/assets/images/complaints.svg",
-            url: "/teacher/complaints",
-            name: "complaints",
+        // {
+        //     id: 3,
+        //     icon: "/assets/images/complaints.svg",
+        //     url: "/teacher/complaints",
+        //     name: "complaints",
 
-        },
-        {
-            id: 4,
-            icon: "/assets/images/exam.svg",
-            url: "/teacher/exams",
-            name: "exams",
+        // },
+        // {
+        //     id: 4,
+        //     icon: "/assets/images/exam.svg",
+        //     url: "/teacher/exams",
+        //     name: "exams",
 
-        },
+        // },
         {
             id: 5,
             icon: "/assets/images/feedback.svg",
