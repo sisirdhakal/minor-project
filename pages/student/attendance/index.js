@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { BsFillCaretDownFill } from 'react-icons/bs'
 import axios from 'axios';
@@ -17,11 +17,18 @@ function Attendance({ cookies }) {
   const { attendanceType } = useSelector(state => state.attendance)
   const { theoryLectures, lectures_loading, lectures_error, practicalLectures } = useSelector(state => state.teachersData)
 
+  const [semester, setsemester] = useState(null)
+  const [selectedSemester, setselectedSemester] = useState(null)
+  useEffect(() => {
+      setsemester(localStorage.getItem("semester"))
+      setselectedSemester(localStorage.getItem("semester"))
+  }, [])
+
   useEffect(() => {
     const getData = async () => {
       dispatch({ type: GET_lECTURES_BEGIN })
       try {
-        const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${6}/`, {
+        const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${selectedSemester}/`, {
           withCredentials: true,
           headers: {
             "X-CSRFTOKEN": cookies.csrftoken
@@ -39,7 +46,7 @@ function Attendance({ cookies }) {
 
     }
     getData()
-  }, [])
+  }, [selectedSemester])
 
 
   return (
@@ -68,10 +75,20 @@ function Attendance({ cookies }) {
             </button>
           </div>
           <div className=' flex  justify-end'>
-            <button className={`bg-white rounded-lg flex py-2 text-start items-center px-5 $`} >
-              <p className='text-primary-text my-auto font-bold text-[1rem]'> Sixth Semester </p>
-              <p className='px-2 text-primary-text mt-1'><BsFillCaretDownFill /></p>
-            </button>
+            <div className=' flex justify-center bg-white rounded-md items-center w-[200px]'>
+              <select
+                className='bg-white py-[0px] flex justify-center items-center h-full border-0 rounded cursor-pointer text-clrgrey1 font-medium focus:ring-0'
+                placeholder='hod'
+                name='lecture'
+                value={selectedSemester ?? 0}
+                onChange={e => setselectedSemester(e.target.value)}
+              >
+                <option value="" disabled defaultValue>Select semester</option>
+                {Array.from({ length: semester }, (_, index) => (
+                  <option key={index + 1} value={index + 1} className=''>{index + 1} Semester</option>
+                ))}
+              </select>
+            </div>
           </div>
 
         </div>

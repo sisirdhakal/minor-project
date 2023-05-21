@@ -48,10 +48,6 @@ function InternalMarks({ cookies }) {
     return (
         <>
             <div>
-                {/* <button className={`bg-white rounded-lg flex py-2 text-start items-center px-5 $`} >
-                    <p className='text-primary-text my-auto font-bold text-[1rem]'> Sixth Semester </p>
-                    <p className='px-2 text-primary-text mt-1'><BsFillCaretDownFill /></p>
-                </button> */}
                 <div className='mb-4 flex justify-center bg-white rounded-md items-center w-[200px]'>
                     <select
                         className='bg-white py-[0px] flex justify-center items-center h-[36px] border-0 rounded cursor-pointer text-clrgrey1 font-medium focus:ring-0'
