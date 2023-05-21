@@ -83,13 +83,13 @@ export const sidebarOptions = {
         //     name: "Credits/Payments",
 
         // },
-        // {
-        //     id: 5,
-        //     icon: "/assets/images/exam.svg",
-        //     url: "/student/exams",
-        //     name: "exams",
+        {
+            id: 5,
+            icon: "/assets/images/exam.svg",
+            url: "/student/routine",
+            name: "routine",
 
-        // },
+        },
         {
             id: 6,
             icon: "/assets/images/notice.svg",
@@ -180,20 +180,20 @@ export const sidebarOptions = {
             name: "attendance",
 
         },
-        {
-            id: 3,
-            icon: "/assets/images/complaints.svg",
-            url: "/teacher/complaints",
-            name: "complaints",
+        // {
+        //     id: 3,
+        //     icon: "/assets/images/complaints.svg",
+        //     url: "/teacher/complaints",
+        //     name: "complaints",
 
-        },
-        {
-            id: 4,
-            icon: "/assets/images/exam.svg",
-            url: "/teacher/exams",
-            name: "exams",
+        // },
+        // {
+        //     id: 4,
+        //     icon: "/assets/images/exam.svg",
+        //     url: "/teacher/exams",
+        //     name: "exams",
 
-        },
+        // },
         {
             id: 5,
             icon: "/assets/images/feedback.svg",
