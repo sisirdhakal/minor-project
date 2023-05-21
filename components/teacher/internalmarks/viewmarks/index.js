@@ -22,43 +22,45 @@ function ViewMarks({ values }) {
                         <div className='col-span-3'>{name}</div>
                         <div className='text-center'>{item.type}</div>
                         {
-                            item.type === "Both" | item.type === "Theory" ? 
-                            <div className='text-center'>{item.theoryAssessment}</div> :
-                            <div className='text-center'>-</div>
+                            item.type === "Both" | item.type === "Theory" ?
+                                <div className='text-center'>{item.theoryAssessment}</div> :
+                                <div className='text-center'>-</div>
                         }
                         {
-                            item.type === "Both" | item.type === "Theory" ? 
-                            <div className='text-center'>{
-                                marks?.internalMarks?.map(mark => {
-                                    if(mark.subject===id){
-                                        return mark.theoryAssessment
-                                    }
-                                })
-                            }</div> :
-                            <div className='text-center'>-</div>
+                            item.type === "Both" | item.type === "Theory" ?
+                                <div className='text-center'>{
+                                    marks?.internalMarks?.map(mark => {
+                                        if (mark.subject === id) {
+                                            return <p key={mark.id}>{mark.theoryAssessment}</p>
+                                        }
+                                        return <p key={mark.id} className='text-red-600'>Not added</p>;
+                                    })
+                                }</div> :
+                                <div className='text-center'>-</div>
                         }
                         {
-                            item.type === "Both" | item.type === "Practical" ? 
-                            <div className='text-center'>{item.practicalAssessment}</div> :
-                            <div className='text-center'>-</div>
+                            item.type === "Both" | item.type === "Practical" ?
+                                <div className='text-center'>{item.practicalAssessment}</div> :
+                                <div className='text-center'>-</div>
                         }
                         {
-                            item.type === "Both" | item.type === "Practical" ? 
-                            <div className='text-center'>{
-                                marks?.internalMarks?.map(mark => {
-                                    if(mark.subject===id){
-                                        return mark.practicalAssessment
-                                    }
-                                })
-                            }</div> :
-                            <div className='text-center'>-</div>
+                            item.type === "Both" | item.type === "Practical" ?
+                                <div className='text-center'>{
+                                    marks?.internalMarks?.map(mark => {
+                                        if (mark.subject === id) {
+                                            return <p key={mark.id}>{mark.practicalAssessment}</p>
+                                        }
+                                        return <p key={mark.id} className='text-red-600'>Not added</p>;
+                                    })
+                                }</div> :
+                                <div className='text-center'>-</div>
                         }
                         <div className='h-1 bg-slate-200 col-span-8'></div>
                     </div>
-                    }
-                )
                 }
-            
+                )
+            }
+
             {/* <div className='grid grid-cols-1 gap-y-2 relative bg-white px-4 py-2 w-full h-full rounded-sm'>
                 {
                     subjects?.map(item => {
