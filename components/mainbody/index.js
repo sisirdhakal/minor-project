@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { statsOptions } from '../../utils/constants'
+import { studentStatsOptions } from '../../utils/constants'
 import Image from 'next/image'
 import { books, noticeOptions } from '../../utils/mockdata'
 import ViewNotice from '../notices/viewNotice'
@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../../redux'
 import Link from 'next/link'
+import CenteredLoading from '../../common/Loader'
 
 
 function MainBody({ cookie }) {
@@ -22,9 +23,32 @@ function MainBody({ cookie }) {
     const [visible, setvisible] = useState(false)
     const [notices, setnotices] = useState([])
 
+    const [dashboard, setdashboard] = useState(null)
+    const [dashboardLoading, setdashboardLoading] = useState(false)
 
-    // console.log(allNotices)
     useEffect(() => {
+        const getDashboard = async () => {
+            try {
+                setdashboardLoading(true)
+                const { data } = await axios.get(`http://localhost:8000/api/dashboard/`, {
+                    withCredentials: true,
+                    headers: {
+                        "X-CSRFTOKEN": cookie.csrftoken
+                    }
+                })
+                if (data) {
+                    setdashboardLoading(false)
+                    setdashboard(data)
+                }
+
+            } catch (error) {
+                if (error.response?.data.msg) {
+                    setdashboardLoading(false)
+                    toast.error(error.response.data.msg)
+                }
+            }
+
+        }
         const getData = async () => {
             try {
                 const { data } = await axios.get(`http://localhost:8000/api/view-notice/`, {
@@ -42,6 +66,7 @@ function MainBody({ cookie }) {
             }
 
         }
+        getDashboard()
         getData()
     }, [])
 
@@ -65,21 +90,25 @@ function MainBody({ cookie }) {
                     <div className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
                         <div className='relative w-[114px]  h-[140px] flex justify-center items-center rounded-sm'>
                             <div className='border-[12px] rounded-full w-[114px] h-[114px] border-t-[#6DC9F7] rotate-[24deg] border-blue-400 bg-red-400 flex justify-center items-center'>
-                                <p className='text-xl font-bold -rotate-[24deg] text-white'>72 / 80</p>
+                                <p className='text-xl font-bold -rotate-[24deg] text-white'>{dashboard?.presentPercentage} %</p>
                             </div>
                         </div>
                         <div >
-                            <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
-                            <p className='text-secondary-text font-medium mb-3 h-12'>body</p>
-                            <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-2 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                View Details
-                            </button>
+                            <h1 className='text-primary-text font-bold text-lg'>Attendance</h1>
+                            <p className='text-secondary-text font-medium'>This Semester</p>
+                            <p className='text-secondary-text font-medium'>Total Lectures: <span className='text-primary-text'>{dashboard?.lectureDays}</span></p>
+                            <p className='text-secondary-text font-medium'>Present: <span className='text-primary-text'>{dashboard?.presentDays}</span></p>
+                            <Link href='/student/attendance'>
+                                <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-2 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                    View Details
+                                </button>
+                            </Link>
                         </div>
                     </div>
 
                     {
-                        statsOptions.map(item => {
-                            const { id, title, icon, body } = item
+                        studentStatsOptions.map(item => {
+                            const { id, title, icon, body, url } = item
 
                             return <div key={id} className="h-44 grid grid-cols-2 bg-white rounded-sm w-full items-center px-4" >
                                 <div className='relative w-[100px] h-[140px]  rounded-sm'>
@@ -97,9 +126,11 @@ function MainBody({ cookie }) {
                                 <div >
                                     <h1 className='text-primary-text mb-3 font-bold text-lg'>{title}</h1>
                                     <p className='text-secondary-text font-medium mb-3 h-12'>{body}</p>
-                                    <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
-                                        View Details
-                                    </button>
+                                    <Link href={url}>
+                                        <button className='bg-[#2091F9] rounded-lg hover: py-[3px] tracking-wider font-medium text-white px-3 text-clrprimary10 transition-all ease-linear duration-300 hover:text-'>
+                                            View Details
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         })
@@ -122,33 +153,40 @@ function MainBody({ cookie }) {
                             </div>
                             <p className='text-primary-text font-bold mt-[2px]'>Library</p>
                         </div>
-                        <div className='lg:h-[460px] py-2 lg:py-0 px-5 bg-white w-full rounded-sm'>
-                            {
-                                books.map((book) => {
-                                    const { id, name, date } = book
-                                    return <div key={id} className=" flex py-1 items-center">
+                        {
+                            dashboardLoading ?                        
+                            <div className='lg:min-h-[460px] py-2 lg:pt-20 px-5 bg-white w-full rounded-sm'>
+                                <p className='text-secondary-text text-center text-lg font-medium'>Loading library data ...</p>
+                                <CenteredLoading />
+                            </div> :
+                            <div className='lg:min-h-[460px] py-2 lg:py-0 px-5 bg-white w-full rounded-sm'>
+                                {
+                                    dashboard?.libraryData.map((book) => {
+                                        const { id, book_name, book_number, issued_date:date } = book
+                                        return <div key={id} className=" flex py-1 items-center">
 
-                                        <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
-                                            <Image
-                                                alt=''
-                                                priority
-                                                src={"/assets/images/book.svg"}
-                                                className='rounded-md'
-                                                fill
-                                                sizes="(min-width: 60em) 24vw,
-                            (min-width: 28em) 45vw,
-                            100vw"
-                                            />
+                                            <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
+                                                <Image
+                                                    alt=''
+                                                    priority
+                                                    src={"/assets/images/book.svg"}
+                                                    className='rounded-md'
+                                                    fill
+                                                    sizes="(min-width: 60em) 24vw,
+                                (min-width: 28em) 45vw,
+                                100vw"
+                                                />
 
+                                            </div>
+                                            <div className='flex-1'>
+                                                <p className='text-primary-text font-bold text-[16px]'>{book_name} - {book_number}</p>
+                                                <p className='font-semibold text-[#48CAE4]'>Issued Date: {date} </p>
+                                            </div>
                                         </div>
-                                        <div className='flex-1'>
-                                            <p className='text-primary-text font-bold text-[16px]'>{name}</p>
-                                            <p className='font-semibold text-[#48CAE4]'>Issued Date: {date} </p>
-                                        </div>
-                                    </div>
-                                })
-                            }
-                        </div>
+                                    })
+                                }
+                            </div>
+                        }
                     </div>
                     <div>
                         <div className='bg-white h-10 flex rounded-sm items-center px-5 py-1 mb-3'>

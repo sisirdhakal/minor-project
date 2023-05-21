@@ -311,18 +311,37 @@ export const sidebarOptions = {
     ]
 }
 
-export const statsOptions = [
+export const studentStatsOptions = [
     {
         title: 'Due',
         icon: "/assets/images/payment.svg",
         id: 2,
-        body: "No Due!"
+        body: "No Due!",
+        url: ""
     },
     {
         title: 'Advice',
         icon: "/assets/images/feedbackImage.svg",
         id: 3,
-        body: "See Advices from your teachers."
+        body: "See Advices from your teachers.",
+        url: "/student/teacheradvice"
+    },
+]
+
+export const statsOptions = [
+    {
+        title: 'Due',
+        icon: "/assets/images/payment.svg",
+        id: 2,
+        body: "No Due!",
+        url: ""
+    },
+    {
+        title: 'Advice',
+        icon: "/assets/images/feedbackImage.svg",
+        id: 3,
+        body: "See Advices from your teachers.",
+        url: "/parent/teacheradvice/"
     },
 ]
 
