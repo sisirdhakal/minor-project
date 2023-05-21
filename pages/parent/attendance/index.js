@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DashboardLayout } from '../../../components/layout/dashboard';
 import { BsFillCaretDownFill } from 'react-icons/bs'
 import axios from 'axios';
@@ -9,6 +9,7 @@ import CenteredLoading from '../../../common/Loader';
 import { bindActionCreators } from 'redux';
 import { actionCreators } from '../../../redux';
 import ViewAttendance from '../../../common/lectures/StudentAttendance';
+import { data } from 'autoprefixer';
 
 function Attendance({ cookies }) {
 
@@ -16,30 +17,61 @@ function Attendance({ cookies }) {
   const { setAttendanceType } = bindActionCreators(actionCreators, dispatch)
   const { attendanceType } = useSelector(state => state.attendance)
   const { theoryLectures, lectures_loading, lectures_error, practicalLectures } = useSelector(state => state.teachersData)
+  const [Data, setData] = useState(null)
+  const [values, setvalues] = useState({
+    totalPresent: 0,
+    totalLectures: 0
+  })
+
+  const [semester, setsemester] = useState(null)
+  const [selectedSemester, setselectedSemester] = useState(null)
+  useEffect(() => {
+    setsemester(localStorage.getItem("semester"))
+    setselectedSemester(localStorage.getItem("semester"))
+  }, [])
 
   useEffect(() => {
     const getData = async () => {
-      dispatch({ type: GET_lECTURES_BEGIN })
-      try {
-        const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${6}/`, {
-          withCredentials: true,
-          headers: {
-            "X-CSRFTOKEN": cookies.csrftoken
+      if (selectedSemester) {
+        dispatch({ type: GET_lECTURES_BEGIN })
+        try {
+          const { data } = await axios.get(`http://localhost:8000/api/view-student-attendance/${selectedSemester}/`, {
+            withCredentials: true,
+            headers: {
+              "X-CSRFTOKEN": cookies.csrftoken
+            }
+          })
+          if (data) {
+            dispatch({ type: GET_lECTURES_SUCCESS, payload: data })
+            setData(data)
           }
-        })
-        if (data) {
-          dispatch({ type: GET_lECTURES_SUCCESS, payload: data })
-        }
-      } catch (error) {
-        dispatch({ type: GET_lECTURES_ERROR })
-        if (error.response?.data.msg) {
-          toast.error(error.response.data.msg)
+        } catch (error) {
+          console.log(error)
+          dispatch({ type: GET_lECTURES_ERROR })
+          if (error.response?.data.msg) {
+            toast.error(error.response.data.msg)
+          }
         }
       }
 
     }
     getData()
-  }, [])
+  }, [selectedSemester])
+
+  useEffect(() => {
+    if (Data) {
+      let totalLectures = 0, totalPresent = 0;
+      Data.forEach(item => {
+        totalLectures += item.totalLectureDays;
+        totalPresent += item.presentDays
+      })
+      setvalues({
+        totalLectures,
+        totalPresent
+      })
+    }
+  }, [Data])
+
 
 
   return (
@@ -48,13 +80,13 @@ function Attendance({ cookies }) {
         <div className="h-44 grid grid-cols-2 bg-white rounded w-[360px] border-b-2 border-green-500 mx-auto items-center px-4" >
           <div className='relative w-[114px]  h-[140px] flex justify-center items-center rounded-sm'>
             <div className='border-[12px] rounded-full w-[114px] h-[114px] border-t-[#6DC9F7] rotate-[24deg] border-blue-400 bg-red-400 flex justify-center items-center'>
-              <p className='text-xl font-bold -rotate-[24deg] text-white'>9 / 14</p>
+              <p className='text-xl font-bold -rotate-[24deg] text-white'>{ Number(values.totalPresent / values.totalLectures * 100).toFixed(0)} %</p>
             </div>
           </div>
           <div >
             <h1 className='text-primary-text mb-3 font-bold text-lg'>Attendance</h1>
-            <p className='text-secondary-text font-medium mb-3'>Total-Lectures : </p>
-            <p className='text-secondary-text font-medium '>Present : </p>
+            <p className='text-secondary-text font-medium mb-3'>Total-Lectures : {values.totalLectures} </p>
+            <p className='text-secondary-text font-medium '>Present : {values.totalPresent} </p>
 
           </div>
         </div>
@@ -68,10 +100,20 @@ function Attendance({ cookies }) {
             </button>
           </div>
           <div className=' flex  justify-end'>
-            <button className={`bg-white rounded-lg flex py-2 text-start items-center px-5 $`} >
-              <p className='text-primary-text my-auto font-bold text-[1rem]'> Sixth Semester </p>
-              <p className='px-2 text-primary-text mt-1'><BsFillCaretDownFill /></p>
-            </button>
+            <div className=' flex justify-center bg-white rounded-md items-center w-[200px]'>
+              <select
+                className='bg-white py-[0px] flex justify-center items-center h-full border-0 rounded cursor-pointer text-clrgrey1 font-medium focus:ring-0'
+                placeholder='hod'
+                name='lecture'
+                value={selectedSemester ?? 0}
+                onChange={e => setselectedSemester(e.target.value)}
+              >
+                <option value="" disabled defaultValue>Select semester</option>
+                {Array.from({ length: semester }, (_, index) => (
+                  <option key={index + 1} value={index + 1} className=''>{index + 1} Semester</option>
+                ))}
+              </select>
+            </div>
           </div>
 
         </div>
