@@ -25,6 +25,7 @@ function MainBody({ cookie }) {
 
     const [dashboard, setdashboard] = useState(null)
     const [dashboardLoading, setdashboardLoading] = useState(false)
+    const [noticeLoading, setnoticeLoading] = useState(false)
 
     useEffect(() => {
         const getDashboard = async () => {
@@ -51,6 +52,7 @@ function MainBody({ cookie }) {
         }
         const getData = async () => {
             try {
+                setnoticeLoading(true)
                 const { data } = await axios.get(`http://localhost:8000/api/view-notice/`, {
                     withCredentials: true,
                     headers: {
@@ -58,10 +60,12 @@ function MainBody({ cookie }) {
                     }
                 })
                 if (data) {
+                    setnoticeLoading(false)
                     setAllNotices(data)
                 }
 
             } catch (error) {
+                setnoticeLoading(false)
                 console.log(error)
             }
 
@@ -154,38 +158,38 @@ function MainBody({ cookie }) {
                             <p className='text-primary-text font-bold mt-[2px]'>Library</p>
                         </div>
                         {
-                            dashboardLoading ?                        
-                            <div className='lg:min-h-[460px] py-2 lg:pt-20 px-5 bg-white w-full rounded-sm'>
-                                <p className='text-secondary-text text-center text-lg font-medium'>Loading library data ...</p>
-                                <CenteredLoading />
-                            </div> :
-                            <div className='lg:min-h-[460px] py-2 lg:py-0 px-5 bg-white w-full rounded-sm'>
-                                {
-                                    dashboard?.libraryData.map((book) => {
-                                        const { id, book_name, book_number, issued_date:date } = book
-                                        return <div key={id} className=" flex py-1 items-center">
+                            dashboardLoading ?
+                                <div className='lg:min-h-[460px] py-2 lg:pt-20 px-5 bg-white w-full rounded-sm'>
+                                    <p className='text-secondary-text text-center text-lg font-medium'>Loading library data ...</p>
+                                    <CenteredLoading />
+                                </div> :
+                                <div className='lg:min-h-[460px] py-2 lg:py-0 px-5 bg-white w-full rounded-sm'>
+                                    {
+                                        dashboard?.libraryData.map((book) => {
+                                            const { id, book_name, book_number, issued_date: date } = book
+                                            return <div key={id} className=" flex py-1 items-center">
 
-                                            <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
-                                                <Image
-                                                    alt=''
-                                                    priority
-                                                    src={"/assets/images/book.svg"}
-                                                    className='rounded-md'
-                                                    fill
-                                                    sizes="(min-width: 60em) 24vw,
+                                                <div className='relative z-10 w-[56px] mr-4 h-[56px] rounded-sm'>
+                                                    <Image
+                                                        alt=''
+                                                        priority
+                                                        src={"/assets/images/book.svg"}
+                                                        className='rounded-md'
+                                                        fill
+                                                        sizes="(min-width: 60em) 24vw,
                                 (min-width: 28em) 45vw,
                                 100vw"
-                                                />
+                                                    />
 
+                                                </div>
+                                                <div className='flex-1'>
+                                                    <p className='text-primary-text font-bold text-[16px]'>{book_name} - {book_number}</p>
+                                                    <p className='font-semibold text-[#48CAE4]'>Issued Date: {date} </p>
+                                                </div>
                                             </div>
-                                            <div className='flex-1'>
-                                                <p className='text-primary-text font-bold text-[16px]'>{book_name} - {book_number}</p>
-                                                <p className='font-semibold text-[#48CAE4]'>Issued Date: {date} </p>
-                                            </div>
-                                        </div>
-                                    })
-                                }
-                            </div>
+                                        })
+                                    }
+                                </div>
                         }
                     </div>
                     <div>
@@ -217,10 +221,18 @@ function MainBody({ cookie }) {
                                 }
 
                             </div>
-                            <div className='py-4 '>
+                            {
+                                noticeLoading ?
+                                    <div className='lg:min-h-[460px] py-2 lg:pt-9 px-5 bg-white w-full rounded-sm'>
+                                        <p className='text-secondary-text text-center text-lg font-medium'>Loading Notices...</p>
+                                        <CenteredLoading />
+                                    </div> :
+                                    <div className='py-4 '>
 
-                                <ViewNotice notices={activeNoticesDatas} />
-                            </div>
+                                        <ViewNotice notices={activeNoticesDatas} />
+                                    </div>
+                            }
+
 
                             <div className='absolute bottom-4 w-full'>
                                 <Link href={`student/notices`}>
